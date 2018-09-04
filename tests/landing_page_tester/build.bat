@@ -52,12 +52,12 @@ IF "%UPDATE_NODE%" == "1" (
   IF EXIST sudoku (
     rm -rf sudoku
   )
-  cp -r ..\%SUDOKU%\library\* .
+  cp -r ..\%SUDOKU_PATH%\library\* .
   IF EXIST @types\sudoku (
     rm -rf @types\sudoku
   )
   mkdir @types\sudoku
-  cp -r ..\%SUDOKU_PATH%\library\sudoku\library\sudoku\* @types\sudoku
+  cp -r ..\%SUDOKU_PATH%\library\sudoku\* @types\sudoku
   echo "timestamp" > mod_time.txt
   POPD
 )

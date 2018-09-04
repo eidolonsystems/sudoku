@@ -57,7 +57,7 @@ IF "%UPDATE_NODE%" == "1" (
     rm -rf @types\sudoku
   )
   mkdir @types\sudoku
-  cp -r ..\%SUDOKU_PATH%\library\sudoku\library\sudoku\* @types\sudoku
+  cp -r ..\%SUDOKU_PATH%\library\sudoku\* @types\sudoku
   echo "timestamp" > mod_time.txt
   POPD
 )
