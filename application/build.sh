@@ -49,7 +49,7 @@ if [ "$UPDATE_NODE" = "1" ]; then
     rm -rf @types/sudoku
   fi
   mkdir -p @types/sudoku
-  cp -r ../$SUDOKU_PATH/library/sudoku/library/sudoku/* @types/sudoku
+  cp -r ../$SUDOKU_PATH/library/sudoku/* @types/sudoku
   echo "timestamp" > mod_time.txt
   popd
 fi
