@@ -70,5 +70,3 @@ if [ "$UPDATE_BUILD" = "1" ]; then
   cp -r ../resources application
   cp -r source/index.html application
 fi
-mkdir -p ./../../application/web_app
-cp -r ./application/* ./../../application/web_app
