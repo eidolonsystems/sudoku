@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as Router from 'react-router-dom';
-import { VBoxLayout, BoxLayout, HBoxLayout, Padding } from '../../layouts';
-
+import {VBoxLayout, HBoxLayout, Padding} from '../../layouts';
 
 /** Specifies the React properties for the landing page. */
 interface Properties {
@@ -24,22 +23,15 @@ interface State {
   breakPoint: Breakpoint;
 };
 
-
-
-
 /** Displays the Sudoku landing page. */
 export class LandingPage extends React.Component<Properties, State> {
   constructor(props: Properties) {
     super(props);
     this.state = {
       redirect: '',
-      breakPoint: Breakpoint.SMALL,
-      
+      breakPoint: Breakpoint.SMALL
     };
-  }//end of constructor
-
-
-
+  }
 
   public render(): JSX.Element {
     if(this.state.redirect) {
