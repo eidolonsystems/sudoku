@@ -85,7 +85,7 @@ export class LandingPage extends React.Component<Properties, State> {
             </button>
           </div>
           <Padding size='18px'/>
-          <a href="" style={LandingPage.STANDINGS_STYLE}>See Standings</a>
+          <div style={LandingPage.STANDINGS_STYLE}>See Standings</div>
           <Padding/>
         </VBoxLayout>
       <Padding/>
@@ -163,7 +163,7 @@ export class LandingPage extends React.Component<Properties, State> {
       fontFamily: 'Roboto',
       fontSize: '12px',
       boxSizing: 'border-box' as 'border-box',
-      height: '40px',
+      minHeight: '40px',
       textAlign: 'center' as 'center'
     }
   });
