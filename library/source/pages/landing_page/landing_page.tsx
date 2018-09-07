@@ -35,6 +35,7 @@ export class LandingPage extends React.Component<Properties, State> {
       breakPoint: Breakpoint.SMALL
     };
     this.onPlayNow = this.onPlayNow.bind(this);
+    this.onSeeStandings = this.onSeeStandings.bind(this);
   }
 
   public render(): JSX.Element {
@@ -73,9 +74,11 @@ export class LandingPage extends React.Component<Properties, State> {
           <Padding size='8px'/>
           <input placeholder = 'Max. of 10 Characters'
             type='text' maxLength={10}
-            className={css(LandingPage.NAME_INPUT_DEFAULT_STYLE.input, nameInputStyle)}
+            className={css(LandingPage.NAME_INPUT_DEFAULT_STYLE.input, 
+              nameInputStyle)}
             ref={(e) => this.nameInput = e}/> 
-          <div className={css(LandingPage.NAME_INPUT_DEFAULT_STYLE.div, errorMessageStyle)}>
+          <div className={css(LandingPage.NAME_INPUT_DEFAULT_STYLE.div, 
+              errorMessageStyle)}>
             Name is required.
           </div>
           <div>
@@ -85,7 +88,8 @@ export class LandingPage extends React.Component<Properties, State> {
             </button>
           </div>
           <Padding size='18px'/>
-          <div style={LandingPage.STANDINGS_STYLE}>See Standings</div>
+          <a href="#" onClick={this.onSeeStandings}
+          style={LandingPage.STANDINGS_STYLE}>See Standings</a>
           <Padding/>
         </VBoxLayout>
       <Padding/>
@@ -100,27 +104,29 @@ export class LandingPage extends React.Component<Properties, State> {
     };
   }
 
+  private onSeeStandings(){
+    this.setState({redirect: this.props.standingsUrl})
+  }
+
   private static readonly SUBHEADING_STYLE = {
     color: '#4B23A0',
     fontSize: '10px',
     fontFamily: 'Roboto',
     textAlign: 'center' as 'center'
   };
-
   private static readonly NAME_STYLE = {
     color: '#333333',
     fontSize: '12px',
     fontFamily: 'Roboto',
     textAlign: 'center' as 'center'
   };
-
   private static readonly STANDINGS_STYLE = {
     color: '#333333',
     fontSize: '14px',
     fontFamily: 'Roboto',
-    textAlign: 'center' as 'center'
+    textAlign: 'center' as 'center',
+    textDecoration: 'none ' as 'none'
   };
-
   private static readonly BUTTON_STYLE = StyleSheet.create({
     button: {
       height: '56px',
