@@ -31,17 +31,28 @@ export class LandingPage extends React.Component<Properties, State> {
     super(props);
     this.state = {
       redirect: '',
-      isNameValid: true,
-      breakPoint: Breakpoint.SMALL
+      breakPoint: Breakpoint.LARGE,
+      isNameValid: true
     };
     this.onPlayNow = this.onPlayNow.bind(this);
     this.onSeeStandings = this.onSeeStandings.bind(this);
+    this.onResize = this.onResize.bind(this);
   }
 
   public render(): JSX.Element {
     if(this.state.redirect) {
       return <Router.Redirect push to={this.state.redirect}/>;
-    } 
+    }
+    const topPadding = (() => {
+      switch(this.state.breakPoint){
+        case Breakpoint.SMALL: 
+          return undefined;
+        case Breakpoint.MEDIUM:
+          return '150px';
+        case Breakpoint.LARGE:
+          return '220px';
+      }
+    })();
     const nameInputStyle = (() => {
       if(this.state.isNameValid) {
         return LandingPage.NAME_INPUT_VALID_STYLE.input;
@@ -60,7 +71,7 @@ export class LandingPage extends React.Component<Properties, State> {
       <HBoxLayout height='100%' width='100%'>
         <Padding/>
         <VBoxLayout width='200px'>
-          <Padding/>
+          <Padding size={topPadding}/>
           <div>
             <img src = 'resources/images/landing_page/sudoku.svg'
               width='200px' height='100px'/>
@@ -88,24 +99,50 @@ export class LandingPage extends React.Component<Properties, State> {
             </button>
           </div>
           <Padding size='18px'/>
-          <a href="#" onClick={this.onSeeStandings}
-          style={LandingPage.STANDINGS_STYLE}>See Standings</a>
+          <div onClick={this.onSeeStandings}
+              style={LandingPage.STANDINGS_STYLE}>
+            See Standings
+          </div>
           <Padding/>
         </VBoxLayout>
       <Padding/>
     </HBoxLayout>);
   }
 
-  private onPlayNow() {
-    if(this.nameInput.value===''){
-      this.setState({isNameValid: false});
-    }else{
-      this.setState({redirect: this.props.gameUrl})
-    };
+  public componentWillMount() {
+    window.addEventListener('resize', this.onResize);
   }
 
-  private onSeeStandings(){
-    this.setState({redirect: this.props.standingsUrl})
+  public componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+  }
+
+  private onPlayNow() {
+    if(this.nameInput.value === '') {
+      this.setState({isNameValid: false});
+    } else {
+      this.setState({redirect: this.props.gameUrl});
+    }
+  }
+
+  private onSeeStandings() {
+    this.setState({redirect: this.props.standingsUrl});
+  }
+
+  private onResize() {
+    if(document.body.clientWidth >= 1040) {
+      if(this.state.breakPoint !== Breakpoint.LARGE) {
+        this.setState({breakPoint: Breakpoint.LARGE});
+      }
+    } else if(document.body.clientWidth >= 560) {
+      if(this.state.breakPoint !== Breakpoint.MEDIUM){
+        this.setState({breakPoint: Breakpoint.MEDIUM});
+      }
+    } else {
+      if(this.state.breakPoint !== Breakpoint.SMALL) {
+        this.setState({breakPoint: Breakpoint.SMALL});
+      }
+    }
   }
 
   private static readonly SUBHEADING_STYLE = {
@@ -163,9 +200,9 @@ export class LandingPage extends React.Component<Properties, State> {
         visibility:'hidden',
         fontFamily: 'Roboto',
         fontSize: '16px'
-      },
+      }
     },
-    div:{
+    div: {
       fontFamily: 'Roboto',
       fontSize: '12px',
       boxSizing: 'border-box' as 'border-box',

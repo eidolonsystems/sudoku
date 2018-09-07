@@ -8,3 +8,6 @@ popd
 pushd scratch
 ./build.sh $arguments
 popd
+pushd standings_page_tester
+./build.sh $arguments
+popd
