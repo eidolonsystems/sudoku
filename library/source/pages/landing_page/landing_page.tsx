@@ -22,6 +22,7 @@ enum Breakpoint {
 interface State {
   redirect: string;
   breakPoint: Breakpoint;
+  isNameValid: boolean;
 };
 
 /** Displays the Sudoku landing page. */
@@ -30,8 +31,10 @@ export class LandingPage extends React.Component<Properties, State> {
     super(props);
     this.state = {
       redirect: '',
+      isNameValid: true,
       breakPoint: Breakpoint.SMALL
     };
+    this.onPlayNow = this.onPlayNow.bind(this);
   }
 
   public render(): JSX.Element {
@@ -58,7 +61,8 @@ export class LandingPage extends React.Component<Properties, State> {
             className={css(LandingPage.NAME_INPUT_STYLE.input)}/>
           <Padding size='40px'/>
           <div>
-            <button className={css(LandingPage.BUTTON_STYLE.button)}>
+            <button onClick={this.onPlayNow} 
+              className={css(LandingPage.BUTTON_STYLE.button)}>
               PLAY NOW</button>
           </div>
           <Padding size='40px'/>
@@ -67,6 +71,10 @@ export class LandingPage extends React.Component<Properties, State> {
         </VBoxLayout>
       <Padding/>
     </HBoxLayout>);
+  }
+
+  private onPlayNow() {
+    this.setState({redirect: this.props.gameUrl});
   }
 
   private static readonly SUBHEADING_STYLE = {
@@ -141,4 +149,5 @@ export class LandingPage extends React.Component<Properties, State> {
       }
     }
   });
+  private nameInput: HTMLInputElement;
 }
