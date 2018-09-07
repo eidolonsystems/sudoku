@@ -40,7 +40,21 @@ export class LandingPage extends React.Component<Properties, State> {
   public render(): JSX.Element {
     if(this.state.redirect) {
       return <Router.Redirect push to={this.state.redirect}/>;
-    }
+    } 
+    const nameInputStyle = (() => {
+      if(this.state.isNameValid) {
+        return LandingPage.NAME_INPUT_VALID_STYLE.input;
+      } else {
+        return LandingPage.NAME_INPUT_INVALID_STYLE.input;
+      }
+    })();
+    const errorMessageStyle = (() => {
+      if(this.state.isNameValid) {
+        return LandingPage.NAME_INPUT_VALID_STYLE.div;
+      } else {
+        return LandingPage.NAME_INPUT_INVALID_STYLE.div;
+      }
+    })();
     return (
       <HBoxLayout height='100%' width='100%'>
         <Padding/>
@@ -58,14 +72,19 @@ export class LandingPage extends React.Component<Properties, State> {
           <div style={LandingPage.NAME_STYLE}>YOUR NAME</div>
           <Padding size='8px'/>
           <input placeholder = 'Max. of 10 Characters'
-            className={css(LandingPage.NAME_INPUT_STYLE.input)}/>
-          <Padding size='40px'/>
-          <div>
-            <button onClick={this.onPlayNow} 
-              className={css(LandingPage.BUTTON_STYLE.button)}>
-              PLAY NOW</button>
+            type='text' maxLength={10}
+            className={css(LandingPage.NAME_INPUT_DEFAULT_STYLE.input, nameInputStyle)}
+            ref={(e) => this.nameInput = e}/> 
+          <div className={css(LandingPage.NAME_INPUT_DEFAULT_STYLE.div, errorMessageStyle)}>
+            Name is required.
           </div>
-          <Padding size='40px'/>
+          <div>
+            <button onClick={this.onPlayNow}
+                className={css(LandingPage.BUTTON_STYLE.button)}>
+              PLAY NOW
+            </button>
+          </div>
+          <Padding size='18px'/>
           <a href="" style={LandingPage.STANDINGS_STYLE}>See Standings</a>
           <Padding/>
         </VBoxLayout>
@@ -74,7 +93,11 @@ export class LandingPage extends React.Component<Properties, State> {
   }
 
   private onPlayNow() {
-    this.setState({redirect: this.props.gameUrl});
+    if(this.nameInput.value===''){
+      this.setState({isNameValid: false});
+    }else{
+      this.setState({redirect: this.props.gameUrl})
+    };
   }
 
   private static readonly SUBHEADING_STYLE = {
@@ -119,19 +142,34 @@ export class LandingPage extends React.Component<Properties, State> {
       }
     }
   });
-
-  private static readonly NAME_INPUT_STYLE = StyleSheet.create({
+  private static readonly NAME_INPUT_DEFAULT_STYLE = StyleSheet.create({
     input: {
       height: '40px',
       padding: '11px',
       boxSizing: 'border-box' as 'border-box',
-      border: '1px solid #A0A0A0',
       borderRadius: '4px',
       fontFamily: 'Roboto',
       fontSize: '16px',
       textAlign: 'left' as 'left',
       color: '#333333',
-      type: 'text',
+     '::placeholder': {
+        color: 'transparent',
+        visibility:'hidden',
+        fontFamily: 'Roboto',
+        fontSize: '16px'
+      },
+    },
+    div:{
+      fontFamily: 'Roboto',
+      fontSize: '12px',
+      boxSizing: 'border-box' as 'border-box',
+      height: '40px',
+      textAlign: 'center' as 'center'
+    }
+  });
+  private static readonly NAME_INPUT_VALID_STYLE = StyleSheet.create({
+    input:{
+      border: '1px solid #A0A0A0',
       ':focus': {
         border: '1px solid #4B23A0',
         '::placeholder': {
@@ -141,12 +179,21 @@ export class LandingPage extends React.Component<Properties, State> {
           fontSize: '16px'
           }
       },
-     '::placeholder': {
-        color: 'transparent',
-        visibility:'hidden',
-        fontFamily: 'Roboto',
-        fontSize: '16px'
-      }
+    },
+    div:{
+      visibility:'hidden',
+      color: 'transparent'
+    }
+  });
+  private static readonly NAME_INPUT_INVALID_STYLE = StyleSheet.create({
+    input:{
+      border: '1px solid #E63F44',
+    },
+    div:{
+      paddingTop: '8px',
+      paddingBottom: '19px',
+      visibility:'visible',
+      color: '#E63F44'
     }
   });
   private nameInput: HTMLInputElement;
