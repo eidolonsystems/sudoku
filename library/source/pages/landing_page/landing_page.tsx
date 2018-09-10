@@ -1,7 +1,8 @@
+import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
 import * as Router from 'react-router-dom';
-import {VBoxLayout, HBoxLayout, Padding} from '../../layouts';
-import {StyleSheet, css} from 'aphrodite';
+import {HBoxLayout, Padding, VBoxLayout} from '../../layouts';
+
 
 /** Specifies the React properties for the landing page. */
 interface Properties {
@@ -100,8 +101,8 @@ export class LandingPage extends React.Component<Properties, State> {
           </div>
           <Padding size='18px'/>
           <a tabIndex={0}
-            onClick={this.onSeeStandings}
-            style={LandingPage.STANDINGS_STYLE}>
+              onClick={this.onSeeStandings}
+              style={LandingPage.STANDINGS_STYLE}>
             See Standings
           </a>
           <Padding/>
@@ -167,44 +168,44 @@ export class LandingPage extends React.Component<Properties, State> {
   };
   private static readonly BUTTON_STYLE = StyleSheet.create({
     button: {
-    height: '56px',
-    width: '100%',
-    boxSizing: 'border-box' as 'border-box',
-    border: '1px solid #4B23A0',
-    borderRadius: '4px',
-    fontFamily: 'Roboto',
-    fontSize: '20px',
-    textAlign: 'center' as 'center',
+      height: '56px',
+      width: '100%',
+      boxSizing: 'border-box' as 'border-box',
+      border: '1px solid #4B23A0',
+      borderRadius: '4px',
+      fontFamily: 'Roboto',
+      fontSize: '20px',
+      textAlign: 'center' as 'center',
       color: '#4B23A0',
       background: '#FFFFFF',
-      ':focus': {
-        background: '#F2F2FF',
-        color: '4B23A0'
-      },
-      ':hover': {
-        background: '#4B23A0',
-        color: '#F2F2FF'
-      },
-      ':active':{
-        background: '#4B23A0',
-        color: '#F2F2FF'
-      }
+        ':focus': {
+          background: '#F2F2FF',
+          color: '4B23A0'
+        },
+        ':hover': {
+          background: '#4B23A0',
+          color: '#F2F2FF'
+        },
+        ':active':{
+          background: '#4B23A0',
+          color: '#F2F2FF'
+        }
     }
   });
   private static readonly NAME_INPUT_DEFAULT_STYLE = StyleSheet.create({
     input: {
-    height: '40px',
-    padding: '11px',
-    boxSizing: 'border-box' as 'border-box',
-    border: '1px solid #4B23A0',
-    borderRadius: '4px',
-    fontFamily: 'Roboto',
-    fontSize: '16px',
-    textAlign: 'left' as 'left',
+      height: '40px',
+      padding: '11px',
+      boxSizing: 'border-box'  as 'border-box',
+      border: '1px solid #4B23A0',
+      borderRadius: '4px',
+      fontFamily: 'Roboto',
+      fontSize: '16px',
+      textAlign: 'left' as 'left',
       color: '#333333',
-     '::placeholder': {
+      '::placeholder': {
         color: 'transparent',
-        visibility:'hidden',
+        visibility: 'hidden',
         fontFamily: 'Roboto',
         fontSize: '16px'
       }
@@ -224,14 +225,14 @@ export class LandingPage extends React.Component<Properties, State> {
         border: '1px solid #4B23A0',
         '::placeholder': {
           color: '#0A0A0A',
-          visibility:'visible',
+          visibility: 'visible',
           fontFamily: 'Roboto',
           fontSize: '16px'
           }
       },
     },
     div:{
-      visibility:'hidden',
+      visibility: 'hidden',
       color: 'transparent'
     }
   });
@@ -242,7 +243,7 @@ export class LandingPage extends React.Component<Properties, State> {
     div:{
       paddingTop: '8px',
       paddingBottom: '19px',
-      visibility:'visible',
+      visibility: 'visible',
       color: '#E63F44'
     }
   });
