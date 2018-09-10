@@ -40,6 +40,7 @@ export class StandingsPage extends React.Component<Properties, State> {
       breakpoint: Breakpoint.LARGE
     };
     this.onResize = this.onResize.bind(this);
+    this.onGotIt = this.onGotIt.bind(this);
   }
 
   public componentWillMount(): void { //is this correct???
@@ -105,7 +106,9 @@ export class StandingsPage extends React.Component<Properties, State> {
           </tbody>
         </table>
         <div>
-        <button className={css(StandingsPage.GOT_IT_BUTTON_STYLE.button)}>
+        <button 
+              onClick={this.onGotIt}
+              className={css(StandingsPage.GOT_IT_BUTTON_STYLE.button)}>
             GOT IT
           </button>
         </div>
@@ -130,6 +133,11 @@ export class StandingsPage extends React.Component<Properties, State> {
       }
     }
   }
+
+  private onGotIt() {
+    this.setState({redirect: this.props.exitUrl});
+  }
+  
 
   private static readonly MODAL_CONTAINTER_STYLE = {
     height: '458px',
