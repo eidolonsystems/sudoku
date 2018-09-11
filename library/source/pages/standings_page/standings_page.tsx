@@ -75,9 +75,9 @@ export class StandingsPage extends React.Component<Properties, State> {
     })();
     const containerStyle = (() => {
       if(this.state.breakpoint === Breakpoint.SMALL){
-        return undefined;
+        return StandingsPage.MODAL_CONTAINTER_STYLE.default;
       } else{
-        return StandingsPage.MODAL_CONTAINTER_STYLE;
+        return StandingsPage.MODAL_CONTAINTER_STYLE.bordered;
       }
     })();
     const rankingEntries = (() => {
@@ -90,15 +90,21 @@ export class StandingsPage extends React.Component<Properties, State> {
         if(i<displayedEntries){
           rows.push(
             <tr>
-              <td>{this.props.model.getStandings()[i].rank}</td>
-              <td>{this.props.model.getStandings()[i].name}</td>
-              <td>{this.props.model.getStandings()[i].time}</td>
+              <td style={StandingsPage.RANKING_ENTRY_STYLE.rank}>
+                {this.props.model.getStandings()[i].rank}
+              </td>
+              <td style={StandingsPage.RANKING_ENTRY_STYLE.name}>
+                {this.props.model.getStandings()[i].name}
+              </td>
+              <td style={StandingsPage.RANKING_ENTRY_STYLE.time}>
+                {this.props.model.getStandings()[i].time}
+              </td>
             </tr>
           );
         }else{
           rows.push(
             <tr>
-              <td>{i+1}</td>
+              <td style={StandingsPage.RANKING_ENTRY_STYLE.rank}>{i+1}</td>
               <td></td>
               <td></td>
             </tr>
@@ -113,25 +119,25 @@ export class StandingsPage extends React.Component<Properties, State> {
       <VBoxLayout>
          <Padding size={topPadding}/>
          <div style={containerStyle}>
-        <table padding-left='17px'>
-          <thead>
-            <tr style={StandingsPage.RANK_TABLE_ELEMENT_STYLE.default}>
-              <th style={StandingsPage.RANK_TABLE_ELEMENT_STYLE.rank}>Rank</th>
-              <th style={StandingsPage.RANK_TABLE_ELEMENT_STYLE.name}>Name</th>
-              <th style={StandingsPage.RANK_TABLE_ELEMENT_STYLE.time}>Time</th>
-            </tr>
-          </thead>
-          <tbody style={StandingsPage.RANKING_ENTRY_STYLE}>
-            {rankingEntries}
-          </tbody>
-        </table>
-        <div>
-        <button 
-              onClick={this.onGotIt}
-              className={css(StandingsPage.GOT_IT_BUTTON_STYLE.button)}>
-            GOT IT
-          </button>
-        </div>
+          <table style={StandingsPage.RANK_TABLE_STYLE}>
+            <thead>
+              <tr style={StandingsPage.RANK_TABLE_HEADER_STYLE.default}>
+                <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.rank}>Rank</th>
+                <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.name}>Name</th>
+                <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.time}>Time</th>
+              </tr>
+            </thead>
+            <tbody style={StandingsPage.RANKING_ENTRY_STYLE}>
+              {rankingEntries}
+            </tbody>
+          </table>
+          <div>
+          <button 
+                onClick={this.onGotIt}
+                className={css(StandingsPage.GOT_IT_BUTTON_STYLE.button)}>
+              GOT IT
+            </button>
+          </div>
         </div>
       </VBoxLayout>
       <Padding/>
@@ -160,23 +166,34 @@ export class StandingsPage extends React.Component<Properties, State> {
   
 
   private static readonly MODAL_CONTAINTER_STYLE = {
-    height: '458px',
-    width: '294px',
-    boxSizing: 'border-box' as 'border-box',
-    border: '0px solid #FFFFFF',
-    borderRadius: '4px',
-    boxShadow: '0px 0px 5px #000000'
+    default: {
+      height: '458px',
+      width: '294px',
+    },
+    bordered: {
+      height: '458px',
+      width: '294px',
+      boxSizing: 'border-box' as 'border-box',
+      border: '0px solid #FFFFFF',
+      borderRadius: '4px',
+      boxShadow: '0px 0px 5px #000000',
+    }
   };
-  private static readonly RANK_TABLE_ELEMENT_STYLE = {
+  private static readonly RANK_TABLE_STYLE = {
+    marginTop: '40px',
+    marginLeft: '17px',
+    marginRight: '17px',
+    marginBottom: '40px'
+  };
+  private static readonly RANK_TABLE_HEADER_STYLE = {
     default:{
       boxSizing: 'border-box' as 'border-box',
       textAlign: 'left' as 'left',
       fontFamily: 'Roboto',
-      fontSize: '16px',
+      fontSize: '12px',
       color: '#2B23A0',
     },
     rank: {
-      paddingLeft: '17px',
       width: '60px'
     },
     name: {
@@ -184,10 +201,10 @@ export class StandingsPage extends React.Component<Properties, State> {
     },
     time: {
       width: '50px',
-      paddingRight: '17px'
     }  
   };
   private static readonly RANKING_ENTRY_STYLE = {
+    height: '28px',
     boxSizing: 'border-box' as 'border-box',
     textAlign: 'left' as 'left',
     fontFamily: 'Roboto',
@@ -195,7 +212,16 @@ export class StandingsPage extends React.Component<Properties, State> {
     color: '#000000',
     ':hover': {
       background: '#E2E0FF'
-    }
+    },
+    rank: {
+      width: '60px'
+    },
+    name: {
+      width: '140px'
+    },
+    time: {
+      width: '50px',
+    }  
   };
   private static readonly GOT_IT_BUTTON_STYLE = StyleSheet.create({
     button: {
@@ -209,6 +235,8 @@ export class StandingsPage extends React.Component<Properties, State> {
       textAlign: 'center' as 'center',
       color: '#4b23A0',
       background: '#FFFFFF',
+      marginLeft: '47px',
+      marginRight:'47px',
       ':focus' : {
         background: '#F2F2FF',
         color: '#4B23A0'
