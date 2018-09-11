@@ -81,11 +81,31 @@ export class StandingsPage extends React.Component<Properties, State> {
       }
     })();
     const rankingEntries = (() => {
-      return ( <tr>
-              <td>{this.props.model.getStandings()[0].rank}</td>
-              <td>{this.props.model.getStandings()[0].name}</td>
-              <td>{this.props.model.getStandings()[0].time}</td>
-            </tr>);
+      var rows = [];
+      var displayedEntries = 10; //need to rename this to something better
+      if(this.props.model.getStandings().length < 10){
+        displayedEntries = this.props.model.getStandings().length;
+      }
+      for (var i = 0; i < 10; i++) {
+        if(i<displayedEntries){
+          rows.push(
+            <tr>
+              <td>{this.props.model.getStandings()[i].rank}</td>
+              <td>{this.props.model.getStandings()[i].name}</td>
+              <td>{this.props.model.getStandings()[i].time}</td>
+            </tr>
+          );
+        }else{
+          rows.push(
+            <tr>
+              <td>{i+1}</td>
+              <td></td>
+              <td></td>
+            </tr>
+          );
+        }
+      }
+      return rows;
     })(); 
     return (
     <HBoxLayout height='100%' width='100%'>
@@ -93,9 +113,9 @@ export class StandingsPage extends React.Component<Properties, State> {
       <VBoxLayout>
          <Padding size={topPadding}/>
          <div style={containerStyle}>
-        <table>
+        <table padding-left='17px'>
           <thead>
-            <tr style={StandingsPage.RANKING_HEADER_STYLE}>
+            <tr style={StandingsPage.RANK_TABLE_ELEMENT_STYLE.default}>
               <th style={StandingsPage.RANK_TABLE_ELEMENT_STYLE.rank}>Rank</th>
               <th style={StandingsPage.RANK_TABLE_ELEMENT_STYLE.name}>Name</th>
               <th style={StandingsPage.RANK_TABLE_ELEMENT_STYLE.time}>Time</th>
@@ -148,6 +168,13 @@ export class StandingsPage extends React.Component<Properties, State> {
     boxShadow: '0px 0px 5px #000000'
   };
   private static readonly RANK_TABLE_ELEMENT_STYLE = {
+    default:{
+      boxSizing: 'border-box' as 'border-box',
+      textAlign: 'left' as 'left',
+      fontFamily: 'Roboto',
+      fontSize: '16px',
+      color: '#2B23A0',
+    },
     rank: {
       paddingLeft: '17px',
       width: '60px'
@@ -160,14 +187,6 @@ export class StandingsPage extends React.Component<Properties, State> {
       paddingRight: '17px'
     }  
   };
-  private static readonly RANKING_HEADER_STYLE = {
-    paddingTop: '40px',
-    boxSizing: 'border-box' as 'border-box',
-    textAlign: 'left' as 'left',
-    fontFamily: 'Roboto',
-    fontSize: '16px',
-    color: '#2B23A0',
-  };  
   private static readonly RANKING_ENTRY_STYLE = {
     boxSizing: 'border-box' as 'border-box',
     textAlign: 'left' as 'left',
