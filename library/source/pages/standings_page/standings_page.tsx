@@ -81,67 +81,66 @@ export class StandingsPage extends React.Component<Properties, State> {
       }
     })();
     const rankingEntries = (() => {
-      var rows = [];
-      var displayedEntries = 10; //need to rename this to something better
-      if(this.props.model.getStandings().length < 10){
-        displayedEntries = this.props.model.getStandings().length;
-      }
-      for (var i = 0; i < 10; i++) {
-        if(i<displayedEntries){
+      const rows = [];
+      const displayedEntries = Math.min(10, 
+        this.props.model.getStandings().length);
+      for(let i = 0; i < 10; ++i) {
+        if(i < displayedEntries) {
+          const standing = this.props.model.getStandings()[i];
           rows.push(
-            <tr>
-              <td style={StandingsPage.RANKING_ENTRY_STYLE.rank}>
-                {this.props.model.getStandings()[i].rank}
+            <tr className={css(StandingsPage.RANKING_ENTRY_STYLE.tr)}>
+              <td className={css(StandingsPage.RANKING_ENTRY_STYLE.rank)}>
+                {standing.rank}
               </td>
-              <td style={StandingsPage.RANKING_ENTRY_STYLE.name}>
-                {this.props.model.getStandings()[i].name}
+              <td className={css(StandingsPage.RANKING_ENTRY_STYLE.rank)}>
+                {standing.name}
               </td>
-              <td style={StandingsPage.RANKING_ENTRY_STYLE.time}>
-                {this.props.model.getStandings()[i].time}
+              <td className={css(StandingsPage.RANKING_ENTRY_STYLE.rank)}>
+                {standing.time}
               </td>
-            </tr>
-          );
-        }else{
+            </tr>);
+        } else {
           rows.push(
-            <tr>
-              <td style={StandingsPage.RANKING_ENTRY_STYLE.rank}>{i+1}</td>
-              <td></td>
-              <td></td>
-            </tr>
-          );
+            <tr className={css(StandingsPage.RANKING_ENTRY_STYLE.tr)}>
+              <td className={css(StandingsPage.RANKING_ENTRY_STYLE.rank)}>
+                {i + 1
+              }</td>
+              <td/>
+              <td/>
+            </tr>);
         }
       }
       return rows;
     })(); 
     return (
-    <HBoxLayout height='100%' width='100%'>
-      <Padding/> 
-      <VBoxLayout>
-         <Padding size={topPadding}/>
-         <div style={containerStyle}>
-          <table style={StandingsPage.RANK_TABLE_STYLE}>
-            <thead>
-              <tr style={StandingsPage.RANK_TABLE_HEADER_STYLE.default}>
-                <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.rank}>Rank</th>
-                <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.name}>Name</th>
-                <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.time}>Time</th>
-              </tr>
-            </thead>
-            <tbody style={StandingsPage.RANKING_ENTRY_STYLE}>
-              {rankingEntries}
-            </tbody>
-          </table>
-          <div>
-          <button 
-                onClick={this.onGotIt}
-                className={css(StandingsPage.GOT_IT_BUTTON_STYLE.button)}>
-              GOT IT
-            </button>
+      <HBoxLayout height='100%' width='100%'>
+        <Padding/>
+        <VBoxLayout>
+          <Padding size={topPadding}/>
+          <div style={containerStyle}>
+            <table className={css(StandingsPage.RANK_TABLE_STYLE.table)}>
+              <thead>
+                <tr style={StandingsPage.RANK_TABLE_HEADER_STYLE.default}>
+                  <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.rank}>Rank</th>
+                  <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.name}>Name</th>
+                  <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.time}>Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rankingEntries}
+              </tbody>
+            </table>
+            <div>
+              <button 
+                  onClick={this.onGotIt}
+                  className={css(StandingsPage.GOT_IT_BUTTON_STYLE.button)}>
+                GOT IT
+              </button>
+            </div>
           </div>
-        </div>
-      </VBoxLayout>
-      <Padding/>
-    </HBoxLayout>);
+        </VBoxLayout>
+        <Padding/>
+      </HBoxLayout>);
   }
   
   private onResize() {
@@ -179,42 +178,48 @@ export class StandingsPage extends React.Component<Properties, State> {
       boxShadow: '0px 0px 5px #000000',
     }
   };
-  private static readonly RANK_TABLE_STYLE = {
-    marginTop: '40px',
-    marginLeft: '17px',
-    marginRight: '17px',
-    marginBottom: '40px'
-  };
+  private static readonly RANK_TABLE_STYLE = StyleSheet.create({
+    table:{
+      marginTop: '40px',
+      marginBottom: '40px',
+      borderSpacing: '0',
+    },
+
+  });
   private static readonly RANK_TABLE_HEADER_STYLE = {
     default:{
-      boxSizing: 'border-box' as 'border-box',
       textAlign: 'left' as 'left',
       fontFamily: 'Roboto',
       fontSize: '12px',
       color: '#2B23A0',
     },
     rank: {
-      width: '60px'
+      width: '60px',
+      paddingLeft: '17px'
     },
     name: {
       width: '140px'
     },
     time: {
       width: '50px',
+      paddingRight: '17px',
     }  
   };
-  private static readonly RANKING_ENTRY_STYLE = {
-    height: '28px',
-    boxSizing: 'border-box' as 'border-box',
-    textAlign: 'left' as 'left',
-    fontFamily: 'Roboto',
-    fontSize: '14px',
-    color: '#000000',
-    ':hover': {
-      background: '#E2E0FF'
+  private static readonly RANKING_ENTRY_STYLE = StyleSheet.create({
+    tr:{
+      height: '28px',
+      boxSizing: 'border-box' as 'border-box',
+      textAlign: 'left' as 'left',
+      fontFamily: 'Roboto',
+      fontSize: '14px',
+      color: '#000000',
+      ':hover': {
+        background: '#E2E0FF'
+      }
     },
     rank: {
-      width: '60px'
+      width: '60px',
+      paddingLeft: '17px'
     },
     name: {
       width: '140px'
@@ -222,7 +227,7 @@ export class StandingsPage extends React.Component<Properties, State> {
     time: {
       width: '50px',
     }  
-  };
+  });
   private static readonly GOT_IT_BUTTON_STYLE = StyleSheet.create({
     button: {
       height: '34px',
