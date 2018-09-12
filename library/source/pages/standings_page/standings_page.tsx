@@ -258,15 +258,19 @@ export class StandingsPage extends React.Component<Properties, State> {
       marginRight:'47px',
       ':focus' : {
         background: '#F2F2FF',
-        color: '#4B23A0'
+        color: '#4B23A0',
+        outline: '0'
       },
       ':hover': {
         background: '#4B23A0',
-        color: '#FFFFFF'
+        color: '#FFFFFF',
+        transition: 'none',
+        outline: '0' 
       },
       ':active':{
         background: '#4B23A0',
-        color: '#F2F2FF'
+        color: '#F2F2FF',
+        ransition: 'none' 
       }
     }
   });
