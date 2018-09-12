@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as Router from 'react-router-dom';
 import {StandingsModel} from '.';
 import { Padding, HBoxLayout, VBoxLayout } from '../../layouts';
-import {StyleSheet, css} from 'aphrodite';
+import {StyleSheet, css} from 'aphrodite/no-important';
 
 interface Properties {
 
@@ -92,10 +92,10 @@ export class StandingsPage extends React.Component<Properties, State> {
               <td className={css(StandingsPage.RANKING_ENTRY_STYLE.rank)}>
                 {standing.rank}
               </td>
-              <td className={css(StandingsPage.RANKING_ENTRY_STYLE.rank)}>
+              <td className={css(StandingsPage.RANKING_ENTRY_STYLE.name)}>
                 {standing.name}
               </td>
-              <td className={css(StandingsPage.RANKING_ENTRY_STYLE.rank)}>
+              <td className={css(StandingsPage.RANKING_ENTRY_STYLE.time)}>
                 {standing.time}
               </td>
             </tr>);
@@ -121,9 +121,9 @@ export class StandingsPage extends React.Component<Properties, State> {
             <table className={css(StandingsPage.RANK_TABLE_STYLE.table)}>
               <thead>
                 <tr style={StandingsPage.RANK_TABLE_HEADER_STYLE.default}>
-                  <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.rank}>Rank</th>
-                  <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.name}>Name</th>
-                  <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.time}>Time</th>
+                  <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.rank}>RANK</th>
+                  <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.name}>NAME</th>
+                  <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.time}>TIME</th>
                 </tr>
               </thead>
               <tbody>
@@ -183,11 +183,12 @@ export class StandingsPage extends React.Component<Properties, State> {
       marginTop: '40px',
       marginBottom: '40px',
       borderSpacing: '0',
+      width: '294px',
     },
-
-  });
+  });  /* this is fine*/
   private static readonly RANK_TABLE_HEADER_STYLE = {
     default:{
+      boxSizing: 'border-box' as 'border-box',
       textAlign: 'left' as 'left',
       fontFamily: 'Roboto',
       fontSize: '12px',
@@ -202,30 +203,31 @@ export class StandingsPage extends React.Component<Properties, State> {
     },
     time: {
       width: '50px',
-      paddingRight: '17px',
-    }  
-  };
+      paddingRight: '17px'
+    }
+  }; /* this may not be fine*/
   private static readonly RANKING_ENTRY_STYLE = StyleSheet.create({
     tr:{
       height: '28px',
-      boxSizing: 'border-box' as 'border-box',
+      width: '294px',
       textAlign: 'left' as 'left',
       fontFamily: 'Roboto',
       fontSize: '14px',
       color: '#000000',
+      border: '1px soild blue',
+      borderSpacing: '0',
       ':hover': {
         background: '#E2E0FF'
       }
     },
     rank: {
-      width: '60px',
       paddingLeft: '17px'
     },
     name: {
-      width: '140px'
+
     },
     time: {
-      width: '50px',
+
     }  
   });
   private static readonly GOT_IT_BUTTON_STYLE = StyleSheet.create({
