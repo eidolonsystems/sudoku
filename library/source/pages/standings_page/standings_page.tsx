@@ -148,6 +148,7 @@ export class StandingsPage extends React.Component<Properties, State> {
               </button>
             </div>
           </div>
+          <Padding/>
         </VBoxLayout>
         <Padding/>
       </HBoxLayout>
@@ -176,8 +177,10 @@ export class StandingsPage extends React.Component<Properties, State> {
   
   private static readonly MODAL_CONTAINTER_STYLE = {
     default: {
-      height: '458px',
-      width: '294px',
+      //height: '458px',
+      //width: '294px',
+      marginTop: 'auto' as 'auto',
+      marginBotton: 'auto' as 'auto',
     },
     bordered: {
       height: '458px',
@@ -256,10 +259,13 @@ export class StandingsPage extends React.Component<Properties, State> {
       background: '#FFFFFF',
       marginLeft: '47px',
       marginRight:'47px',
-      ':focus' : {
+      ':focus': {
         background: '#F2F2FF',
         color: '#4B23A0',
         outline: '0'
+      },
+      '::-moz-focus-inner': {
+        border: 0,
       },
       ':hover': {
         background: '#4B23A0',
