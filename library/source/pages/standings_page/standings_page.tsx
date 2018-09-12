@@ -183,12 +183,12 @@ export class StandingsPage extends React.Component<Properties, State> {
       marginTop: '40px',
       marginBottom: '40px',
       borderSpacing: '0',
-      width: '294px',
+      borderCollapse: 'collapse' as 'collapse',
+      tableLayout: 'fixed' as 'fixed'
     },
   });  /* this is fine*/
   private static readonly RANK_TABLE_HEADER_STYLE = {
     default:{
-      boxSizing: 'border-box' as 'border-box',
       textAlign: 'left' as 'left',
       fontFamily: 'Roboto',
       fontSize: '12px',
@@ -196,38 +196,39 @@ export class StandingsPage extends React.Component<Properties, State> {
     },
     rank: {
       width: '60px',
+      padding: '0px',
       paddingLeft: '17px'
     },
     name: {
-      width: '140px'
+      width: '140px',
+      padding: '0px'
     },
     time: {
-      width: '50px',
+      width: '60px',
+      padding: '0px',
       paddingRight: '17px'
     }
   }; /* this may not be fine*/
   private static readonly RANKING_ENTRY_STYLE = StyleSheet.create({
     tr:{
       height: '28px',
-      width: '294px',
       textAlign: 'left' as 'left',
       fontFamily: 'Roboto',
       fontSize: '14px',
       color: '#000000',
-      border: '1px soild blue',
-      borderSpacing: '0',
       ':hover': {
         background: '#E2E0FF'
       }
     },
     rank: {
+      padding: '0px',
       paddingLeft: '17px'
     },
     name: {
-
+      padding: '0px',
     },
     time: {
-
+      padding: '0px',
     }  
   });
   private static readonly GOT_IT_BUTTON_STYLE = StyleSheet.create({
