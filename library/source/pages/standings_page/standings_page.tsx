@@ -106,7 +106,7 @@ export class StandingsPage extends React.Component<Properties, State> {
                 {i + 1}
               </td>
               <td className={css(StandingsPage.RANKING_ENTRY_STYLE.name)}>
-                Robot
+                Bad Bot
               </td>
               <td>
                 {String.fromCharCode(8734)}
@@ -199,6 +199,7 @@ export class StandingsPage extends React.Component<Properties, State> {
   });
   private static readonly RANK_TABLE_HEADER_STYLE = {
     default:{
+      height: '24px',
       textAlign: 'left' as 'left',
       fontFamily: 'Roboto',
       fontSize: '12px',
@@ -206,16 +207,16 @@ export class StandingsPage extends React.Component<Properties, State> {
     },
     rank: {
       width: '60px',
-      padding: '0px',
+      paddingBottom: '10px',
       paddingLeft: '17px'
     },
     name: {
       width: '140px',
-      padding: '0px'
+      paddingBottom: '10px'
     },
     time: {
       width: '60px',
-      padding: '0px',
+      paddingBottom: '10px',
       paddingRight: '17px'
     }
   };
