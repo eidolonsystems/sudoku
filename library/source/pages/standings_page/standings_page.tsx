@@ -103,8 +103,8 @@ export class StandingsPage extends React.Component<Properties, State> {
           rows.push(
             <tr className={css(StandingsPage.RANKING_ENTRY_STYLE.tr)}>
               <td className={css(StandingsPage.RANKING_ENTRY_STYLE.rank)}>
-                {i + 1
-              }</td>
+                {i + 1}
+              </td>
               <td/>
               <td/>
             </tr>);
@@ -121,9 +121,15 @@ export class StandingsPage extends React.Component<Properties, State> {
             <table className={css(StandingsPage.RANK_TABLE_STYLE.table)}>
               <thead>
                 <tr style={StandingsPage.RANK_TABLE_HEADER_STYLE.default}>
-                  <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.rank}>RANK</th>
-                  <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.name}>NAME</th>
-                  <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.time}>TIME</th>
+                  <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.rank}>
+                    RANK
+                  </th>
+                  <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.name}>
+                    NAME
+                  </th>
+                  <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.time}>
+                    TIME
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -186,7 +192,7 @@ export class StandingsPage extends React.Component<Properties, State> {
       borderCollapse: 'collapse' as 'collapse',
       tableLayout: 'fixed' as 'fixed'
     },
-  });  /* this is fine*/
+  });
   private static readonly RANK_TABLE_HEADER_STYLE = {
     default:{
       textAlign: 'left' as 'left',
@@ -208,7 +214,7 @@ export class StandingsPage extends React.Component<Properties, State> {
       padding: '0px',
       paddingRight: '17px'
     }
-  }; /* this may not be fine*/
+  };
   private static readonly RANKING_ENTRY_STYLE = StyleSheet.create({
     tr:{
       height: '28px',
