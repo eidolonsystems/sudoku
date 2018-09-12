@@ -259,6 +259,7 @@ export class StandingsPage extends React.Component<Properties, State> {
       background: '#FFFFFF',
       marginLeft: '47px',
       marginRight:'47px',
+      marginBottom: '40px',
       ':focus': {
         background: '#F2F2FF',
         color: '#4B23A0',
