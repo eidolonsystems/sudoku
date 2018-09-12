@@ -105,8 +105,12 @@ export class StandingsPage extends React.Component<Properties, State> {
               <td className={css(StandingsPage.RANKING_ENTRY_STYLE.rank)}>
                 {i + 1}
               </td>
-              <td/>
-              <td/>
+              <td className={css(StandingsPage.RANKING_ENTRY_STYLE.name)}>
+                Robot
+              </td>
+              <td>
+                {String.fromCharCode(8734)}
+              </td>
             </tr>);
         }
       }
@@ -146,7 +150,8 @@ export class StandingsPage extends React.Component<Properties, State> {
           </div>
         </VBoxLayout>
         <Padding/>
-      </HBoxLayout>);
+      </HBoxLayout>
+    );
   }
   
   private onResize() {
@@ -169,7 +174,6 @@ export class StandingsPage extends React.Component<Properties, State> {
     this.setState({redirect: this.props.exitUrl});
   }
   
-
   private static readonly MODAL_CONTAINTER_STYLE = {
     default: {
       height: '458px',
