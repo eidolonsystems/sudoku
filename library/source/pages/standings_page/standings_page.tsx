@@ -89,6 +89,7 @@ export class StandingsPage extends React.Component<Properties, State> {
           const standing = this.props.model.getStandings()[i];
           rows.push(
             <tr className={css(StandingsPage.RANKING_ENTRY_STYLE.tr)}>
+              <td/>
               <td className={css(StandingsPage.RANKING_ENTRY_STYLE.rank)}>
                 {standing.rank}
               </td>
@@ -98,10 +99,12 @@ export class StandingsPage extends React.Component<Properties, State> {
               <td className={css(StandingsPage.RANKING_ENTRY_STYLE.time)}>
                 {standing.time}
               </td>
+              <td/>
             </tr>);
         } else {
           rows.push(
             <tr className={css(StandingsPage.RANKING_ENTRY_STYLE.tr)}>
+              <td/>
               <td className={css(StandingsPage.RANKING_ENTRY_STYLE.rank)}>
                 {i + 1}
               </td>
@@ -111,6 +114,7 @@ export class StandingsPage extends React.Component<Properties, State> {
               <td>
                 {String.fromCharCode(8734)}
               </td>
+              <td/>
             </tr>);
         }
       }
@@ -125,6 +129,7 @@ export class StandingsPage extends React.Component<Properties, State> {
             <table className={css(StandingsPage.RANK_TABLE_STYLE.table)}>
               <thead>
                 <tr style={StandingsPage.RANK_TABLE_HEADER_STYLE.default}>
+                  <th/>
                   <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.rank}>
                     RANK
                   </th>
@@ -134,6 +139,7 @@ export class StandingsPage extends React.Component<Properties, State> {
                   <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.time}>
                     TIME
                   </th>
+                  <th/>
                 </tr>
               </thead>
               <tbody>
@@ -178,14 +184,15 @@ export class StandingsPage extends React.Component<Properties, State> {
   private static readonly MODAL_CONTAINTER_STYLE = {
     default: {
       //height: '458px',
-      //width: '294px',
+      width:'100%',
       marginTop: 'auto' as 'auto',
       marginBotton: 'auto' as 'auto',
+      marginLeft: 'auto' as 'auto',
+      marginRight: 'auto' as 'auto',
     },
     bordered: {
       height: '458px',
       width: '294px',
-      boxSizing: 'border-box' as 'border-box',
       border: '0px solid #FFFFFF',
       borderRadius: '4px',
       boxShadow: '0px 0px 5px #000000',
@@ -195,9 +202,10 @@ export class StandingsPage extends React.Component<Properties, State> {
     table:{
       marginTop: '40px',
       marginBottom: '40px',
+      width: 'inherit',
       borderSpacing: '0',
       borderCollapse: 'collapse' as 'collapse',
-      tableLayout: 'fixed' as 'fixed'
+      tableLayout: 'fixed' as 'fixed' //kinda sorta fixes stuff
     },
   });
   private static readonly RANK_TABLE_HEADER_STYLE = {
@@ -210,17 +218,20 @@ export class StandingsPage extends React.Component<Properties, State> {
     },
     rank: {
       width: '60px',
+      padding: '0',
       paddingBottom: '10px',
-      paddingLeft: '17px'
+      paddingLeft: '17px',
     },
     name: {
       width: '140px',
+      padding: '0',
       paddingBottom: '10px'
     },
     time: {
       width: '60px',
+      padding: '0',
       paddingBottom: '10px',
-      paddingRight: '17px'
+      paddingRight: '17px',
     }
   };
   private static readonly RANKING_ENTRY_STYLE = StyleSheet.create({
@@ -235,14 +246,13 @@ export class StandingsPage extends React.Component<Properties, State> {
       }
     },
     rank: {
-      padding: '0px',
       paddingLeft: '17px'
     },
     name: {
-      padding: '0px',
+
     },
     time: {
-      padding: '0px',
+
     }  
   });
   private static readonly GOT_IT_BUTTON_STYLE = StyleSheet.create({
@@ -257,8 +267,9 @@ export class StandingsPage extends React.Component<Properties, State> {
       textAlign: 'center' as 'center',
       color: '#4b23A0',
       background: '#FFFFFF',
+      display: 'block',
       marginLeft: '47px',
-      marginRight:'47px',
+      marginRight: '47px',
       marginBottom: '40px',
       ':focus': {
         background: '#F2F2FF',
