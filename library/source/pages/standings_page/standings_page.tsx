@@ -73,6 +73,13 @@ export class StandingsPage extends React.Component<Properties, State> {
           return '220px';
       }
     })();
+    const bottomPadding = (() => {
+      if(this.state.breakpoint){
+          return undefined;
+      } else {
+          return '50px';
+      }
+    })();
     const containerStyle = (() => {
       if(this.state.breakpoint === Breakpoint.SMALL){
         return StandingsPage.MODAL_CONTAINTER_STYLE.default;
@@ -155,7 +162,7 @@ export class StandingsPage extends React.Component<Properties, State> {
             </div>
   
           </div>
-          <Padding/>
+          <Padding size={bottomPadding}/>
         </VBoxLayout>
         <Padding/>
       </HBoxLayout>
