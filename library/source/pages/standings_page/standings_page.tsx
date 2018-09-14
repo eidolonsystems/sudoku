@@ -5,7 +5,6 @@ import {HBoxLayout, Padding, VBoxLayout} from '../../layouts';
 import {StandingsModel} from '.';
 
 
-
 interface Properties {
 
   /** The standings model to display. */
@@ -201,7 +200,7 @@ export class StandingsPage extends React.Component<Properties, State> {
       marginBotton: 'auto' as 'auto',
       marginLeft: 'auto' as 'auto',
       marginRight: 'auto' as 'auto'
-    }, ///this is fine
+    },
     bordered: {
       height: '458px',
       width: '294px',
@@ -234,23 +233,23 @@ export class StandingsPage extends React.Component<Properties, State> {
     rank: {
       width: '60px',
       paddingTop: '0px',
-      paddingRight: '0px',
       paddingBottom: '0px',
-      paddingLeft: '17px'
+      paddingLeft: '17px',
+      paddingRight: '0px'
     },
     name: {
       width: '140px',
       paddingTop: '0px',
-      paddingRight: '0px',
       paddingBottom: '0px',
       paddingLeft: '0px',
+      paddingRight: '0px'
     },
     time: {
       width: '60px',
-      paddingRight: '17px',
       paddingTop: '0px',
       paddingBottom: '0px',
       paddingLeft: '0px',
+      paddingRight: '17px'
     }
   };
   private static readonly RANKING_ENTRY_STYLE = StyleSheet.create({
@@ -266,22 +265,22 @@ export class StandingsPage extends React.Component<Properties, State> {
       }
     },
     rank: {
-      paddingLeft: '17px',
-      paddingRight: '0px',
       paddingTop: '0px',
       paddingBottom: '0px',
+      paddingLeft: '17px',
+      paddingRight: '0px'
     },
     name: {
-      paddingLeft: '0px',
-      paddingRight: '0px',
       paddingTop: '0px',
       paddingBottom: '0px',
+      paddingLeft: '0px',
+      paddingRight: '0px'
     },
     time: {
-      paddingLeft: '0px',
-      paddingRight: '0px',
       paddingTop: '0px',
       paddingBottom: '0px',
+      paddingLeft: '0px',
+      paddingRight: '17px'
     }  
   });
   private static readonly GOT_IT_BUTTON_STYLE = StyleSheet.create({
@@ -315,7 +314,7 @@ export class StandingsPage extends React.Component<Properties, State> {
       },
       ':active': {
         background: '#4B23A0',
-        color: '#F2F2FF',
+        color: '#F2F2FF'
       }
     }
   });
