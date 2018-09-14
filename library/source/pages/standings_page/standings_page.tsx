@@ -225,15 +225,25 @@ export class StandingsPage extends React.Component<Properties, State> {
       paddingBottom: '10px',
     },
     rank: {
-      width: '60px',    
+      width: '60px',
+      paddingTop: '0px',
+      paddingRight: '0px',
+      paddingBottom: '0px',
       paddingLeft: '17px',
     },
     name: {
       width: '140px',
+      paddingTop: '0px',
+      paddingRight: '0px',
+      paddingBottom: '0px',
+      paddingLeft: '0px',
     },
     time: {
       width: '60px',
       paddingRight: '17px',
+      paddingTop: '0px',
+      paddingBottom: '0px',
+      paddingLeft: '0px',
     }
   };
   private static readonly RANKING_ENTRY_STYLE = StyleSheet.create({
@@ -249,13 +259,22 @@ export class StandingsPage extends React.Component<Properties, State> {
       }
     },
     rank: {
-      paddingLeft: '17px'
+      paddingLeft: '17px',
+      paddingRight: '0px',
+      paddingTop: '0px',
+      paddingBottom: '0px',
     },
     name: {
-
+      paddingLeft: '0px',
+      paddingRight: '0px',
+      paddingTop: '0px',
+      paddingBottom: '0px',
     },
     time: {
-
+      paddingLeft: '0px',
+      paddingRight: '0px',
+      paddingTop: '0px',
+      paddingBottom: '0px',
     }  
   });
   private static readonly GOT_IT_BUTTON_STYLE = StyleSheet.create({
