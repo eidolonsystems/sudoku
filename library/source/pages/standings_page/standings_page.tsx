@@ -190,7 +190,6 @@ export class StandingsPage extends React.Component<Properties, State> {
   }
   private static readonly SCROLL_STYLE = {
     overflowY: 'auto' as 'auto',
-    //display:' inline-block'
   }
   private static readonly MODAL_CONTAINTER_STYLE = {
     default: {
