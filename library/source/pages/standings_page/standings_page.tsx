@@ -123,8 +123,9 @@ export class StandingsPage extends React.Component<Properties, State> {
     return (
       <HBoxLayout height='100%' width='100%'>
         <Padding/>
-        <VBoxLayout>
-          <Padding size={topPadding}/>
+        <VBoxLayout style={StandingsPage.SCROLL_STYLE} width= '294px'>
+        <Padding size={topPadding}/>
+          
           <div style={containerStyle}>
             <table className={css(StandingsPage.RANK_TABLE_STYLE.table)}>
               <thead>
@@ -153,8 +154,10 @@ export class StandingsPage extends React.Component<Properties, State> {
                 GOT IT
               </button>
             </div>
+  
           </div>
           <Padding/>
+          
         </VBoxLayout>
         <Padding/>
       </HBoxLayout>
@@ -180,17 +183,19 @@ export class StandingsPage extends React.Component<Properties, State> {
   private onGotIt() {
     this.setState({redirect: this.props.exitUrl});
   }
-  
+  private static readonly SCROLL_STYLE ={
+    overflowY: 'auto' as 'auto'
+  }
   private static readonly MODAL_CONTAINTER_STYLE = {
     default: {
-      //height: '458px',
       width:'100%',
       marginTop: 'auto' as 'auto',
       marginBotton: 'auto' as 'auto',
       marginLeft: 'auto' as 'auto',
       marginRight: 'auto' as 'auto',
-    },
+    }, ///this is fine
     bordered: {
+      display:'inline-block',
       height: '458px',
       width: '294px',
       border: '0px solid #FFFFFF',
@@ -200,12 +205,13 @@ export class StandingsPage extends React.Component<Properties, State> {
   };
   private static readonly RANK_TABLE_STYLE = StyleSheet.create({
     table:{
+      boxSizing: 'content-box' as 'content-box',
       marginTop: '40px',
       marginBottom: '40px',
       width: 'inherit',
       borderSpacing: '0',
       borderCollapse: 'collapse' as 'collapse',
-      tableLayout: 'fixed' as 'fixed' //kinda sorta fixes stuff
+      tableLayout: 'fixed' as 'fixed' 
     },
   });
   private static readonly RANK_TABLE_HEADER_STYLE = {
@@ -215,22 +221,18 @@ export class StandingsPage extends React.Component<Properties, State> {
       fontFamily: 'Roboto',
       fontSize: '12px',
       color: '#2B23A0',
-    },
-    rank: {
-      width: '60px',
       padding: '0',
       paddingBottom: '10px',
+    },
+    rank: {
+      width: '60px',    
       paddingLeft: '17px',
     },
     name: {
       width: '140px',
-      padding: '0',
-      paddingBottom: '10px'
     },
     time: {
       width: '60px',
-      padding: '0',
-      paddingBottom: '10px',
       paddingRight: '17px',
     }
   };
@@ -241,6 +243,7 @@ export class StandingsPage extends React.Component<Properties, State> {
       fontFamily: 'Roboto',
       fontSize: '14px',
       color: '#000000',
+      padding: '0',
       ':hover': {
         background: '#E2E0FF'
       }
