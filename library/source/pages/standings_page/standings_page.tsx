@@ -187,14 +187,14 @@ export class StandingsPage extends React.Component<Properties, State> {
   private onGotIt() {
     this.setState({redirect: this.props.exitUrl});
   }
-  private static readonly SCROLL_STYLE ={
+  private static readonly SCROLL_STYLE = {
     overflowY: 'auto' as 'auto',
     overflowX: 'visible' as 'visible',
-    display:'inline-block',
+    display:' inline-block',
   }
   private static readonly MODAL_CONTAINTER_STYLE = {
     default: {
-      width:'100%',
+      width: '100%',
       marginTop: 'auto' as 'auto',
       marginBotton: 'auto' as 'auto',
       marginLeft: 'auto' as 'auto',
