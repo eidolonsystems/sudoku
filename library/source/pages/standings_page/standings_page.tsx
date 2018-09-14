@@ -1,8 +1,10 @@
+import {StyleSheet, css} from 'aphrodite/no-important';
 import * as React from 'react';
 import * as Router from 'react-router-dom';
+import {HBoxLayout, Padding, VBoxLayout} from '../../layouts';
 import {StandingsModel} from '.';
-import { Padding, HBoxLayout, VBoxLayout } from '../../layouts';
-import {StyleSheet, css} from 'aphrodite/no-important';
+
+
 
 interface Properties {
 
@@ -43,17 +45,17 @@ export class StandingsPage extends React.Component<Properties, State> {
     this.onGotIt = this.onGotIt.bind(this);
   }
 
-  public componentWillMount(): void { //is this correct???
+  public componentWillMount(): void {
     this.props.model.load().then(
       () => {
         this.setState({
           isLoading: false
         });
       });
-      window.addEventListener('resize', this.onResize);
+    window.addEventListener('resize', this.onResize);
   }
 
-  public componentWillUnmount() {
+  public componentWillUnmount(): void {
     window.removeEventListener('resize', this.onResize);
   }
 
@@ -190,7 +192,7 @@ export class StandingsPage extends React.Component<Properties, State> {
   private static readonly SCROLL_STYLE = {
     overflowY: 'auto' as 'auto',
     overflowX: 'visible' as 'visible',
-    display:' inline-block',
+    display:' inline-block'
   }
   private static readonly MODAL_CONTAINTER_STYLE = {
     default: {
@@ -198,14 +200,14 @@ export class StandingsPage extends React.Component<Properties, State> {
       marginTop: 'auto' as 'auto',
       marginBotton: 'auto' as 'auto',
       marginLeft: 'auto' as 'auto',
-      marginRight: 'auto' as 'auto',
+      marginRight: 'auto' as 'auto'
     }, ///this is fine
     bordered: {
       height: '458px',
       width: '294px',
       border: '0px solid #FFFFFF',
       borderRadius: '4px',
-      boxShadow: '0px 0px 5px #000000',
+      boxShadow: '0px 0px 5px #000000'
     }
   };
   private static readonly RANK_TABLE_STYLE = StyleSheet.create({
@@ -227,14 +229,14 @@ export class StandingsPage extends React.Component<Properties, State> {
       fontSize: '12px',
       color: '#2B23A0',
       padding: '0',
-      paddingBottom: '10px',
+      paddingBottom: '10px'
     },
     rank: {
       width: '60px',
       paddingTop: '0px',
       paddingRight: '0px',
       paddingBottom: '0px',
-      paddingLeft: '17px',
+      paddingLeft: '17px'
     },
     name: {
       width: '140px',
@@ -294,8 +296,6 @@ export class StandingsPage extends React.Component<Properties, State> {
       textAlign: 'center' as 'center',
       color: '#4b23A0',
       background: '#FFFFFF',
-      //marginLeft: '47px',
-      //marginRight: '47px',
       display: 'block' as 'block',
       margin: '0 auto',
       marginBottom: '40px',
@@ -305,7 +305,7 @@ export class StandingsPage extends React.Component<Properties, State> {
         outline: '0'
       },
       '::-moz-focus-inner': {
-        border: 0,
+        border: '0'
       },
       ':hover': {
         background: '#4B23A0',
@@ -313,10 +313,9 @@ export class StandingsPage extends React.Component<Properties, State> {
         transition: 'none',
         outline: '0' 
       },
-      ':active':{
+      ':active': {
         background: '#4B23A0',
         color: '#F2F2FF',
-        ransition: 'none' 
       }
     }
   });
