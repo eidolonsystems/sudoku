@@ -190,12 +190,12 @@ export class StandingsPage extends React.Component<Properties, State> {
   }
   private static readonly SCROLL_STYLE = {
     overflowY: 'auto' as 'auto',
-    overflowX: 'visible' as 'visible',
-    display:' inline-block'
+    //display:' inline-block'
   }
   private static readonly MODAL_CONTAINTER_STYLE = {
     default: {
       width: '100%',
+      minWidth: '320px',
       marginTop: 'auto' as 'auto',
       marginBotton: 'auto' as 'auto',
       marginLeft: 'auto' as 'auto',
@@ -210,7 +210,7 @@ export class StandingsPage extends React.Component<Properties, State> {
     }
   };
   private static readonly RANK_TABLE_STYLE = StyleSheet.create({
-    table:{
+    table: {
       boxSizing: 'content-box' as 'content-box',
       marginTop: '40px',
       marginBottom: '40px',
@@ -221,7 +221,7 @@ export class StandingsPage extends React.Component<Properties, State> {
     }
   });
   private static readonly RANK_TABLE_HEADER_STYLE = {
-    default:{
+    default: {
       height: '24px',
       textAlign: 'left' as 'left',
       fontFamily: 'Roboto',
@@ -253,7 +253,7 @@ export class StandingsPage extends React.Component<Properties, State> {
     }
   };
   private static readonly RANKING_ENTRY_STYLE = StyleSheet.create({
-    tr:{
+    tr: {
       height: '28px',
       textAlign: 'left' as 'left',
       fontFamily: 'Roboto',
