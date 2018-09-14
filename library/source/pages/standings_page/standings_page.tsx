@@ -74,7 +74,7 @@ export class StandingsPage extends React.Component<Properties, State> {
       }
     })();
     const bottomPadding = (() => {
-      if(this.state.breakpoint){
+      if(this.state.breakpoint===Breakpoint.SMALL){
           return undefined;
       } else {
           return '50px';
@@ -160,9 +160,8 @@ export class StandingsPage extends React.Component<Properties, State> {
                 GOT IT
               </button>
             </div>
-  
           </div>
-          <Padding size={bottomPadding}/>
+        <Padding size={bottomPadding}/>
         </VBoxLayout>
         <Padding/>
       </HBoxLayout>
@@ -202,7 +201,6 @@ export class StandingsPage extends React.Component<Properties, State> {
       marginRight: 'auto' as 'auto',
     }, ///this is fine
     bordered: {
-      
       height: '458px',
       width: '294px',
       border: '0px solid #FFFFFF',
