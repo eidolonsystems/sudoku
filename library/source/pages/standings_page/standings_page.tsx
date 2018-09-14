@@ -65,7 +65,7 @@ export class StandingsPage extends React.Component<Properties, State> {
       return <div/>;
     }
     const topPadding = (() => {
-      switch(this.state.breakpoint){
+      switch(this.state.breakpoint) {
         case Breakpoint.SMALL: 
           return undefined;
         case Breakpoint.MEDIUM:
@@ -75,16 +75,16 @@ export class StandingsPage extends React.Component<Properties, State> {
       }
     })();
     const bottomPadding = (() => {
-      if(this.state.breakpoint===Breakpoint.SMALL){
-          return undefined;
+      if(this.state.breakpoint === Breakpoint.SMALL) {
+        return undefined;
       } else {
-          return '50px';
+        return '50px';
       }
     })();
     const containerStyle = (() => {
-      if(this.state.breakpoint === Breakpoint.SMALL){
+      if(this.state.breakpoint === Breakpoint.SMALL) {
         return StandingsPage.MODAL_CONTAINTER_STYLE.default;
-      } else{
+      } else {
         return StandingsPage.MODAL_CONTAINTER_STYLE.bordered;
       }
     })();
@@ -131,8 +131,8 @@ export class StandingsPage extends React.Component<Properties, State> {
     return (
       <HBoxLayout height='100%' width='100%' style={StandingsPage.SCROLL_STYLE}>
         <Padding/>
-        <VBoxLayout >
-        <Padding size={topPadding}/>
+        <VBoxLayout>
+          <Padding size={topPadding}/>
           <div style={containerStyle}>
             <table className={css(StandingsPage.RANK_TABLE_STYLE.table)}>
               <thead>
@@ -141,7 +141,7 @@ export class StandingsPage extends React.Component<Properties, State> {
                   <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.rank}>
                     RANK
                   </th>
-                  <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.name}>
+                  <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.name}> 
                     NAME
                   </th>
                   <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.time}>
@@ -162,7 +162,7 @@ export class StandingsPage extends React.Component<Properties, State> {
               </button>
             </div>
           </div>
-        <Padding size={bottomPadding}/>
+          <Padding size={bottomPadding}/>
         </VBoxLayout>
         <Padding/>
       </HBoxLayout>
@@ -218,7 +218,7 @@ export class StandingsPage extends React.Component<Properties, State> {
       borderSpacing: '0',
       borderCollapse: 'collapse' as 'collapse',
       tableLayout: 'fixed' as 'fixed' 
-    },
+    }
   });
   private static readonly RANK_TABLE_HEADER_STYLE = {
     default:{
