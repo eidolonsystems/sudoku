@@ -121,11 +121,10 @@ export class StandingsPage extends React.Component<Properties, State> {
       return rows;
     })(); 
     return (
-      <HBoxLayout height='100%' width='100%'>
+      <HBoxLayout height='100%' width='100%' style={StandingsPage.SCROLL_STYLE}>
         <Padding/>
-        <VBoxLayout style={StandingsPage.SCROLL_STYLE} width= '294px'>
+        <VBoxLayout >
         <Padding size={topPadding}/>
-          
           <div style={containerStyle}>
             <table className={css(StandingsPage.RANK_TABLE_STYLE.table)}>
               <thead>
@@ -157,7 +156,6 @@ export class StandingsPage extends React.Component<Properties, State> {
   
           </div>
           <Padding/>
-          
         </VBoxLayout>
         <Padding/>
       </HBoxLayout>
@@ -184,7 +182,9 @@ export class StandingsPage extends React.Component<Properties, State> {
     this.setState({redirect: this.props.exitUrl});
   }
   private static readonly SCROLL_STYLE ={
-    overflowY: 'auto' as 'auto'
+    overflowY: 'auto' as 'auto',
+    overflowX: 'visible' as 'visible',
+    display:'inline-block',
   }
   private static readonly MODAL_CONTAINTER_STYLE = {
     default: {
@@ -195,7 +195,7 @@ export class StandingsPage extends React.Component<Properties, State> {
       marginRight: 'auto' as 'auto',
     }, ///this is fine
     bordered: {
-      display:'inline-block',
+      
       height: '458px',
       width: '294px',
       border: '0px solid #FFFFFF',
