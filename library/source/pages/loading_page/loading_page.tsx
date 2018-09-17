@@ -48,11 +48,11 @@ export class LoadingPage extends React.Component<{}, State> {
           return '220px';
       }
     })();
-      const bottomPadding = (() => {
+    const bottomPadding = (() => {
       if(this.state.breakpoint === Breakpoint.SMALL) {
         return undefined;
       } else {
-          return '40px';
+        return '40px';
       }
     })();
     return (
@@ -60,11 +60,11 @@ export class LoadingPage extends React.Component<{}, State> {
         <Padding/>
         <VBoxLayout>
           <Padding size={topPadding}/>
-          <img src = 'resources/images/loading_page/animated-loader.gif'
+          <img src='resources/images/loading_page/animated-loader.gif'
               width='80px' height='40px'/>
            <Padding size='40px'/>
            <div style={LoadingPage.TEXT_STYLE}>Please wait...</div>
-          <Padding size ={bottomPadding}/>
+          <Padding size={bottomPadding}/>
         </VBoxLayout>
         <Padding/>
       </HBoxLayout>
