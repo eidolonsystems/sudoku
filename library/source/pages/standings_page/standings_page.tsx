@@ -2,6 +2,7 @@ import {StyleSheet, css} from 'aphrodite/no-important';
 import * as React from 'react';
 import * as Router from 'react-router-dom';
 import {HBoxLayout, Padding, VBoxLayout} from '../../layouts';
+import {LoadingPage} from '..';
 import {StandingsModel} from '.';
 
 
@@ -62,7 +63,7 @@ export class StandingsPage extends React.Component<Properties, State> {
     if(this.state.redirect) {
       return <Router.Redirect push to={this.state.redirect}/>;
     } else if(this.state.isLoading) {
-      return <div/>;
+      return <LoadingPage/>;
     }
     const topPadding = (() => {
       switch(this.state.breakpoint) {
