@@ -49,7 +49,13 @@ export class Board {
 
   /** Returns a copy of this board. */
   public clone(): Board {
-    return null;
+    var copy = new Board();
+    for(let i = 0; i < Board.ROWS; ++i) {
+      for(let j = 0; j < Board.COLUMNS; ++j) {
+        copy.set(i,j, this.get(i,j));
+      }
+    }
+    return copy;
   }
 
   private values: number[][];
