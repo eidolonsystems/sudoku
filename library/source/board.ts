@@ -58,12 +58,45 @@ export class Board {
     return copy;
   }
 
+  
   private values: number[][];
 }
 
 /** Generates a solved Sudoku board. */
 export function generateBoard(): Board {
-  return new Board();
+  var board = new Board();
+  fillCell(board,0,0);
+  return board;
+}
+
+export function fillCell(board: Board, row: number, col: number): boolean {
+    if(row===9){
+      return true;
+    }
+    let values = [1,2,3,4,5,6,7,8,9];
+    let val = values[Math.floor(Math.random()*values.length)];
+    let theFutureIsGood = false; //name to something less silly
+    while(values.length !== 0) {
+      //console.log(row + ' ' + col + ' Beep beep ' + val); 
+      if(isValidIfSet(board, row, col, val)) {
+        board.set(row, col, val);
+        if(col+1===Board.COLUMNS){
+          theFutureIsGood = fillCell(board,row+1, 0);
+        } else{
+          theFutureIsGood = fillCell(board,row, col+1);
+        }
+      }
+      if(theFutureIsGood) {
+          return true;
+      } else {
+        board.set(row, col, 0);
+        let pos = values.indexOf(val);
+        values.splice(pos,1);
+        let newVal = values[Math.floor(Math.random()*values.length)];
+        //console.log(newVal);
+      }
+  }
+  return false;
 }
 
 /** Returns true iff the board represents a solution to a Sudoku puzzle.
@@ -71,7 +104,54 @@ export function generateBoard(): Board {
  * @return true iff the board is a solution.
  */
 export function isSolved(board: Board): boolean {
-  return false;
+  let num = [0];
+  for(let i = 0; i < Board.ROWS; ++i) {
+    let num = [0];
+    for(let j = 0; j < Board.COLUMNS; ++j) {
+       if(num.includes(board.get(i,j))) {
+         return false;
+       }
+       num.push(board.get(i,j));
+    }
+  }
+  
+  for(let j = 0; j < Board.COLUMNS; ++j) {
+    num = [0];
+    for(let i = 0; i < Board.ROWS; ++i) {
+      if(num.includes(board.get(i,j))) {
+         return false;
+       }
+       num.push(board.get(i,j));
+    }
+  }
+  
+  let squareRowStart = 0;
+  let squareColumnStart = 0;
+  for(let i=0; i<9; ++i){
+    switch (i) {
+      case 0: squareRowStart = 0; squareColumnStart = 0; break;
+      case 1: squareRowStart = 0; squareColumnStart = 3; break;
+      case 2: squareRowStart = 0; squareColumnStart = 6; break;
+
+      case 3: squareRowStart = 3; squareColumnStart = 0; break;
+      case 4: squareRowStart = 3; squareColumnStart = 3; break;
+      case 5: squareRowStart = 3; squareColumnStart = 6; break;
+
+      case 6: squareRowStart = 6; squareColumnStart = 0; break;
+      case 7: squareRowStart = 6; squareColumnStart = 3; break;
+      case 8: squareRowStart = 6; squareColumnStart = 6; break;
+    }
+    num = [0];
+    for(let i=squareRowStart; i<squareRowStart+3; ++i){
+      for(let j=squareColumnStart; j<squareColumnStart+3; ++j){
+        if(num.includes(board.get(i,j))) {
+          return false;
+        }
+        num.push(board.get(i,j));
+        }
+      }
+  }
+  return true; 
 }
 
 /** Returns a solved version of a Sudoku board.
@@ -82,4 +162,44 @@ export function isSolved(board: Board): boolean {
  */
 export function solve(board: Board): Board {
   return null;
+}
+
+/** Checks if the value at a specified row and column has conflicts. */
+export function isValidIfSet(board: Board, row: number, column: number, value: number): boolean {
+  if(row < 0 || row >= Board.ROWS || column < 0 || column >= Board.COLUMNS) {
+    throw new RangeError('Board coordinates out of bounds.');
+  }     
+  if(value < 0 || value > 9) {
+    throw new RangeError('Value is out of bounds.');
+  }
+  for(let i=0; i<Board.ROWS; ++i){
+    if(value === board.get(i, column)&&i!==row) {
+      return false;
+    }
+  }
+  for(let i=0; i<Board.COLUMNS; ++i){
+    if(value === board.get(row, i)&& i!==column) {
+      return false;
+    }
+  }
+  let squareRowStart = 0;
+  let squareColumnStart = 0;
+  switch (row) {
+    case 0: case 1: case 2: squareRowStart = 0; break;
+    case 3: case 4: case 5: squareRowStart = 3; break;
+    case 6: case 7: case 8: squareRowStart = 6; break;
+  }
+  switch (column) {
+    case 0: case 1: case 2: squareColumnStart = 0; break;
+    case 3: case 4: case 5: squareColumnStart = 3; break;
+    case 6: case 7: case 8: squareColumnStart = 6; break;
+  }
+  for(let i = squareRowStart; i<squareRowStart+3; ++i){
+    for(let j=squareColumnStart; j<squareColumnStart+3; ++j){
+      if(value === board.get(i, j) && i!==row && j!==column) {
+        return false;
+      }
+    }
+  }
+  return true;
 }

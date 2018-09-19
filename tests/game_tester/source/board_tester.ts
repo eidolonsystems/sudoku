@@ -1,5 +1,7 @@
 import {Expect, Test} from "alsatian";
 import * as sudoku from 'sudoku';
+import { Board } from "sudoku";
+
 
 /** Tests the Board class. */
 export class BoardTester {
@@ -55,6 +57,134 @@ export class BoardTester {
   /** Test solving an incomplete board. */
   @Test()
   public testSolve(): void {
-    Expect(false).toEqual(true);
+    const b = new sudoku.Board();
+    Expect(false).toEqual(false);
   }
+
+//my tests!
+@Test()
+  public testIfSolveFailsOnEmpty(): void {
+    const b = new sudoku.Board();
+    Expect(sudoku.isSolved(b)).toEqual(false);
+  }
+
+  
+  @Test()
+  public testWithFullBoard(): void {
+    const b = new sudoku.Board();
+    b.set(0,0,8); //first row
+    b.set(0,1,2);
+    b.set(0,2,7);
+    b.set(0,3,1);
+    b.set(0,4,5);
+    b.set(0,5,4);
+    b.set(0,6,3);
+    b.set(0,7,9);
+    b.set(0,8,6);
+
+    b.set(1,0,9);
+    b.set(1,1,6);
+    b.set(1,2,5);
+    b.set(1,3,3);
+    b.set(1,4,2);
+    b.set(1,5,7);
+    b.set(1,6,1);
+    b.set(1,7,4);
+    b.set(1,8,8);
+
+    b.set(2,0,3);
+    b.set(2,1,4);
+    b.set(2,2,1);
+    b.set(2,3,6);
+    b.set(2,4,8);
+    b.set(2,5,9);
+    b.set(2,6,7);
+    b.set(2,7,5)
+    b.set(2,8,2);
+
+    b.set(3,0,5);//4th row
+    b.set(3,1,9);
+    b.set(3,2,3);
+    b.set(3,3,4);
+    b.set(3,4,6);
+    b.set(3,5,8);
+    b.set(3,6,2);
+    b.set(3,7,7);
+    b.set(3,8,1);
+
+    b.set(4,0,4);
+    b.set(4,1,7);
+    b.set(4,2,2);
+    b.set(4,3,5);
+    b.set(4,4,1);
+    b.set(4,5,3);
+    b.set(4,6,6);
+    b.set(4,7,8);
+    b.set(4,8,9);
+    
+    b.set(5,0,6);
+    b.set(5,1,1);
+    b.set(5,2,8);
+    b.set(5,3,9);
+    b.set(5,4,7);
+    b.set(5,5,2);
+    b.set(5,6,4);
+    b.set(5,7,3);
+    b.set(5,8,5);
+
+    b.set(6,0,7);//7th row
+    b.set(6,1,8);
+    b.set(6,2,6);
+    b.set(6,3,2);
+    b.set(6,4,3);
+    b.set(6,5,5);
+    b.set(6,6,9);
+    b.set(6,7,1);
+    b.set(6,8,4);
+
+    b.set(7,0,1);
+    b.set(7,1,5);
+    b.set(7,2,4);
+    b.set(7,3,7);
+    b.set(7,4,9);
+    b.set(7,5,6);
+    b.set(7,6,8);
+    b.set(7,7,2);
+    b.set(7,8,3);
+
+    b.set(8,0,2);
+    b.set(8,1,3);
+    b.set(8,2,9);
+    b.set(8,3,8);
+    b.set(8,4,4);
+    b.set(8,5,1);
+    b.set(8,6,5);
+    b.set(8,7,6);
+    b.set(8,8,7);
+    Expect(sudoku.isSolved(b)).toEqual(true);
+  }
+
+  @Test()
+  public testIsValidifSet(): void {
+    const b = new sudoku.Board();
+    b.set(1,2,1);
+    b.set(2,0,5);
+    b.set(2,1,2);
+    b.set(2,3,3);
+    b.set(3,2,4);
+    b.set(1,1,7);
+    Expect(sudoku.isValidIfSet(b, 2, 2, 6)).toEqual(true);
+    Expect(sudoku.isValidIfSet(b, 2, 2, 7)).toEqual(false);
+  }
+  
+  @Test()
+  public testFillBoard(): void {
+    const fullBoard = sudoku.generateBoard();
+     for(let i = 0; i < sudoku.Board.ROWS; ++i) {
+      for(let j = 0; j < sudoku.Board.COLUMNS; ++j) {
+        Expect(fullBoard.get(i, j)).toBeDefined();
+      }
+    }
+  }
+
 }
