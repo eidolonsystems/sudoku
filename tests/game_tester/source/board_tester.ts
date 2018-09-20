@@ -153,10 +153,12 @@ export class BoardTester {
     b.set(8,7,6);
     b.set(8,8,7);
 
+    let solutionBoard = b.clone();
+    solutionBoard.set(6,5,5);
     sudoku.solve(b);
     for(let i = 0; i < sudoku.Board.ROWS; ++i) {
       for(let j = 0; j < sudoku.Board.COLUMNS; ++j) {
-        Expect(b.get(i, j)).toBeGreaterThan(0);
+        Expect(b.get(i, j)).toEqual(solutionBoard.get(i,j));
       }
     }
     const emptyBoard = new sudoku.Board();
