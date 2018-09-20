@@ -57,10 +57,8 @@ export class Board {
     }
     return copy;
   }
-
-  
   private values: number[][];
-}
+  }
 
 /** Generates a solved Sudoku board. */
 export function generateBoard(): Board {
@@ -69,32 +67,39 @@ export function generateBoard(): Board {
   return board;
 }
 
-export function fillCell(board: Board, row: number, col: number): boolean {
-    if(row===9){
-      return true;
-    }
-    let values = [1,2,3,4,5,6,7,8,9];
-    let val = values[Math.floor(Math.random()*values.length)];
-    let theFutureIsGood = false; //name to something less silly
-    while(values.length !== 0) {
-      //console.log(row + ' ' + col + ' Beep beep ' + val); 
-      if(isValidIfSet(board, row, col, val)) {
-        board.set(row, col, val);
-        if(col+1===Board.COLUMNS){
-          theFutureIsGood = fillCell(board,row+1, 0);
-        } else{
-          theFutureIsGood = fillCell(board,row, col+1);
-        }
-      }
-      if(theFutureIsGood) {
-          return true;
+function fillCell(board: Board, row: number, column: number): boolean {
+  if(row===Board.ROWS) {
+    return true;
+  }
+  let theFutureIsGood = false;
+  let values = [1,2,3,4,5,6,7,8,9];
+  let canidate = 0;
+  if(board.get(row,column) !== 0) {
+    if((column + 1) === Board.COLUMNS) {
+        return fillCell(board, row+1, 0);
       } else {
-        board.set(row, col, 0);
-        let pos = values.indexOf(val);
-        values.splice(pos,1);
-        let newVal = values[Math.floor(Math.random()*values.length)];
-        //console.log(newVal);
+        return fillCell(board, row, column+1);
       }
+  } else {
+    canidate = values[Math.floor(Math.random()*values.length)];
+  }
+  while(values.length !== 0) {
+    if(isValidIfSet(board, row, column, canidate)) {
+      board.set(row, column, canidate);
+    if((column + 1) === Board.COLUMNS) {
+      theFutureIsGood = fillCell(board, row + 1, 0);
+    } else {
+      theFutureIsGood = fillCell(board, row, column + 1);
+      }
+    }
+    if(theFutureIsGood) {
+      return true;
+    } else {
+      let pos = values.indexOf(canidate);
+      values.splice(pos,1);
+      board.set(row, column, 0);
+      canidate = values[Math.floor(Math.random()*values.length)];
+    }
   }
   return false;
 }
@@ -114,7 +119,6 @@ export function isSolved(board: Board): boolean {
        num.push(board.get(i,j));
     }
   }
-  
   for(let j = 0; j < Board.COLUMNS; ++j) {
     num = [0];
     for(let i = 0; i < Board.ROWS; ++i) {
@@ -124,7 +128,6 @@ export function isSolved(board: Board): boolean {
        num.push(board.get(i,j));
     }
   }
-  
   let squareRowStart = 0;
   let squareColumnStart = 0;
   for(let i=0; i<9; ++i){
@@ -132,11 +135,9 @@ export function isSolved(board: Board): boolean {
       case 0: squareRowStart = 0; squareColumnStart = 0; break;
       case 1: squareRowStart = 0; squareColumnStart = 3; break;
       case 2: squareRowStart = 0; squareColumnStart = 6; break;
-
       case 3: squareRowStart = 3; squareColumnStart = 0; break;
       case 4: squareRowStart = 3; squareColumnStart = 3; break;
       case 5: squareRowStart = 3; squareColumnStart = 6; break;
-
       case 6: squareRowStart = 6; squareColumnStart = 0; break;
       case 7: squareRowStart = 6; squareColumnStart = 3; break;
       case 8: squareRowStart = 6; squareColumnStart = 6; break;
@@ -149,7 +150,7 @@ export function isSolved(board: Board): boolean {
         }
         num.push(board.get(i,j));
         }
-      }
+    }
   }
   return true; 
 }
@@ -161,24 +162,76 @@ export function isSolved(board: Board): boolean {
  *         distinct object from the board argument.
  */
 export function solve(board: Board): Board {
-  return null;
+  if(solveHelper(board,0,0)){
+    return board;
+  }else{
+    return null;
+  }
 }
 
-/** Checks if the value at a specified row and column has conflicts. */
-export function isValidIfSet(board: Board, row: number, column: number, value: number): boolean {
+function solveHelper(board:Board, row:number, col: number): boolean{
+  if(row===Board.ROWS){
+    return true;
+  }
+  let theFutureIsGood = false;
+  let values = [1,2,3,4,5,6,7,8,9];
+  if(board.get(row,col)!==0){
+    if(col+1===Board.COLUMNS){
+        return solveHelper(board,row+1, 0);
+      } else{
+        return solveHelper(board,row, col+1);
+      }
+  } else {
+    let evilTwin = board.clone();
+    let val = values[Math.floor(Math.random()*values.length)];
+    while(values.length !== 0) {
+      if(isValidIfSet(board, row, col, val)) {
+        board.set(row, col, val);
+        if(col+1===Board.COLUMNS){
+          theFutureIsGood = solveHelper(board,row+1, 0);
+        } else{
+          theFutureIsGood = solveHelper(board,row, col+1);
+        }
+      }
+      let pos = values.indexOf(val);
+      values.splice(pos,1);
+      if(theFutureIsGood) {
+        for(let i=0; i<values.length; ++i){
+          let evilTwinCanidate = values[i];
+          if(isValidIfSet(evilTwin, row, col, values[i])){
+            evilTwin.set(row, col, evilTwinCanidate);
+            if(fillCell(evilTwin, row, col)){
+              return false;
+            }
+          }
+          evilTwin.set(row, col, 0);
+        }
+        return true;
+      } else {
+        board.set(row, col, 0);
+        val = values[Math.floor(Math.random() * values.length)];
+      }
+    }
+  }
+  return false;
+}
+
+/** Checks if the value was set a certain cell the board remains valid */
+function isValidIfSet(board: Board, 
+    row: number, column: number, value: number): boolean {
   if(row < 0 || row >= Board.ROWS || column < 0 || column >= Board.COLUMNS) {
     throw new RangeError('Board coordinates out of bounds.');
   }     
   if(value < 0 || value > 9) {
     throw new RangeError('Value is out of bounds.');
   }
-  for(let i=0; i<Board.ROWS; ++i){
-    if(value === board.get(i, column)&&i!==row) {
+  for(let i = 0; i<Board.ROWS; ++i){
+    if(value === board.get(i, column) && i !== row) {
       return false;
     }
   }
-  for(let i=0; i<Board.COLUMNS; ++i){
-    if(value === board.get(row, i)&& i!==column) {
+  for(let i = 0; i < Board.COLUMNS; ++i) {
+    if(value === board.get(row, i) && i !== column) {
       return false;
     }
   }
@@ -194,9 +247,9 @@ export function isValidIfSet(board: Board, row: number, column: number, value: n
     case 3: case 4: case 5: squareColumnStart = 3; break;
     case 6: case 7: case 8: squareColumnStart = 6; break;
   }
-  for(let i = squareRowStart; i<squareRowStart+3; ++i){
-    for(let j=squareColumnStart; j<squareColumnStart+3; ++j){
-      if(value === board.get(i, j) && i!==row && j!==column) {
+  for(let i = squareRowStart; i < squareRowStart + 3; ++i){
+    for(let j = squareColumnStart; j < squareColumnStart + 3; ++j){
+      if(value === board.get(i, j) && i !== row && j !== column) {
         return false;
       }
     }
