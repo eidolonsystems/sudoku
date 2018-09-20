@@ -63,7 +63,7 @@ export class BoardTester {
   @Test()
   public testSolve(): void {
     const b = new sudoku.Board();
-    b.set(0,0,8); //first row
+    b.set(0,0,8);
     b.set(0,1,2);
     b.set(0,2,7);
     b.set(0,3,1);
@@ -93,7 +93,7 @@ export class BoardTester {
     b.set(2,7,5)
     b.set(2,8,2);
 
-    b.set(3,0,5);//4th row
+    b.set(3,0,5);
     b.set(3,1,9);
     b.set(3,2,3);
     b.set(3,3,4);
