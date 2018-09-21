@@ -8,9 +8,9 @@ export class Board {
   /** Constructs a blank board. */
   constructor() {
     this.values = [];
-    for (let i = 0; i < Board.ROWS; ++i) {
+    for(let i = 0; i < Board.ROWS; ++i) {
       this.values[i] = [];
-      for (let j = 0; j < Board.COLUMNS; ++j) {
+      for(let j = 0; j < Board.COLUMNS; ++j) {
         this.values[i].push(0);
       }
     }
@@ -24,7 +24,7 @@ export class Board {
    * @throws RangeError - The row or column is out of range of the board.
    */
   public get(row: number, column: number): number {
-    if (row < 0 || row >= Board.ROWS || column < 0 || column >= Board.COLUMNS) {
+    if(row < 0 || row >= Board.ROWS || column < 0 || column >= Board.COLUMNS) {
       throw new RangeError('Board coordinates out of bounds.');
     }
     return this.values[row][column];
@@ -38,10 +38,10 @@ export class Board {
    *         value is not in the range [0-9].
    */
   public set(row: number, column: number, value: number): void {
-    if (row < 0 || row >= Board.ROWS || column < 0 || column >= Board.COLUMNS) {
+    if(row < 0 || row >= Board.ROWS || column < 0 || column >= Board.COLUMNS) {
       throw new RangeError('Board coordinates out of bounds.');
     }
-    if (value < 0 || value > 9) {
+    if(value < 0 || value > 9) {
       throw new RangeError('Value is out of bounds.');
     }
     this.values[row][column] = value;
@@ -50,8 +50,8 @@ export class Board {
   /** Returns a copy of this board. */
   public clone(): Board {
     const copy = new Board();
-    for (let i = 0; i < Board.ROWS; ++i) {
-      for (let j = 0; j < Board.COLUMNS; ++j) {
+    for(let i = 0; i < Board.ROWS; ++i) {
+      for(let j = 0; j < Board.COLUMNS; ++j) {
         copy.set(i, j, this.get(i, j));
       }
     }
@@ -68,14 +68,14 @@ export function generateBoard(): Board {
 }
 
 function fillCell(board: Board, row: number, column: number): boolean {
-  if (row === Board.ROWS) {
+  if(row === Board.ROWS) {
     return true;
   }
   let solutionExists = false;
   const values = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   let candidate = 0;
-  if (board.get(row, column) !== 0) {
-    if ((column + 1) === Board.COLUMNS) {
+  if(board.get(row, column) !== 0) {
+    if((column + 1) === Board.COLUMNS) {
       return fillCell(board, row + 1, 0);
     } else {
       return fillCell(board, row, column + 1);
@@ -83,16 +83,16 @@ function fillCell(board: Board, row: number, column: number): boolean {
   } else {
     candidate = values[Math.floor(Math.random() * values.length)];
   }
-  while (values.length !== 0) {
-    if (isValidIfSet(board, row, column, candidate)) {
+  while(values.length !== 0) {
+    if(isValidIfSet(board, row, column, candidate)) {
       board.set(row, column, candidate);
-      if ((column + 1) === Board.COLUMNS) {
+      if((column + 1) === Board.COLUMNS) {
         solutionExists = fillCell(board, row + 1, 0);
       } else {
         solutionExists = fillCell(board, row, column + 1);
       }
     }
-    if (solutionExists) {
+    if(solutionExists) {
       return true;
     } else {
       const pos = values.indexOf(candidate);
@@ -110,32 +110,31 @@ function fillCell(board: Board, row: number, column: number): boolean {
  */
 export function isSolved(board: Board): boolean {
   let num = [0];
-  for (let i = 0; i < Board.ROWS; ++i) {
+  for(let i = 0; i < Board.ROWS; ++i) {
     num = [0];
-    for (let j = 0; j < Board.COLUMNS; ++j) {
-      if (num.includes(board.get(i, j))) {
+    for(let j = 0; j < Board.COLUMNS; ++j) {
+      if(num.includes(board.get(i, j))) {
         return false;
       }
       num.push(board.get(i, j));
     }
   }
-  for (let j = 0; j < Board.COLUMNS; ++j) {
+  for(let j = 0; j < Board.COLUMNS; ++j) {
     num = [0];
-    for (let i = 0; i < Board.ROWS; ++i) {
-      if (num.includes(board.get(i, j))) {
+    for(let i = 0; i < Board.ROWS; ++i) {
+      if(num.includes(board.get(i, j))) {
         return false;
       }
       num.push(board.get(i, j));
     }
   }
-
-  for (let g = 0; g < 9; ++g) {
+  for(let g = 0; g < 9; ++g) {
     const squareRowStart = (g % 3) * 3;
     const squareColumnStart = Math.floor(g / 3) * 3;
     num = [0];
-    for (let i = squareRowStart; i < squareRowStart + 3; ++i) {
-      for (let j = squareColumnStart; j < squareColumnStart + 3; ++j) {
-        if (num.includes(board.get(i, j))) {
+    for(let i = squareRowStart; i < squareRowStart + 3; ++i) {
+      for(let j = squareColumnStart; j < squareColumnStart + 3; ++j) {
+        if(num.includes(board.get(i, j))) {
           return false;
         }
         num.push(board.get(i, j));
@@ -152,7 +151,7 @@ export function isSolved(board: Board): boolean {
  *         distinct object from the board argument.
  */
 export function solve(board: Board): Board {
-  if (solveHelper(board, 0, 0)) {
+  if(solveHelper(board, 0, 0)) {
     return board;
   } else {
     return null;
@@ -160,13 +159,13 @@ export function solve(board: Board): Board {
 }
 
 function solveHelper(board: Board, row: number, col: number): boolean {
-  if (row === Board.ROWS) {
+  if(row === Board.ROWS) {
     return true;
   }
   let solutionExists = false;
   const values = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  if (board.get(row, col) !== 0) {
-    if (col + 1 === Board.COLUMNS) {
+  if(board.get(row, col) !== 0) {
+    if(col + 1 === Board.COLUMNS) {
       return solveHelper(board, row + 1, 0);
     } else {
       return solveHelper(board, row, col + 1);
@@ -174,10 +173,10 @@ function solveHelper(board: Board, row: number, col: number): boolean {
   } else {
     const alternativeBoard = board.clone();
     let val = values[Math.floor(Math.random() * values.length)];
-    while (values.length !== 0) {
-      if (isValidIfSet(board, row, col, val)) {
+    while(values.length !== 0) {
+      if(isValidIfSet(board, row, col, val)) {
         board.set(row, col, val);
-        if (col + 1 === Board.COLUMNS) {
+        if(col + 1 === Board.COLUMNS) {
           solutionExists = solveHelper(board, row + 1, 0);
         } else {
           solutionExists = solveHelper(board, row, col + 1);
@@ -185,12 +184,12 @@ function solveHelper(board: Board, row: number, col: number): boolean {
       }
       const pos = values.indexOf(val);
       values.splice(pos, 1);
-      if (solutionExists) {
-        for (let i = 0; i < values.length; ++i) {
+      if(solutionExists) {
+        for(let i = 0; i < values.length; ++i) {
           const altCanidate = values[i];
-          if (isValidIfSet(alternativeBoard, row, col, values[i])) {
+          if(isValidIfSet(alternativeBoard, row, col, values[i])) {
             alternativeBoard.set(row, col, altCanidate);
-            if (fillCell(alternativeBoard, row, col)) {
+            if(fillCell(alternativeBoard, row, col)) {
               return false;
             }
           }
@@ -208,28 +207,28 @@ function solveHelper(board: Board, row: number, col: number): boolean {
 
 /** Checks if the value was set a certain cell the board remains valid */
 function isValidIfSet(board: Board,
-    row: number, column: number, value: number): boolean {
-  if (row < 0 || row >= Board.ROWS || column < 0 || column >= Board.COLUMNS) {
+  row: number, column: number, value: number): boolean {
+  if(row < 0 || row >= Board.ROWS || column < 0 || column >= Board.COLUMNS) {
     throw new RangeError('Board coordinates out of bounds.');
   }
-  if (value < 0 || value > 9) {
+  if(value < 0 || value > 9) {
     throw new RangeError('Value is out of bounds.');
   }
-  for (let i = 0; i < Board.ROWS; ++i) {
-    if (value === board.get(i, column) && i !== row) {
+  for(let i = 0; i < Board.ROWS; ++i) {
+    if(value === board.get(i, column) && i !== row) {
       return false;
     }
   }
-  for (let i = 0; i < Board.COLUMNS; ++i) {
-    if (value === board.get(row, i) && i !== column) {
+  for(let i = 0; i < Board.COLUMNS; ++i) {
+    if(value === board.get(row, i) && i !== column) {
       return false;
     }
   }
   const squareRowStart = Math.floor(row / 3) * 3;
   const squareColumnStart = Math.floor(column / 3) * 3;
-  for (let i = squareRowStart; i < squareRowStart + 3; ++i) {
-    for (let j = squareColumnStart; j < squareColumnStart + 3; ++j) {
-      if (value === board.get(i, j) && i !== row && j !== column) {
+  for(let i = squareRowStart; i < squareRowStart + 3; ++i) {
+    for(let j = squareColumnStart; j < squareColumnStart + 3; ++j) {
+      if(value === board.get(i, j) && i !== row && j !== column) {
         return false;
       }
     }
