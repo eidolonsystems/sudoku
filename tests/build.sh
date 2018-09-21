@@ -5,6 +5,9 @@ arguments="$@"
 pushd game_tester
 ./build.sh $arguments
 popd
+pushd game_page_tester
+./build.sh $arguments
+popd
 pushd landing_page_tester
 ./build.sh $arguments
 popd
