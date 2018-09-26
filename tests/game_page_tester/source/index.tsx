@@ -12,6 +12,6 @@ enum DisplayMode {
 }
 
 const board = sudoku.generateBoard();
-ReactDOM.render(<sudoku.BoardView board={sudoku.generateBoard()}
+ReactDOM.render(<sudoku.BoardView board={sudoku.generateIncompleteBoard(50)}
                 hasEffects={true} />,
                 document.getElementById('main'));

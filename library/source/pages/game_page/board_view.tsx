@@ -18,15 +18,19 @@ interface Properties {
 
 interface State {
   currentCell: [number, number];
+  isCurrentCellHovered: boolean;
 }
 
 export class BoardView extends React.Component<Properties, State> {
   constructor(props: Properties) {
     super(props);
     this.state = {
-      currentCell: undefined
+      currentCell: undefined,
+      isCurrentCellHovered: false
     };
     this.onCellClicked = this.onCellClicked.bind(this);
+    this.onCellHovered = this.onCellHovered.bind(this);
+    this.onCellNotHovered = this.onCellNotHovered.bind(this);
   }
 
   public render(): JSX.Element {
@@ -35,10 +39,31 @@ export class BoardView extends React.Component<Properties, State> {
       for(let i = 0; i < Board.ROWS; ++i) {
         const cellRow = [];
         for(let j = 0; j < Board.COLUMNS; ++j) {
-          cellRow.push((<Cell cellState={Cell.State.NONE}
+          let stateOfCurrentCell = Cell.State.NONE;
+          if(this.state.currentCell) {
+            if(i === this.state.currentCell[0]
+              && j === this.state.currentCell[1]) {
+              stateOfCurrentCell = Cell.State.SELECTED;
+            } else if(this.props.board.get(this.state.currentCell[0],
+              this.state.currentCell[1]) > 0) {
+              if(this.props.board.get(this.state.currentCell[0],
+                this.state.currentCell[1]) === this.props.board.get(i, j)
+                && this.state.isCurrentCellHovered) {
+                stateOfCurrentCell = Cell.State.TWIN;
+              }
+            } else {
+              if(i === this.state.currentCell[0]
+                || j === this.state.currentCell[1]) {
+                stateOfCurrentCell = Cell.State.HILIGHTED;
+              }
+            }
+          }
+          cellRow.push((<Cell key={i + ' ' + j}
+            cellState={stateOfCurrentCell}
             value={this.props.board.get(i, j)}
             onClick={this.onCellClicked(i, j)}
-            onHover={this.onCellHovered()}
+            onMouseEnter={this.onCellHovered()}
+            onMouseExit={this.onCellNotHovered()}
           />));
         }
         rows.push(<div> {cellRow} </div>);
@@ -50,14 +75,21 @@ export class BoardView extends React.Component<Properties, State> {
     );
 
   }
+
   protected onCellClicked(row: number, column: number): () => void {
-    let tuple: [number, number];
-    tuple = [row, column];
-    return (() => this.setState({ currentCell: tuple }));
+    return (() => {
+      let tuple: [number, number];
+      tuple = [row, column];
+      this.setState({ currentCell: tuple });
+    });
   }
 
-  protected onCellHovered(): () => void{
-    return (() => console.log('hmklmkfjkljdfgklgj)'));
+  protected onCellHovered(): () => void {
+    return (() => this.setState({ isCurrentCellHovered: true }));
+  }
+
+  protected onCellNotHovered(): () => void {
+    return (() => this.setState({ isCurrentCellHovered: false }));
   }
 
 }

@@ -17,10 +17,11 @@ enum CellState { // This is proablt fine here
 }
 
 interface Properties {
-  cellState?: CellState;
-  value?: number;
+  cellState: CellState;
+  value: number;
   onClick(): void;
-  onHover(): void;
+  onMouseEnter(): void;
+  onMouseExit(): void;
 }
 
 export class Cell extends React.Component<Properties, {}> {
@@ -28,18 +29,20 @@ export class Cell extends React.Component<Properties, {}> {
   constructor(props: Properties) {
     super(props);
     this.onSelected = this.onSelected.bind(this);
+    this.onMouseOver = this.onMouseOver.bind(this);
+    this.onMouseExit = this.onMouseExit.bind(this);
   }
 
   public render(): JSX.Element {
     const BorderStyle = (() => {
       switch(this.props.cellState) {
         case CellState.SELECTED:
-          Cell.CELL_STYLE.selected;
+          return Cell.CELL_STYLE.selected;
         case CellState.HILIGHTED:
           if(this.props.value>0) {
-            Cell.CELL_STYLE.highlightedFilled;
+            return Cell.CELL_STYLE.highlightedFilled;
           } else {
-            Cell.CELL_STYLE.hilighted;
+            return Cell.CELL_STYLE.hilighted;
           }
         case CellState.TWIN:
           return Cell.CELL_STYLE.twin;
@@ -47,29 +50,37 @@ export class Cell extends React.Component<Properties, {}> {
           return undefined;
       }
     })();
+    const DisplayValue = (() => {
+      if(this.props.value===0) {
+        return '';
+      } else {
+        return this.props.value;
+      }
+    })();
     return (
       <button onClick={this.onSelected}
-        onMouseOver={this.onHovered}
-        className = {css(Cell.CELL_STYLE.default, BorderStyle)}>
-        {this.props.value}
+        onMouseOver={this.onMouseOver}
+        onMouseLeave={this.onMouseExit}
+        className = {css(Cell.CELL_STYLE.default, BorderStyle)}
+        style={Cell.TEXT_STYLE_SMALL}>
+        {DisplayValue}
       </button >
     );
-  }
-
-  public shouldComponentUpdate(nextProps: any, nextState: any): boolean {
-    if(this.props.cellState !== nextProps.cellState) {
-      return true;
-    }
-    return false;
   }
 
   private onSelected(): void {
     this.props.onClick();
   }
 
-  private onHovered(): void {
-    if(this.props.cellState) {
-      this.props.onHover();
+  private onMouseOver(): void {
+    if(this.props.cellState === Cell.State.SELECTED) {
+      this.props.onMouseEnter();
+    }
+  }
+
+  private onMouseExit(): void {
+    if(this.props.cellState === Cell.State.SELECTED) {
+      this.props.onMouseExit();
     }
   }
 
@@ -93,7 +104,13 @@ export class Cell extends React.Component<Properties, {}> {
       color: '#000000',
       fontFamily: 'Roboto',
       textAlign: 'center' as 'center',
-      verticalAlign: 'middle'
+      verticalAlign: 'middle',
+      ':focus': {
+        outline: '0'
+      },
+      '::-moz-focus-inner': {
+        border: '0'
+      }
     },
     highlightedFilled: {
       backgroundColor: '#F8F8F8',
