@@ -1,5 +1,15 @@
 import { css, StyleSheet } from 'aphrodite/no-important';
 import * as React from 'react';
+import { BoardView } from '../../';
+
+enum DisplayMode { // where should it's home be????
+
+  /** Page is between 0 and 445 pixels (inclusive). */
+  SMALL,
+
+  /** Page is equal or greater than 446 pixels. */
+  LARGE
+}
 
 enum CellState { // This is proablt fine here
 
@@ -17,6 +27,7 @@ enum CellState { // This is proablt fine here
 }
 
 interface Properties {
+  displaySize: DisplayMode.SMALL;
   cellState: CellState;
   value: number;
   onClick(): void;
@@ -85,14 +96,19 @@ export class Cell extends React.Component<Properties, {}> {
   }
 
   private static readonly TEXT_STYLE_SMALL = {
+    boxLayout: 'border-box' as 'border-box',
     fontSize: '16px',
     height: '26px',
-    width: '26px'
+    width: '26px',
+    innerHeight: '26px',
+    innerWidth: '26px'
   };
   private static readonly TEXT_STYLE_LARGE = {
     fontSize: '24px',
     height: '40px',
-    width: '40px'
+    width: '40px',
+    innerHeight: '40px',
+    innerWidth: '40px'
   };
   private static readonly CELL_STYLE = StyleSheet.create({
     default: {
@@ -105,6 +121,7 @@ export class Cell extends React.Component<Properties, {}> {
       fontFamily: 'Roboto',
       textAlign: 'center' as 'center',
       verticalAlign: 'middle',
+      // tslint:disable-next-line:object-literal-sort-keys
       ':focus': {
         outline: '0'
       },
@@ -132,4 +149,5 @@ export class Cell extends React.Component<Properties, {}> {
 
 export module Cell {
   export const State = CellState;
+  export const DisplaySize= DisplayMode;
 }
