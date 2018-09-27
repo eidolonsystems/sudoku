@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { HBoxLayout, Padding, VBoxLayout } from '../../layouts';
 import { Board } from '../../';
 import { Cell } from '../../';
 
@@ -79,28 +80,31 @@ export class BoardView extends React.Component<Properties, State> {
 
   public render(): JSX.Element {
     const cells = (() => {
+
       const blocks = [];
       for(let g = 0; g < 9; ++g) {
         const cellBlock = [];
         const squareRowStart = Math.floor(g / 3) * 3;
         const squareColumnStart = (g % 3) * 3;
+
         for(let i = squareRowStart; i < squareRowStart + 3; ++i) {
           for(let j = squareColumnStart; j < squareColumnStart + 3; ++j) {
             let stateOfCurrentCell = Cell.State.NONE;
             if(this.state.currentCell) {
-              if(i === this.state.currentCell[0]
-                && j === this.state.currentCell[1]) {
+              const currentCellRow = this.state.currentCell[0];
+              const currentCellCol = this.state.currentCell[1];
+              if(i === currentCellRow && j === currentCellCol) {
                 stateOfCurrentCell = Cell.State.SELECTED;
-              } else if(this.props.board.get(this.state.currentCell[0],
-                this.state.currentCell[1]) > 0) {
-                if(this.props.board.get(this.state.currentCell[0],
-                  this.state.currentCell[1]) === this.props.board.get(i, j)
+              } else if(this.props.board.get(currentCellRow,
+                currentCellCol) > 0) {
+                if(this.props.board.get(currentCellRow,
+                  currentCellCol) === this.props.board.get(i, j)
                   && this.state.isCurrentCellHovered) {
                   stateOfCurrentCell = Cell.State.TWIN;
                 }
               } else {
-                if(i === this.state.currentCell[0]
-                  || j === this.state.currentCell[1]) {
+                if(i === currentCellRow
+                  || j === currentCellCol) {
                   stateOfCurrentCell = Cell.State.HILIGHTED;
                 }
               }
@@ -120,7 +124,8 @@ export class BoardView extends React.Component<Properties, State> {
         let bottomPad = {};
         let rightPad = {};
         let leftPad = {};
-        let totalPadding = {}; // hmmmm
+        // Would like to use this instead of my current mess
+        let totalPadding = {};
         if(squareRowStart <= 3) {
           topPad = BoardView.CELL_BLOCK_STYLE.top;
         }
@@ -134,8 +139,10 @@ export class BoardView extends React.Component<Properties, State> {
           rightPad = BoardView.CELL_BLOCK_STYLE.right;
         }
         blocks.push(
-          (<div style={{...BoardView.CELL_BLOCK_STYLE.basic,
-                        ...topPad, ...leftPad, ...rightPad, ...bottomPad}}>
+          (<div style={{
+            ...BoardView.CELL_BLOCK_STYLE.basic,
+            ...topPad, ...leftPad, ...rightPad, ...bottomPad
+          }}>
             {cellBlock}
           </div>
           )
@@ -167,22 +174,22 @@ export class BoardView extends React.Component<Properties, State> {
 
   private static readonly CELL_BLOCK_STYLE = {
     basic: {
+      alignItems: 'center' as 'center',
       backgroundColor: 'white',
       display: 'grid' as 'grid',
+      gap: '5px',
       gridTemplateColumns: '26px 26px 26px',
       gridTemplateRows: '26px 26px 26px',
-      // tslint:disable-next-line:object-literal-sort-keys
-      alignItems: 'center' as 'center',
-      justifyItems: 'center' as 'center',
-      gap: '5px'
+      justifyItems: 'center' as 'center'
     },
     top: {
-      paddingTop: '0px',
-      paddingBottom: '5px'
+      paddingBottom: '5px',
+      paddingTop: '0px'
     },
+    // tslint:disable-next-line:object-literal-sort-keys
     bottom: {
-      paddingTop: '5px',
-      paddingBottom: '0px'
+      paddingBottom: '0px',
+      paddingTop: '5px'
     },
     left: {
       paddingLeft: '0px',
