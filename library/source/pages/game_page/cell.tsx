@@ -1,6 +1,5 @@
 import { css, StyleSheet } from 'aphrodite/no-important';
 import * as React from 'react';
-import { BoardView } from '../../';
 
 enum DisplayMode { // where should it's home be????
 
@@ -27,7 +26,7 @@ enum CellState { // This is proablt fine here
 }
 
 interface Properties {
-  displaySize: DisplayMode.SMALL;
+  displaySize?: DisplayMode;
   cellState: CellState;
   value: number;
   onClick(): void;
@@ -45,6 +44,13 @@ export class Cell extends React.Component<Properties, {}> {
   }
 
   public render(): JSX.Element {
+    const cellTextStyle =  (() => {
+      if(this.props.displaySize === DisplayMode.LARGE) {
+         return Cell.TEXT_STYLE_LARGE;
+      } else {
+        return Cell.TEXT_STYLE_SMALL;
+      }
+    })();
     const BorderStyle = (() => {
       switch(this.props.cellState) {
         case CellState.SELECTED:
@@ -73,7 +79,7 @@ export class Cell extends React.Component<Properties, {}> {
         onMouseOver={this.onMouseOver}
         onMouseLeave={this.onMouseExit}
         className = {css(Cell.CELL_STYLE.default, BorderStyle)}
-        style={Cell.TEXT_STYLE_SMALL}>
+        style={cellTextStyle}>
         {DisplayValue}
       </button >
     );
@@ -120,7 +126,7 @@ export class Cell extends React.Component<Properties, {}> {
       color: '#000000',
       fontFamily: 'Roboto',
       textAlign: 'center' as 'center',
-      verticalAlign: 'middle',
+      verticalAlign: 'middle' as 'middle',
       // tslint:disable-next-line:object-literal-sort-keys
       ':focus': {
         outline: '0'

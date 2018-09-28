@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { HBoxLayout, Padding, VBoxLayout } from '../../layouts';
 import { Board } from '../../';
 import { Cell } from '../../';
 
@@ -15,6 +14,7 @@ enum DisplayMode { // where should it's home be????
 interface Properties {
   board: Board;
   hasEffects: boolean;
+  displayMode: DisplayMode;
 }
 
 interface State {
@@ -34,59 +34,29 @@ export class BoardView extends React.Component<Properties, State> {
     this.onCellNotHovered = this.onCellNotHovered.bind(this);
   }
 
-  public render1(): JSX.Element {
-    const cells = (() => {
-      const rows = [];
-      for(let i = 0; i < Board.ROWS; ++i) {
-        const cellRow = [];
-        for(let j = 0; j < Board.COLUMNS; ++j) {
-          let stateOfCurrentCell = Cell.State.NONE;
-          if(this.state.currentCell) {
-            if(i === this.state.currentCell[0]
-              && j === this.state.currentCell[1]) {
-              stateOfCurrentCell = Cell.State.SELECTED;
-            } else if(this.props.board.get(this.state.currentCell[0],
-              this.state.currentCell[1]) > 0) {
-              if(this.props.board.get(this.state.currentCell[0],
-                this.state.currentCell[1]) === this.props.board.get(i, j)
-                && this.state.isCurrentCellHovered) {
-                stateOfCurrentCell = Cell.State.TWIN;
-              }
-            } else {
-              if(i === this.state.currentCell[0]
-                || j === this.state.currentCell[1]) {
-                stateOfCurrentCell = Cell.State.HILIGHTED;
-              }
-            }
-          }
-          cellRow.push((<Cell
-            key={i + ' ' + j}
-            displaySize={Cell.DisplaySize.SMALL}
-            cellState={stateOfCurrentCell}
-            value={this.props.board.get(i, j)}
-            onClick={this.onCellClicked(i, j)}
-            onMouseEnter={this.onCellHovered()}
-            onMouseExit={this.onCellNotHovered()}
-          />));
-        }
-        rows.push(<div> {cellRow} </div>);
-      }
-      return rows;
-    })();
-    return (
-      <div>{cells}</div>
-    );
-  }
+
 
   public render(): JSX.Element {
+    const displayPadding = (() => {
+      if(this.props.displayMode === DisplayMode.LARGE) {
+        return BoardView.BOARD_CONTAINER_STYLE.large;
+      } else {
+        return BoardView.BOARD_CONTAINER_STYLE.small;
+      }
+    })();
+    const blockPadding = (() => {
+      if(this.props.displayMode === DisplayMode.LARGE) {
+        return BoardView.CELL_BLOCK_STYLE.large;
+      } else {
+        return BoardView.CELL_BLOCK_STYLE.small;
+      }
+    })();
     const cells = (() => {
-
       const blocks = [];
       for(let g = 0; g < 9; ++g) {
         const cellBlock = [];
         const squareRowStart = Math.floor(g / 3) * 3;
         const squareColumnStart = (g % 3) * 3;
-
         for(let i = squareRowStart; i < squareRowStart + 3; ++i) {
           for(let j = squareColumnStart; j < squareColumnStart + 3; ++j) {
             let stateOfCurrentCell = Cell.State.NONE;
@@ -111,7 +81,7 @@ export class BoardView extends React.Component<Properties, State> {
             }
             cellBlock.push((<Cell
               key={i + ' ' + j}
-              displaySize={Cell.DisplaySize.SMALL}
+              displaySize={this.props.displayMode}
               cellState={stateOfCurrentCell}
               value={this.props.board.get(i, j)}
               onClick={this.onCellClicked(i, j)}
@@ -124,8 +94,6 @@ export class BoardView extends React.Component<Properties, State> {
         let bottomPad = {};
         let rightPad = {};
         let leftPad = {};
-        // Would like to use this instead of my current mess
-        let totalPadding = {};
         if(squareRowStart <= 3) {
           topPad = BoardView.CELL_BLOCK_STYLE.top;
         }
@@ -140,7 +108,7 @@ export class BoardView extends React.Component<Properties, State> {
         }
         blocks.push(
           (<div style={{
-            ...BoardView.CELL_BLOCK_STYLE.basic,
+            ...blockPadding,
             ...topPad, ...leftPad, ...rightPad, ...bottomPad
           }}>
             {cellBlock}
@@ -151,7 +119,7 @@ export class BoardView extends React.Component<Properties, State> {
       return blocks;
     })();
     return (
-      <div style={BoardView.BOARD_CONTAINER_STYLE}>{cells}</div>
+      <div style={displayPadding}>{cells}</div>
     );
   }
 
@@ -173,15 +141,6 @@ export class BoardView extends React.Component<Properties, State> {
   }
 
   private static readonly CELL_BLOCK_STYLE = {
-    basic: {
-      alignItems: 'center' as 'center',
-      backgroundColor: 'white',
-      display: 'grid' as 'grid',
-      gap: '5px',
-      gridTemplateColumns: '26px 26px 26px',
-      gridTemplateRows: '26px 26px 26px',
-      justifyItems: 'center' as 'center'
-    },
     top: {
       paddingBottom: '5px',
       paddingTop: '0px'
@@ -198,17 +157,46 @@ export class BoardView extends React.Component<Properties, State> {
     right: {
       paddingLeft: '5px',
       paddingRight: '0px'
+    },
+    large: {
+      alignItems: 'center' as 'center',
+      backgroundColor: 'white',
+      display: 'grid' as 'grid',
+      gap: '5px',
+      gridTemplateColumns: '40px 40px 40px',
+      gridTemplateRows: '40px 40px 40px',
+      justifyItems: 'center' as 'center'
+
+    },
+    small: {
+      alignItems: 'center' as 'center',
+      backgroundColor: 'white',
+      display: 'grid' as 'grid',
+      gap: '5px',
+      gridTemplateColumns: '26px 26px 26px',
+      gridTemplateRows: '26px 26px 26px',
+      justifyItems: 'center' as 'center'
+
     }
   };
   private static readonly BOARD_CONTAINER_STYLE = {
-    backgroundColor: '#C8C8C8',
-    display: 'grid' as 'grid',
-    gap: '1px',
-    gridTemplateColumns: '93px 98px 93px',
-    gridTemplateRows: '93px 98px 93px',
-    width: '286px'
-  };
-}
+    large: {
+      backgroundColor: '#C8C8C8',
+      display: 'grid' as 'grid',
+      gap: '1px',
+      gridTemplateColumns: '135px 140px 135px',
+      gridTemplateRows: '135px 140px 135px'
+    },
+    small: {
+        backgroundColor: '#C8C8C8',
+        display: 'grid' as 'grid',
+        gap: '1px',
+        gridTemplateColumns: '93px 98px 93px',
+        gridTemplateRows: '93px 98px 93px',
+        width: '286px'
+      }
+    };
+  }
 
 export module BoardView {
   export const DisplaySize = DisplayMode;
