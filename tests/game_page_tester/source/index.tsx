@@ -6,11 +6,11 @@ import { BoardView } from '../../../library/source/pages/game_page/board_view';
 const board = sudoku.generateBoard();
 ReactDOM.render( <div>
 
-<sudoku.BoardView board={sudoku.generateIncompleteBoard(50)}
+<sudoku.BoardView board={sudoku.generateIncompleteBoard(70)}
                 hasEffects={true}
                 displayMode={BoardView.DisplaySize.SMALL}
                 />
-<sudoku.BoardView board={sudoku.generateIncompleteBoard(50)}
+<sudoku.BoardView board={sudoku.generateIncompleteBoard(80)}
                 hasEffects={true}
                 displayMode={BoardView.DisplaySize.LARGE}
                 />

@@ -1,3 +1,4 @@
+
 /** Represents a standard 9x9 Sudoku board. Each position on the board is
  *  a number from [0-9] where 0 indicates a blank space.
  */
@@ -64,36 +65,6 @@ export class Board {
 export function generateBoard(): Board {
   const board = new Board();
   fillCell(board, 0, 0);
-  return board;
-}
-
-export function generateIncompleteBoard(clues: number): Board {
-  let board = new Board();
-  fillCell(board, 0, 0);
-  const emptyCells = (9 * 9) - clues;
-  for(let i = 0; i < emptyCells; ++i) {
-    let row = Math.floor(Math.random() * Board.ROWS);
-    let col = Math.floor(Math.random() * Board.COLUMNS);
-    // tslint:disable-next-line:prefer-const
-    let cellNotPicked = true;
-
-    while(cellNotPicked) {
-      const emptierBoard = board.clone();
-      if(emptierBoard.get(row, col) === 0) {
-        row = Math.floor(Math.random() * Board.ROWS);
-        col = Math.floor(Math.random() * Board.COLUMNS);
-      } else {
-        emptierBoard.set(row, col, 0);
-        if(solve(board)) {
-          board = emptierBoard;
-          cellNotPicked = false;
-        } else {
-          row = Math.floor(Math.random() * Board.ROWS);
-          col = Math.floor(Math.random() * Board.COLUMNS);
-        }
-      }
-    }
-  }
   return board;
 }
 
