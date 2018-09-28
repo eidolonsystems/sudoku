@@ -185,7 +185,8 @@ export class BoardView extends React.Component<Properties, State> {
       display: 'grid' as 'grid',
       gap: '1px',
       gridTemplateColumns: '135px 140px 135px',
-      gridTemplateRows: '135px 140px 135px'
+      gridTemplateRows: '135px 140px 135px',
+      width: '412px'
     },
     small: {
         backgroundColor: '#C8C8C8',
