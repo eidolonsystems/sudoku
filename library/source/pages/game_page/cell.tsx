@@ -8,7 +8,7 @@ enum DisplayMode { // where should it's home be????
 
   /** Page is equal or greater than 446 pixels. */
   LARGE
-}
+};
 
 enum CellState { // This is proablt fine here
 
@@ -23,7 +23,7 @@ enum CellState { // This is proablt fine here
 
   /** The cell has the same value of the currently selected cell. */
   TWIN
-}
+};
 
 interface Properties {
   displaySize?: DisplayMode;
@@ -127,7 +127,6 @@ export class Cell extends React.Component<Properties, {}> {
       fontFamily: 'Roboto',
       textAlign: 'center' as 'center',
       verticalAlign: 'middle' as 'middle',
-      // tslint:disable-next-line:object-literal-sort-keys
       ':hover': {
         borderColor: '#4B23A0'
       },

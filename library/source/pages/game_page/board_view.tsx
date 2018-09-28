@@ -9,18 +9,18 @@ enum DisplayMode { // where should it's home be????
 
   /** Page is equal or greater than 446 pixels. */
   LARGE
-}
+};
 
 interface Properties {
   board: Board;
   hasEffects: boolean;
   displayMode: DisplayMode;
-}
+};
 
 interface State {
   currentCell: [number, number];
   isCurrentCellHovered: boolean;
-}
+};
 
 export class BoardView extends React.Component<Properties, State> {
   constructor(props: Properties) {
@@ -33,8 +33,6 @@ export class BoardView extends React.Component<Properties, State> {
     this.onCellHovered = this.onCellHovered.bind(this);
     this.onCellNotHovered = this.onCellNotHovered.bind(this);
   }
-
-
 
   public render(): JSX.Element {
     const displayPadding = (() => {
@@ -143,7 +141,6 @@ export class BoardView extends React.Component<Properties, State> {
       paddingBottom: '5px',
       paddingTop: '0px'
     },
-    // tslint:disable-next-line:object-literal-sort-keys
     bottom: {
       paddingBottom: '0px',
       paddingTop: '5px'
