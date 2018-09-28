@@ -128,6 +128,9 @@ export class Cell extends React.Component<Properties, {}> {
       textAlign: 'center' as 'center',
       verticalAlign: 'middle' as 'middle',
       // tslint:disable-next-line:object-literal-sort-keys
+      ':hover': {
+        borderColor: '#4B23A0'
+      },
       ':focus': {
         outline: '0'
       },
@@ -143,9 +146,7 @@ export class Cell extends React.Component<Properties, {}> {
       backgroundColor: '#F8F8F8'
     },
     selected: {
-      ':hover': {
-        borderColor: '#4B23A0'
-      }
+      borderColor: '#4B23A0'
     },
     twin: {
       borderColor: '#00D3DB'

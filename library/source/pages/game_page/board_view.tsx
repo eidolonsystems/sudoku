@@ -69,14 +69,12 @@ export class BoardView extends React.Component<Properties, State> {
                 currentCellCol) > 0) {
                 if(this.props.board.get(currentCellRow,
                   currentCellCol) === this.props.board.get(i, j)
-                  && this.state.isCurrentCellHovered) {
+                  ) {
                   stateOfCurrentCell = Cell.State.TWIN;
                 }
-              } else {
-                if(i === currentCellRow
-                  || j === currentCellCol) {
-                  stateOfCurrentCell = Cell.State.HILIGHTED;
-                }
+              } else if((i === currentCellRow
+                || j === currentCellCol) && this.state.isCurrentCellHovered) {
+                stateOfCurrentCell = Cell.State.HILIGHTED;
               }
             }
             cellBlock.push((<Cell
@@ -189,15 +187,15 @@ export class BoardView extends React.Component<Properties, State> {
       width: '412px'
     },
     small: {
-        backgroundColor: '#C8C8C8',
-        display: 'grid' as 'grid',
-        gap: '1px',
-        gridTemplateColumns: '93px 98px 93px',
-        gridTemplateRows: '93px 98px 93px',
-        width: '286px'
-      }
-    };
-  }
+      backgroundColor: '#C8C8C8',
+      display: 'grid' as 'grid',
+      gap: '1px',
+      gridTemplateColumns: '93px 98px 93px',
+      gridTemplateRows: '93px 98px 93px',
+      width: '286px'
+    }
+  };
+}
 
 export module BoardView {
   export const DisplaySize = DisplayMode;
