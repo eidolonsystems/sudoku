@@ -2,26 +2,35 @@ import * as React from 'react';
 import { Board } from '../../';
 import { Cell } from '../../';
 
-enum DisplayMode { // where should it's home be????
+enum DisplayMode {
 
   /** Page is between 0 and 445 pixels (inclusive). */
   SMALL,
 
   /** Page is equal or greater than 446 pixels. */
   LARGE
-};
+}
 
 interface Properties {
+
+  /** A 2D array that documents the values of all cells on the board. */
   board: Board;
+
+  /** Used to determine if effects on cells that are not the selected cell
+   * should be shown.
+   */
   hasEffects: boolean;
+
+  /**  Specifies what size the board shouuld be displayed at. */
   displayMode: DisplayMode;
-};
+}
 
 interface State {
   currentCell: [number, number];
   isCurrentCellHovered: boolean;
-};
+}
 
+/** Implements a component that displays a sudoku board. */
 export class BoardView extends React.Component<Properties, State> {
   constructor(props: Properties) {
     super(props);
@@ -51,34 +60,33 @@ export class BoardView extends React.Component<Properties, State> {
     })();
     const cells = (() => {
       const blocks = [];
-      for(let g = 0; g < 9; ++g) {
+      for(let g = 0; g < Board.ROWS; ++g) {
         const cellBlock = [];
         const squareRowStart = Math.floor(g / 3) * 3;
         const squareColumnStart = (g % 3) * 3;
         for(let i = squareRowStart; i < squareRowStart + 3; ++i) {
           for(let j = squareColumnStart; j < squareColumnStart + 3; ++j) {
-            let stateOfCurrentCell = Cell.State.NONE;
+            let stateOfCell = Cell.State.NONE;
             if(this.state.currentCell) {
               const currentCellRow = this.state.currentCell[0];
               const currentCellCol = this.state.currentCell[1];
+              const currentCellValue = this.props.board.get(currentCellRow,
+                currentCellCol);
               if(i === currentCellRow && j === currentCellCol) {
-                stateOfCurrentCell = Cell.State.SELECTED;
-              } else if(this.props.board.get(currentCellRow,
-                currentCellCol) > 0) {
-                if(this.props.board.get(currentCellRow,
-                  currentCellCol) === this.props.board.get(i, j)
-                  ) {
-                  stateOfCurrentCell = Cell.State.TWIN;
+                stateOfCell = Cell.State.SELECTED;
+              } else if(currentCellValue > 0) {
+                if(currentCellValue === this.props.board.get(i, j)) {
+                  stateOfCell = Cell.State.TWIN;
                 }
-              } else if((i === currentCellRow
-                || j === currentCellCol) && this.state.isCurrentCellHovered) {
-                stateOfCurrentCell = Cell.State.HILIGHTED;
+              } else if((i === currentCellRow || j === currentCellCol)
+                  && this.state.isCurrentCellHovered) {
+                stateOfCell = Cell.State.HILIGHTED;
               }
             }
             cellBlock.push((<Cell
               key={i + ' ' + j}
               displaySize={this.props.displayMode}
-              cellState={stateOfCurrentCell}
+              cellState={stateOfCell}
               value={this.props.board.get(i, j)}
               onClick={this.onCellClicked(i, j)}
               onMouseEnter={this.onCellHovered()}
@@ -90,16 +98,16 @@ export class BoardView extends React.Component<Properties, State> {
         let bottomPad = {};
         let rightPad = {};
         let leftPad = {};
-        if(squareRowStart <= 3) {
+        if(squareRowStart <= Board.ROWS/3) {
           topPad = BoardView.CELL_BLOCK_STYLE.top;
         }
-        if(squareRowStart >= 3) {
+        if(squareRowStart >= Board.ROWS/3) {
           bottomPad = BoardView.CELL_BLOCK_STYLE.bottom;
         }
-        if(squareColumnStart <= 3) {
+        if(squareColumnStart <= Board.COLUMNS/3) {
           leftPad = BoardView.CELL_BLOCK_STYLE.left;
         }
-        if(squareColumnStart >= 3) {
+        if(squareColumnStart >= Board.COLUMNS/3) {
           rightPad = BoardView.CELL_BLOCK_STYLE.right;
         }
         blocks.push(
@@ -108,9 +116,7 @@ export class BoardView extends React.Component<Properties, State> {
             ...topPad, ...leftPad, ...rightPad, ...bottomPad
           }}>
             {cellBlock}
-          </div>
-          )
-        );
+          </div>));
       }
       return blocks;
     })();
@@ -119,20 +125,22 @@ export class BoardView extends React.Component<Properties, State> {
     );
   }
 
-  protected onCellClicked(row: number, column: number): () => void {
+  private onCellClicked(row: number, column: number) {
     return (() => {
-      let tuple: [number, number];
-      tuple = [row, column];
-      this.setState({ currentCell: tuple });
-      this.setState({ isCurrentCellHovered: true });
+      let selectedCell: [number, number];
+      selectedCell = [row, column];
+      this.setState({
+        currentCell: selectedCell,
+        isCurrentCellHovered: true
+      });
     });
   }
 
-  protected onCellHovered(): () => void {
+  private onCellHovered() {
     return (() => this.setState({ isCurrentCellHovered: true }));
   }
 
-  protected onCellNotHovered(): () => void {
+  private onCellNotHovered() {
     return (() => this.setState({ isCurrentCellHovered: false }));
   }
 
@@ -161,7 +169,6 @@ export class BoardView extends React.Component<Properties, State> {
       gridTemplateColumns: '40px 40px 40px',
       gridTemplateRows: '40px 40px 40px',
       justifyItems: 'center' as 'center'
-
     },
     small: {
       alignItems: 'center' as 'center',
@@ -171,7 +178,6 @@ export class BoardView extends React.Component<Properties, State> {
       gridTemplateColumns: '26px 26px 26px',
       gridTemplateRows: '26px 26px 26px',
       justifyItems: 'center' as 'center'
-
     }
   };
   private static readonly BOARD_CONTAINER_STYLE = {
@@ -195,5 +201,5 @@ export class BoardView extends React.Component<Properties, State> {
 }
 
 export module BoardView {
-  export const DisplaySize = DisplayMode;
+  export const Mode = DisplayMode;
 }

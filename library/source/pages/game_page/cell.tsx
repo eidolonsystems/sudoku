@@ -1,18 +1,18 @@
 import { css, StyleSheet } from 'aphrodite/no-important';
 import * as React from 'react';
 
-enum DisplayMode { // where should it's home be????
+enum DisplayMode {
 
   /** Page is between 0 and 445 pixels (inclusive). */
   SMALL,
 
   /** Page is equal or greater than 446 pixels. */
   LARGE
-};
+}
 
-enum CellState { // This is proablt fine here
+enum CellState {
 
-  /** The default state for all cells */
+  /** The default state for all cells. */
   NONE,
 
   /** The cell is the current cell the user is interacting with. */
@@ -21,32 +21,43 @@ enum CellState { // This is proablt fine here
   /** The cell shares a row/column with the currently selected cell. */
   HILIGHTED,
 
-  /** The cell has the same value of the currently selected cell. */
+  /** The cell has the same (non-zero) value of the currently selected cell. */
   TWIN
-};
+}
 
 interface Properties {
-  displaySize?: DisplayMode;
+
+  /**  Specifies what size the cell shouuld be displayed at. */
+  displaySize: DisplayMode;
+
+  /** Specifies the state of the cell. */
   cellState: CellState;
+
+  /** The value that the cell holds */
   value: number;
+
+  /** Callback when the cell is clicked on. */
   onClick(): void;
+
+  /** Callback when the mouse enters the cell. */
   onMouseEnter(): void;
+
+  /** Callback when the mouse leaves the cell. */
   onMouseExit(): void;
 }
 
+/** Implements a cell of a sudoku board. */
 export class Cell extends React.Component<Properties, {}> {
-
   constructor(props: Properties) {
     super(props);
-    this.onSelected = this.onSelected.bind(this);
     this.onMouseOver = this.onMouseOver.bind(this);
     this.onMouseExit = this.onMouseExit.bind(this);
   }
 
   public render(): JSX.Element {
-    const cellTextStyle =  (() => {
+    const cellTextStyle = (() => {
       if(this.props.displaySize === DisplayMode.LARGE) {
-         return Cell.TEXT_STYLE_LARGE;
+        return Cell.TEXT_STYLE_LARGE;
       } else {
         return Cell.TEXT_STYLE_SMALL;
       }
@@ -56,7 +67,7 @@ export class Cell extends React.Component<Properties, {}> {
         case CellState.SELECTED:
           return Cell.CELL_STYLE.selected;
         case CellState.HILIGHTED:
-          if(this.props.value>0) {
+          if(this.props.value > 0) {
             return Cell.CELL_STYLE.highlightedFilled;
           } else {
             return Cell.CELL_STYLE.hilighted;
@@ -68,34 +79,30 @@ export class Cell extends React.Component<Properties, {}> {
       }
     })();
     const DisplayValue = (() => {
-      if(this.props.value===0) {
+      if(this.props.value === 0) {
         return '';
       } else {
         return this.props.value;
       }
     })();
     return (
-      <button onClick={this.onSelected}
+      <button onClick={this.props.onClick}
         onMouseOver={this.onMouseOver}
         onMouseLeave={this.onMouseExit}
-        className = {css(Cell.CELL_STYLE.default, BorderStyle)}
+        className={css(Cell.CELL_STYLE.default, BorderStyle)}
         style={cellTextStyle}>
-        {DisplayValue}
+          {DisplayValue}
       </button >
     );
   }
 
-  private onSelected(): void {
-    this.props.onClick();
-  }
-
-  private onMouseOver(): void {
+  private onMouseOver() {
     if(this.props.cellState === Cell.State.SELECTED) {
       this.props.onMouseEnter();
     }
   }
 
-  private onMouseExit(): void {
+  private onMouseExit() {
     if(this.props.cellState === Cell.State.SELECTED) {
       this.props.onMouseExit();
     }
@@ -155,5 +162,5 @@ export class Cell extends React.Component<Properties, {}> {
 
 export module Cell {
   export const State = CellState;
-  export const DisplaySize= DisplayMode;
+  export const Mode = DisplayMode;
 }
