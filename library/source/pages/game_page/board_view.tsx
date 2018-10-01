@@ -89,8 +89,8 @@ export class BoardView extends React.Component<Properties, State> {
               cellState={cellState}
               value={this.props.board.get(i, j)}
               onClick={this.onCellClicked(i, j)}
-              onMouseEnter={this.onCellHovered()}
-              onMouseExit={this.onCellNotHovered()}
+              onMouseEnter={this.onCellHovered}
+              onMouseExit={this.onCellNotHovered}
             />));
           }
         }
@@ -135,11 +135,11 @@ export class BoardView extends React.Component<Properties, State> {
   }
 
   private onCellHovered() {
-    return (() => this.setState({ isCurrentCellHovered: true }));
+    this.setState({ isCurrentCellHovered: true });
   }
 
   private onCellNotHovered() {
-    return (() => this.setState({ isCurrentCellHovered: false }));
+    this.setState({ isCurrentCellHovered: false });
   }
 
   private static readonly CELL_BLOCK_STYLE = {
