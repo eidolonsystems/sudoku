@@ -79,11 +79,11 @@ export class BoardView extends React.Component<Properties, State> {
                   cellState = Cell.State.TWIN;
                 }
               } else if((i === currentCellRow || j === currentCellCol)
-                && this.state.isCurrentCellHovered) {
+                  && this.state.isCurrentCellHovered) {
                 cellState = Cell.State.HIGHLIGHTED;
               }
             }
-            cellBlock.push((<Cell
+            cellBlock.push(<Cell
               key={i + ' ' + j}
               displaySize={this.props.displayMode}
               cellState={cellState}
@@ -91,7 +91,7 @@ export class BoardView extends React.Component<Properties, State> {
               onClick={this.onCellClicked(i, j)}
               onMouseEnter={this.onCellHovered}
               onMouseExit={this.onCellNotHovered}
-            />));
+            />);
           }
         }
         let topPad = {};

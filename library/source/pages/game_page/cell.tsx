@@ -92,7 +92,7 @@ export class Cell extends React.Component<Properties, {}> {
           className={css(Cell.CELL_STYLE.default, borderStyle)}
           style={cellTextStyle}>
         {displayValue}
-      </button >
+      </button>
     );
   }
 
