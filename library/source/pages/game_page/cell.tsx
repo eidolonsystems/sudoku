@@ -19,7 +19,7 @@ enum CellState {
   SELECTED,
 
   /** The cell shares a row/column with the currently selected cell. */
-  HILIGHTED,
+  HIGHLIGHTED,
 
   /** The cell has the same (non-zero) value of the currently selected cell. */
   TWIN
@@ -62,15 +62,15 @@ export class Cell extends React.Component<Properties, {}> {
         return Cell.TEXT_STYLE_SMALL;
       }
     })();
-    const BorderStyle = (() => {
+    const borderStyle = (() => {
       switch(this.props.cellState) {
         case CellState.SELECTED:
           return Cell.CELL_STYLE.selected;
-        case CellState.HILIGHTED:
+        case CellState.HIGHLIGHTED:
           if(this.props.value > 0) {
             return Cell.CELL_STYLE.highlightedFilled;
           } else {
-            return Cell.CELL_STYLE.hilighted;
+            return Cell.CELL_STYLE.highlighted;
           }
         case CellState.TWIN:
           return Cell.CELL_STYLE.twin;
@@ -78,7 +78,7 @@ export class Cell extends React.Component<Properties, {}> {
           return undefined;
       }
     })();
-    const DisplayValue = (() => {
+    const displayValue = (() => {
       if(this.props.value === 0) {
         return '';
       } else {
@@ -87,11 +87,11 @@ export class Cell extends React.Component<Properties, {}> {
     })();
     return (
       <button onClick={this.props.onClick}
-        onMouseOver={this.onMouseOver}
-        onMouseLeave={this.onMouseExit}
-        className={css(Cell.CELL_STYLE.default, BorderStyle)}
-        style={cellTextStyle}>
-          {DisplayValue}
+          onMouseOver={this.onMouseOver}
+          onMouseLeave={this.onMouseExit}
+          className={css(Cell.CELL_STYLE.default, borderStyle)}
+          style={cellTextStyle}>
+        {displayValue}
       </button >
     );
   }
@@ -148,7 +148,7 @@ export class Cell extends React.Component<Properties, {}> {
       backgroundColor: '#F8F8F8',
       borderColor: '##B9B4EC'
     },
-    hilighted: {
+    highlighted: {
       backgroundColor: '#F8F8F8'
     },
     selected: {

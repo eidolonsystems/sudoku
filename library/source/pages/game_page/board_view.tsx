@@ -66,27 +66,27 @@ export class BoardView extends React.Component<Properties, State> {
         const squareColumnStart = (g % 3) * 3;
         for(let i = squareRowStart; i < squareRowStart + 3; ++i) {
           for(let j = squareColumnStart; j < squareColumnStart + 3; ++j) {
-            let stateOfCell = Cell.State.NONE;
+            let cellState = Cell.State.NONE;
             if(this.state.currentCell) {
               const currentCellRow = this.state.currentCell[0];
               const currentCellCol = this.state.currentCell[1];
               const currentCellValue = this.props.board.get(currentCellRow,
                 currentCellCol);
               if(i === currentCellRow && j === currentCellCol) {
-                stateOfCell = Cell.State.SELECTED;
+                cellState = Cell.State.SELECTED;
               } else if(currentCellValue > 0) {
                 if(currentCellValue === this.props.board.get(i, j)) {
-                  stateOfCell = Cell.State.TWIN;
+                  cellState = Cell.State.TWIN;
                 }
               } else if((i === currentCellRow || j === currentCellCol)
-                  && this.state.isCurrentCellHovered) {
-                stateOfCell = Cell.State.HILIGHTED;
+                && this.state.isCurrentCellHovered) {
+                cellState = Cell.State.HIGHLIGHTED;
               }
             }
             cellBlock.push((<Cell
               key={i + ' ' + j}
               displaySize={this.props.displayMode}
-              cellState={stateOfCell}
+              cellState={cellState}
               value={this.props.board.get(i, j)}
               onClick={this.onCellClicked(i, j)}
               onMouseEnter={this.onCellHovered()}
@@ -98,16 +98,16 @@ export class BoardView extends React.Component<Properties, State> {
         let bottomPad = {};
         let rightPad = {};
         let leftPad = {};
-        if(squareRowStart <= Board.ROWS/3) {
+        if(squareRowStart <= Board.ROWS / 3) {
           topPad = BoardView.CELL_BLOCK_STYLE.top;
         }
-        if(squareRowStart >= Board.ROWS/3) {
+        if(squareRowStart >= Board.ROWS / 3) {
           bottomPad = BoardView.CELL_BLOCK_STYLE.bottom;
         }
-        if(squareColumnStart <= Board.COLUMNS/3) {
+        if(squareColumnStart <= Board.COLUMNS / 3) {
           leftPad = BoardView.CELL_BLOCK_STYLE.left;
         }
-        if(squareColumnStart >= Board.COLUMNS/3) {
+        if(squareColumnStart >= Board.COLUMNS / 3) {
           rightPad = BoardView.CELL_BLOCK_STYLE.right;
         }
         blocks.push(
@@ -127,10 +127,8 @@ export class BoardView extends React.Component<Properties, State> {
 
   private onCellClicked(row: number, column: number) {
     return (() => {
-      let selectedCell: [number, number];
-      selectedCell = [row, column];
       this.setState({
-        currentCell: selectedCell,
+        currentCell: [row, column],
         isCurrentCellHovered: true
       });
     });
