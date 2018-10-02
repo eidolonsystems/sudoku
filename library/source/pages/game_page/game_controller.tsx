@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {HBoxLayout, Padding, VBoxLayout} from '../../layouts';
+import { HBoxLayout, Padding, VBoxLayout } from '../../layouts';
 import { Board } from '../../';
 import { BoardView } from '../../';
 import { NumberBar } from './number_bar';
@@ -40,10 +40,30 @@ export class GameController extends React.Component<Properties, State> {
           board={this.state.board}
           hasEffects={true}
           displayMode={BoardView.Mode.LARGE} />
-         <Padding size='17px'/>
+        <Padding size='17px' />
         <NumberBar onValueSelected={this.updateCell} />
       </VBoxLayout>
     );
+  }
+
+  public componentWillMount(): void {
+    window.addEventListener('resize', this.onResize);
+  }
+
+  public componentWillUnmount(): void {
+    window.removeEventListener('resize', this.onResize);
+  }
+
+  private onResize() {
+    if(document.body.clientWidth >= '446px') {
+      if(this.state.breakpoint !== Breakpoint.LARGE) {
+        this.setState({ breakpoint: Breakpoint.LARGE });
+      }
+    }else {
+      if(this.state.breakpoint !== Breakpoint.SMALL) {
+        this.setState({ breakpoint: Breakpoint.SMALL });
+      }
+    }
   }
 
   private updateValue() {
