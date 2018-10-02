@@ -79,13 +79,13 @@ export class BoardView extends React.Component<Properties, State> {
                   cellState = Cell.State.TWIN;
                 }
               } else if((i === currentCellRow || j === currentCellCol)
-                  && this.state.isCurrentCellHovered) {
+                && this.state.isCurrentCellHovered) {
                 cellState = Cell.State.HIGHLIGHTED;
               }
             }
             cellBlock.push(<Cell
               key={i + ' ' + j}
-              displaySize={this.props.displayMode}
+              displayMode={this.props.displayMode}
               cellState={cellState}
               value={this.props.board.get(i, j)}
               onClick={this.onCellClicked(i, j)}
@@ -123,6 +123,10 @@ export class BoardView extends React.Component<Properties, State> {
     return (
       <div style={displayPadding}>{cells}</div>
     );
+  }
+
+  public getCurrentCell(): [number, number] {
+    return this.state.currentCell;
   }
 
   private onCellClicked(row: number, column: number) {
