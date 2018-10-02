@@ -14,7 +14,12 @@ enum DisplayMode {
 }
 
 interface Properties {
+
+  /** The original state of the board. */
   initialBoard: Board;
+
+  /**  */
+  displayMode: DisplayMode;
 }
 
 interface State {
@@ -29,8 +34,6 @@ export class GameController extends React.Component<Properties, State> {
     this.state = {
       board: this.props.initialBoard.clone()
     };
-    //this.boardView = React.createRef();
-    this.updateValue = this.updateValue.bind(this);
     this.updateCell = this.updateCell.bind(this);
   }
   public render(): JSX.Element {
@@ -39,37 +42,11 @@ export class GameController extends React.Component<Properties, State> {
         <BoardView ref={this.myRef}
           board={this.state.board}
           hasEffects={true}
-          displayMode={BoardView.Mode.LARGE} />
+          displayMode={this.props.displayMode} />
         <Padding size='17px' />
         <NumberBar onValueSelected={this.updateCell} />
       </VBoxLayout>
     );
-  }
-
-  public componentWillMount(): void {
-    window.addEventListener('resize', this.onResize);
-  }
-
-  public componentWillUnmount(): void {
-    window.removeEventListener('resize', this.onResize);
-  }
-
-  private onResize() {
-    if(document.body.clientWidth >= '446px') {
-      if(this.state.breakpoint !== Breakpoint.LARGE) {
-        this.setState({ breakpoint: Breakpoint.LARGE });
-      }
-    }else {
-      if(this.state.breakpoint !== Breakpoint.SMALL) {
-        this.setState({ breakpoint: Breakpoint.SMALL });
-      }
-    }
-  }
-
-  private updateValue() {
-    const b = this.state.board.clone();
-    b.set(0, 0, 5);
-    this.setState({ board: b });
   }
 
   private updateCell(value: number) {
@@ -77,9 +54,15 @@ export class GameController extends React.Component<Properties, State> {
     if(node) {
       const cell = node.getCurrentCell();
       if(cell) {
-        this.state.board.set(cell[0], cell[1], value);
-        this.myRef.current.forceUpdate();
+        if(this.props.initialBoard.get(cell[0], cell[1]) === 0) {
+          this.state.board.set(cell[0], cell[1], value);
+          this.myRef.current.forceUpdate();
+        }
       }
     }
   }
+}
+
+export module GameController {
+  export const Mode = DisplayMode;
 }
