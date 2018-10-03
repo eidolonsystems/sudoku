@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Board, BoardView, NumberBar } from '../..';
+import {Board, BoardView, NumberBar} from '../..';
 import {Padding, VBoxLayout} from '../../layouts';
 
 enum DisplayMode {
@@ -51,8 +51,7 @@ export class GameController extends React.Component<Properties, State> {
         <Padding size='17px'/>
         <NumberBar onValueSelected={this.updateCell}
           displayMode={this.state.displayMode}/>
-      </VBoxLayout>
-    );
+      </VBoxLayout>);
   }
 
   public componentDidMount() {
