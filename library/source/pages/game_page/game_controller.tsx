@@ -23,7 +23,6 @@ interface Properties {
 interface State {
   board: Board;
   displayMode: DisplayMode;
-
 }
 
 /** Implements a component that displays a sudoku board. */
