@@ -40,13 +40,12 @@ export class NumberBar extends React.Component<Properties, {}> {
       for(let i = 1; i <= Board.ROWS; ++i) {
         buttonRow.push(
           <button onClick={this.sendValue(i)}
-              className={css(NumberBar.BUTTON_STYLE2.button)}>
+              className={css(NumberBar.BUTTON_STYLE.button)}>
             {i}
           </button>
         );
       }
-      return (<div style={NumberBar.BAR_BOX_STYLE}>
-        {buttonRow}</div>);
+      return (<div style={NumberBar.BAR_BOX_STYLE}>{buttonRow}</div>);
     })();
     return (
       <div style={containerStyle}>
@@ -61,7 +60,7 @@ export class NumberBar extends React.Component<Properties, {}> {
     });
   }
 
-  private static readonly BUTTON_STYLE2 = StyleSheet.create({
+  private static readonly BUTTON_STYLE = StyleSheet.create({
     button: {
       borderSizing: 'border-box' as 'border-box',
       borderWidth: '0px',

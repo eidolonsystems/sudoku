@@ -60,8 +60,9 @@ export class GameController extends React.Component<Properties, State> {
     );
   }
 
-  public componentWillMount() {
+  public componentDidMount() {
     window.addEventListener('resize', this.onResize);
+    this.onResize();
   }
 
   public componentWillUnmount() {
