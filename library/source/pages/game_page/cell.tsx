@@ -28,7 +28,7 @@ enum CellState {
 interface Properties {
 
   /**  Specifies what size the cell shouuld be displayed at. */
-  displaySize: DisplayMode;
+  displayMode: DisplayMode;
 
   /** Specifies the state of the cell. */
   cellState: CellState;
@@ -56,7 +56,7 @@ export class Cell extends React.Component<Properties, {}> {
 
   public render(): JSX.Element {
     const cellTextStyle = (() => {
-      if(this.props.displaySize === DisplayMode.LARGE) {
+      if(this.props.displayMode === DisplayMode.LARGE) {
         return Cell.TEXT_STYLE_LARGE;
       } else {
         return Cell.TEXT_STYLE_SMALL;

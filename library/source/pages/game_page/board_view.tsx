@@ -85,7 +85,7 @@ export class BoardView extends React.Component<Properties, State> {
             }
             cellBlock.push(<Cell
               key={i + ' ' + j}
-              displaySize={this.props.displayMode}
+              displayMode={this.props.displayMode}
               cellState={cellState}
               value={this.props.board.get(i, j)}
               onClick={this.onCellClicked(i, j)}
@@ -123,6 +123,11 @@ export class BoardView extends React.Component<Properties, State> {
     return (
       <div style={displayPadding}>{cells}</div>
     );
+  }
+
+  /** Returns a tuple representing the coordinates of the current cell. */
+  public getCurrentCell(): [number, number] {
+    return this.state.currentCell;
   }
 
   private onCellClicked(row: number, column: number) {
