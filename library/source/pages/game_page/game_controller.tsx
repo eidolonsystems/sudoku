@@ -18,13 +18,12 @@ interface Properties {
 
   /** The original state of the board. */
   initialBoard: Board;
-
-  /**  Specifies what size the game shouuld be displayed at. */
-  displayMode: DisplayMode;
 }
 
 interface State {
   board: Board;
+  displayMode: DisplayMode;
+
 }
 
 /** Implements a component that displays a sudoku board. */
@@ -33,22 +32,52 @@ export class GameController extends React.Component<Properties, State> {
   constructor(props: Properties) {
     super(props);
     this.state = {
-      board: this.props.initialBoard.clone()
+      board: this.props.initialBoard.clone(),
+      displayMode: DisplayMode.SMALL
     };
+    this.onResize = this.onResize.bind(this);
     this.updateCell = this.updateCell.bind(this);
   }
 
   public render(): JSX.Element {
+    const displayWidth = (() => {
+      if(this.state.displayMode === DisplayMode.SMALL) {
+        return '320px';
+      } else {
+        return undefined;
+      }
+    })();
     return (
-      <VBoxLayout>
-        <BoardView ref={this.myRef}
-          board={this.state.board}
-          hasEffects={true}
-          displayMode={this.props.displayMode}/>
-        <Padding size='17px' />
-        <NumberBar onValueSelected={this.updateCell}/>
+      <VBoxLayout width={displayWidth}>
+          <BoardView ref={this.myRef}
+            board={this.state.board}
+            hasEffects={true}
+            displayMode={this.state.displayMode} />
+          <Padding size='17px' />
+          <NumberBar onValueSelected={this.updateCell}
+            displayMode = {this.state.displayMode}/>
       </VBoxLayout>
     );
+  }
+
+  public componentWillMount() {
+    window.addEventListener('resize', this.onResize);
+  }
+
+  public componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+  }
+
+  private onResize() {
+    if(document.body.clientWidth >= 446) {
+      if(this.state.displayMode !== DisplayMode.LARGE) {
+        this.setState({ displayMode: DisplayMode.LARGE });
+      }
+    } else {
+      if(this.state.displayMode !== DisplayMode.SMALL) {
+        this.setState({ displayMode: DisplayMode.SMALL });
+      }
+    }
   }
 
   private updateCell(value: number) {

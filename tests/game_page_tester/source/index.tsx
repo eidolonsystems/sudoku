@@ -12,13 +12,10 @@ board.set(8, 7, 0);
 board.set(0, 7, 0);
 ReactDOM.render(
   <div>
-    <sudoku.HBoxLayout>
-      <Padding size = '20px'/>
-      <sudoku.GameController initialBoard={board}
-        displayMode={sudoku.GameController.Mode.LARGE}/>
-      <Padding size = '20px'/>
-      <sudoku.GameController initialBoard={board}
-        displayMode={sudoku.GameController.Mode.SMALL}/>
+    <sudoku.HBoxLayout width = '100%' height = '100%'>
+      <Padding/>
+      <sudoku.GameController initialBoard={board}/>
+      <Padding/>
     </sudoku.HBoxLayout>
   </div>,
   document.getElementById('main'));
