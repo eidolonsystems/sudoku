@@ -1,6 +1,6 @@
-import { css, StyleSheet } from 'aphrodite/no-important';
+import {css, StyleSheet} from 'aphrodite/no-important';
 import * as React from 'react';
-import { Board } from '../../';
+import {Board} from '../../';
 
 enum DisplayMode {
 

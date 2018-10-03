@@ -44,13 +44,13 @@ export class GameController extends React.Component<Properties, State> {
     })();
     return (
       <VBoxLayout width={displayWidth}>
-          <BoardView ref={this.myRef}
-            board={this.state.board}
-            hasEffects={true}
-            displayMode={this.state.displayMode} />
-          <Padding size='17px' />
-          <NumberBar onValueSelected={this.updateCell}
-            displayMode = {this.state.displayMode}/>
+        <BoardView ref={this.myRef}
+          board={this.state.board}
+          hasEffects={true}
+          displayMode={this.state.displayMode}/>
+        <Padding size='17px'/>
+        <NumberBar onValueSelected={this.updateCell}
+          displayMode={this.state.displayMode}/>
       </VBoxLayout>
     );
   }
@@ -86,7 +86,6 @@ export class GameController extends React.Component<Properties, State> {
       }
     }
   }
-
   private myRef = React.createRef<BoardView>();
 }
 
