@@ -125,6 +125,7 @@ export class BoardView extends React.Component<Properties, State> {
     );
   }
 
+  /** Returns a tuple representing the coordinates of the current cell. */
   public getCurrentCell(): [number, number] {
     return this.state.currentCell;
   }
