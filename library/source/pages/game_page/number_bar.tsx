@@ -2,19 +2,9 @@ import { css, StyleSheet } from 'aphrodite/no-important';
 import * as React from 'react';
 import { Board } from '../../';
 
-enum DisplayMode {
-
-  // Is this nessary????????
-
-  /** Page is between 0 and 445 pixels (inclusive). */
-  SMALL,
-
-  /** Page is equal or greater than 446 pixels. */
-  LARGE
-}
-
 interface Properties {
-  displayMode?: DisplayMode;
+
+  /** Callback when the user clicks on a number in the bar. */
   onValueSelected(value: number): void;
 }
 
@@ -26,20 +16,12 @@ export class NumberBar extends React.Component<Properties, {}> {
   }
 
   public render(): JSX.Element {
-    const displaySize = (() => {
-      if(this.props.displayMode === DisplayMode.LARGE) {
-        return '200px';
-      } else {
-        return undefined;
-      }
-    })();
     const buttons = (() => {
       const buttonRow = [];
       for(let i = 1; i <= Board.ROWS; ++i) {
         buttonRow.push(
-          <button
-            onClick={this.sendValue(i)}
-            className={css(NumberBar.BUTTON_STYLE2.button)}>
+          <button onClick={this.sendValue(i)}
+              className={css(NumberBar.BUTTON_STYLE2.button)}>
             {i}
           </button>
         );

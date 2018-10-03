@@ -1,19 +1,24 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as sudoku from 'sudoku';
+import { Padding } from 'sudoku';
 
 const board = sudoku.generateBoard();
 board.set(0, 0, 0);
 board.set(5, 5, 0);
 board.set(2, 0, 0);
+board.set(6, 3, 0);
+board.set(8, 7, 0);
 board.set(0, 7, 0);
 ReactDOM.render(
   <div>
     <sudoku.HBoxLayout>
+      <Padding size = '20px'/>
       <sudoku.GameController initialBoard={board}
-        displayMode={sudoku.GameController.Mode.LARGE} />
+        displayMode={sudoku.GameController.Mode.LARGE}/>
+      <Padding size = '20px'/>
       <sudoku.GameController initialBoard={board}
-        displayMode={sudoku.GameController.Mode.SMALL} />
+        displayMode={sudoku.GameController.Mode.SMALL}/>
     </sudoku.HBoxLayout>
   </div>,
   document.getElementById('main'));
