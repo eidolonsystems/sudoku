@@ -42,16 +42,14 @@ export class NumberBar extends React.Component<Properties, {}> {
           <button onClick={this.sendValue(i)}
               className={css(NumberBar.BUTTON_STYLE.button)}>
             {i}
-          </button>
-        );
+          </button>);
       }
-      return (<div style={NumberBar.BAR_BOX_STYLE}>{buttonRow}</div>);
+      return <div style={NumberBar.BAR_BOX_STYLE}>{buttonRow}</div>;
     })();
     return (
       <div style={containerStyle}>
         {buttons}
-      </div>
-    );
+      </div>);
   }
 
   private sendValue(value: number) {

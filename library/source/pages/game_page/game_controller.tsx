@@ -1,9 +1,6 @@
 import * as React from 'react';
-import { Board } from '../../';
-import { BoardView } from '../../';
-import { HBoxLayout, Padding, VBoxLayout } from '../../layouts';
-
-import { NumberBar } from './number_bar';
+import {Board, BoardView, NumberBar } from '../..';
+import {Padding, VBoxLayout} from '../../layouts';
 
 enum DisplayMode {
 
@@ -27,7 +24,6 @@ interface State {
 
 /** Implements a component that displays a sudoku board. */
 export class GameController extends React.Component<Properties, State> {
-  private myRef = React.createRef<BoardView>();
   constructor(props: Properties) {
     super(props);
     this.state = {
@@ -90,6 +86,8 @@ export class GameController extends React.Component<Properties, State> {
       }
     }
   }
+
+  private myRef = React.createRef<BoardView>();
 }
 
 export module GameController {

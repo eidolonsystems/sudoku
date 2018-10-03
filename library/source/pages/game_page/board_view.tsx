@@ -79,7 +79,7 @@ export class BoardView extends React.Component<Properties, State> {
                   cellState = Cell.State.TWIN;
                 }
               } else if((i === currentCellRow || j === currentCellCol)
-                && this.state.isCurrentCellHovered) {
+                  && this.state.isCurrentCellHovered) {
                 cellState = Cell.State.HIGHLIGHTED;
               }
             }
