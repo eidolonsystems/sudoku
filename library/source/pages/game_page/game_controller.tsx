@@ -64,7 +64,8 @@ export class GameController extends React.Component<Properties, State> {
         </div>
         <Padding size='40px' />
         <BoardView ref={this.myRef}
-          board={this.state.board}
+          currentBoard={this.state.board}
+          initialBoard={this.props.initialBoard}
           hasEffects={true}
           displayMode={this.state.displayMode} />
         <Padding size='17px' />

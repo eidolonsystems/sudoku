@@ -14,7 +14,10 @@ enum DisplayMode {
 interface Properties {
 
   /** A 2D array that documents the values of all cells on the board. */
-  board: Board;
+  currentBoard: Board;
+
+  /** A 2D array that documents the values of all cells on the board. */
+  initialBoard: Board;
 
   /** Used to determine if effects on cells that are not the selected cell
    * should be shown.
@@ -70,24 +73,30 @@ export class BoardView extends React.Component<Properties, State> {
             if(this.state.currentCell) {
               const currentCellRow = this.state.currentCell[0];
               const currentCellCol = this.state.currentCell[1];
-              const currentCellValue = this.props.board.get(currentCellRow,
+              const currentCellValue = this.props.currentBoard.get(
+                currentCellRow,
                 currentCellCol);
               if(i === currentCellRow && j === currentCellCol) {
                 cellState = Cell.State.SELECTED;
               } else if(currentCellValue > 0) {
-                if(currentCellValue === this.props.board.get(i, j)) {
+                if(currentCellValue === this.props.currentBoard.get(i, j)) {
                   cellState = Cell.State.TWIN;
                 }
               } else if((i === currentCellRow || j === currentCellCol)
-                  && this.state.isCurrentCellHovered) {
+                && this.state.isCurrentCellHovered) {
                 cellState = Cell.State.HIGHLIGHTED;
               }
+            }
+            let isClueCell = false;
+            if(this.props.initialBoard.get(i, j) > 0) {
+              isClueCell = true;
             }
             cellBlock.push(<Cell
               key={i + ' ' + j}
               displayMode={this.props.displayMode}
               cellState={cellState}
-              value={this.props.board.get(i, j)}
+              isClue={isClueCell}
+              value={this.props.currentBoard.get(i, j)}
               onClick={this.onCellClicked(i, j)}
               onMouseEnter={this.onCellHovered}
               onMouseExit={this.onCellNotHovered}

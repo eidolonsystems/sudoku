@@ -33,6 +33,9 @@ interface Properties {
   /** Specifies the state of the cell. */
   cellState: CellState;
 
+  /** Specifies if the cell is a clue cell. */
+  isClue: boolean;
+
   /** The value that the cell holds */
   value: number;
 
@@ -55,6 +58,13 @@ export class Cell extends React.Component<Properties, {}> {
   }
 
   public render(): JSX.Element {
+    const baseStyle = (() => {
+      if(this.props.isClue) {
+        return Cell.CELL_STYLE.clueDefault;
+      } else {
+        return Cell.CELL_STYLE.default;
+      }
+    })();
     const cellTextStyle = (() => {
       if(this.props.displayMode === DisplayMode.LARGE) {
         return Cell.TEXT_STYLE_LARGE;
@@ -87,10 +97,10 @@ export class Cell extends React.Component<Properties, {}> {
     })();
     return (
       <button onClick={this.props.onClick}
-          onMouseOver={this.onMouseOver}
-          onMouseLeave={this.onMouseExit}
-          className={css(Cell.CELL_STYLE.default, borderStyle)}
-          style={cellTextStyle}>
+        onMouseOver={this.onMouseOver}
+        onMouseLeave={this.onMouseExit}
+        className={css(baseStyle, borderStyle)}
+        style={cellTextStyle}>
         {displayValue}
       </button>
     );
@@ -146,7 +156,7 @@ export class Cell extends React.Component<Properties, {}> {
     },
     highlightedFilled: {
       backgroundColor: '#F8F8F8',
-      borderColor: '##B9B4EC'
+      borderColor: '#B9B4EC'
     },
     highlighted: {
       backgroundColor: '#F8F8F8'
@@ -156,6 +166,17 @@ export class Cell extends React.Component<Properties, {}> {
     },
     twin: {
       borderColor: '#00D3DB'
+    },
+    clueDefault: {
+      backgroundColor: '#FBFBFB',
+      borderColor: '#EBEBEB',
+      borderRadius: '4px',
+      borderStyle: 'solid' as 'solid',
+      borderWidth: '1px',
+      color: '#4B23A0',
+      fontFamily: 'Roboto',
+      textAlign: 'center' as 'center',
+      verticalAlign: 'middle' as 'middle'
     }
   });
 }
