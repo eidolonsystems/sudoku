@@ -23,6 +23,7 @@ interface Properties {
 interface State {
   board: Board;
   displayMode: DisplayMode;
+  hasEffects: boolean; //NEWWW!!!!!!
   startTime: Date;
 }
 
@@ -33,7 +34,8 @@ export class GameController extends React.Component<Properties, State> {
     this.state = {
       board: this.props.initialBoard.clone(),
       displayMode: DisplayMode.SMALL,
-      startTime: new Date()
+      startTime: new Date(),
+      hasEffects: true
     };
     this.onResize = this.onResize.bind(this);
     this.updateCell = this.updateCell.bind(this);
@@ -104,6 +106,10 @@ export class GameController extends React.Component<Properties, State> {
         this.myRef.current.forceUpdate();
       }
     }
+  }
+
+  private toggleEffects(){
+    this.setState(
   }
 
   private static readonly USER_NAME_STYLE = {

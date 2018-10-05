@@ -1,3 +1,5 @@
+import { SSL_OP_NO_SESSION_RESUMPTION_ON_RENEGOTIATION } from "constants";
+
 /** Represents a standard 9x9 Sudoku board. Each position on the board is
  *  a number from [0-9] where 0 indicates a blank space.
  */
@@ -151,8 +153,9 @@ export function isSolved(board: Board): boolean {
  *         distinct object from the board argument.
  */
 export function solve(board: Board): Board {
-  if(solveHelper(board, 0, 0)) {
-    return board;
+  const copy = board.clone();
+  if(solveHelper(copy, 0, 0)) {
+    return copy;
   } else {
     return null;
   }
@@ -234,4 +237,35 @@ function isValidIfSet(board: Board,
     }
   }
   return true;
+}
+
+export function generateIncompleteBoard(numberoOfClues: number): Board {
+  let board = new Board();
+  fillCell(board, 0, 0);
+  board = emptyCell(board, (Board.ROWS * Board.COLUMNS - numberoOfClues));
+  return board;
+}
+
+function emptyCell(board: Board, cellsToEmpty: number): Board {
+  if(cellsToEmpty === 0) {
+    return board;
+  }
+  let noCellSelected = true;
+  let row = Math.floor(Math.random() * Board.ROWS);
+  let col = Math.floor(Math.random() * Board.COLUMNS);
+  while(noCellSelected) {
+    if(board.get(row, col) > 0) {
+      const clone = board.clone();
+      clone.set(row, col, 0);
+      if(solve(clone) !== null) {
+        const emptierBoard = emptyCell(clone, cellsToEmpty - 1);
+        if(emptierBoard) {
+          noCellSelected = false;
+          return emptierBoard;
+        }
+      }
+    }
+    row = Math.floor(Math.random() * Board.ROWS);
+    col = Math.floor(Math.random() * Board.COLUMNS);
+  }
 }
