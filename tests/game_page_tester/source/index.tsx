@@ -13,7 +13,7 @@ ReactDOM.render(
   <div>
     <sudoku.HBoxLayout width = '100%' height = '100%'>
       <sudoku.Padding/>
-      <sudoku.GameController initialBoard={board}/>
+      <sudoku.GameController initialBoard={board} username='Lucky'/>
       <sudoku.Padding/>
     </sudoku.HBoxLayout>
   </div>,
