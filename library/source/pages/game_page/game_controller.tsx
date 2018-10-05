@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Board, BoardView,EditButton,EffectButton,  NumberBar, Timer } from '../..';
+import { Board, BoardView, EditButton, EffectButton, NumberBar, Timer } from '../..';
 import { Padding, VBoxLayout } from '../../layouts';
 
 enum DisplayMode {
@@ -24,7 +24,7 @@ interface State {
   board: Board;
   displayMode: DisplayMode;
   hasEffects: boolean; //NEWWW!!!!!!
-  startTime: Date;
+
 }
 
 /** Implements a component that displays a sudoku board. */
@@ -34,11 +34,11 @@ export class GameController extends React.Component<Properties, State> {
     this.state = {
       board: this.props.initialBoard.clone(),
       displayMode: DisplayMode.SMALL,
-      startTime: new Date(),
       hasEffects: true
     };
     this.onResize = this.onResize.bind(this);
     this.updateCell = this.updateCell.bind(this);
+    this.toggleEffects = this.toggleEffects.bind(this);
   }
 
   public render(): JSX.Element {
@@ -61,14 +61,16 @@ export class GameController extends React.Component<Properties, State> {
         <div style={GameController.NAME_AND_SETTINGS_BLOCK_STYLE}>
           <div style={GameController.USER_NAME_STYLE}>
             {this.props.username}</div>
-          <EffectButton style={GameController.EFFECT_BUTTON_STYLE} />
+          <EffectButton style={GameController.EFFECT_BUTTON_STYLE}
+            isOn = {this.state.hasEffects}
+            toggle={this.toggleEffects} />
           <EditButton />
         </div>
         <Padding size='40px' />
         <BoardView ref={this.myRef}
           currentBoard={this.state.board}
           initialBoard={this.props.initialBoard}
-          hasEffects={true}
+          hasEffects={this.state.hasEffects}
           displayMode={this.state.displayMode} />
         <Padding size='17px' />
         <NumberBar onValueSelected={this.updateCell}
@@ -108,8 +110,13 @@ export class GameController extends React.Component<Properties, State> {
     }
   }
 
-  private toggleEffects(){
-    this.setState(
+  private toggleEffects() {
+    console.log('Effects should be off!');
+    if(this.state.hasEffects) {
+      this.setState({ hasEffects: false });
+    } else {
+      this.setState({ hasEffects: true });
+    }
   }
 
   private static readonly USER_NAME_STYLE = {

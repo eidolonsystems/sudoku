@@ -4,35 +4,30 @@ import * as React from 'react';
 interface Properties {
   /** The CSS style to apply. */
   style?: any;
-}
 
-interface State {
+  toggle(): void;
   isOn: boolean;
 }
 
 /** Implements a cell of a sudoku board. */
-export class EffectButton extends React.Component<Properties, State> {
+export class EffectButton extends React.Component<Properties, {}> {
   constructor(props: Properties) {
     super(props);
-    this.state = {
-      isOn: false
-    };
   }
 
   public render(): JSX.Element {
     const image = (() => {
-      if(this.state.isOn) {
-        return (<img src='resources/images/game_page/effect-green.svg'
-          width='16px' height='16px'/>);
+      if(this.props.isOn) {
+        return ('resources/images/game_page/effect-green.svg');
       } else {
-        return (<img src='resources/images/game_page/effect-grey.svg'
-          width='16px' height='16px'/>);
+        return ('resources/images/game_page/effect-grey.svg');
       }
     })();
     return (
-      <div style = {this.props.style}>
-        {image}
-      </div>
+      <input type='image' onClick={this.props.toggle}
+        style={this.props.style}
+        src={image} width='16px' height='16px' />
     );
   }
+
 }

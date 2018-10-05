@@ -78,12 +78,12 @@ export class BoardView extends React.Component<Properties, State> {
                 currentCellCol);
               if(i === currentCellRow && j === currentCellCol) {
                 cellState = Cell.State.SELECTED;
-              } else if(currentCellValue > 0) {
+              } else if(currentCellValue > 0 && this.props.hasEffects) {
                 if(currentCellValue === this.props.currentBoard.get(i, j)) {
                   cellState = Cell.State.TWIN;
                 }
               } else if((i === currentCellRow || j === currentCellCol)
-                && this.state.isCurrentCellHovered) {
+                && this.state.isCurrentCellHovered && this.props.hasEffects) {
                 cellState = Cell.State.HIGHLIGHTED;
               }
             }
