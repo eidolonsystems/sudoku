@@ -26,8 +26,22 @@ export class EffectButton extends React.Component<Properties, {}> {
     return (
       <input type='image' onClick={this.props.toggle}
         style={this.props.style}
-        src={image} width='16px' height='16px' />
+        className={css(EffectButton.NO_FOCUS_STYLE.default)}
+        src={image} />
     );
   }
+
+  private static readonly NO_FOCUS_STYLE = StyleSheet.create({
+    default: {
+      height: '16px',
+      width: '16px',
+      ':focus': {
+        outline: '0'
+      },
+      '::-moz-focus-inner': {
+        border: '0'
+      }
+    }
+  });
 
 }
