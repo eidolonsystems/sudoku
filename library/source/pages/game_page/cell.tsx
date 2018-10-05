@@ -176,7 +176,13 @@ export class Cell extends React.Component<Properties, {}> {
       color: '#4B23A0',
       fontFamily: 'Roboto',
       textAlign: 'center' as 'center',
-      verticalAlign: 'middle' as 'middle'
+      verticalAlign: 'middle' as 'middle',
+      ':focus': {
+        outline: '0'
+      },
+      '::-moz-focus-inner': {
+        border: '0'
+      }
     }
   });
 }
