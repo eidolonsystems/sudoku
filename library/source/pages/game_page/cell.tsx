@@ -67,9 +67,9 @@ export class Cell extends React.Component<Properties, {}> {
     })();
     const cellTextStyle = (() => {
       if(this.props.displayMode === DisplayMode.LARGE) {
-        return Cell.TEXT_STYLE_LARGE;
+        return Cell.TEXT_AND_SIZE_STYLE.large;
       } else {
-        return Cell.TEXT_STYLE_SMALL;
+        return Cell.TEXT_AND_SIZE_STYLE.small;
       }
     })();
     const borderStyle = (() => {
@@ -88,7 +88,7 @@ export class Cell extends React.Component<Properties, {}> {
           return undefined;
       }
     })();
-    const displayValue = (() => {
+    const cellValue = (() => {
       if(this.props.value === 0) {
         return '';
       } else {
@@ -101,37 +101,35 @@ export class Cell extends React.Component<Properties, {}> {
         onMouseLeave={this.onMouseExit}
         className={css(baseStyle, borderStyle)}
         style={cellTextStyle}>
-        {displayValue}
+        {cellValue}
       </button>
     );
   }
 
   private onMouseOver() {
-    if(this.props.cellState === Cell.State.SELECTED) {
-      this.props.onMouseEnter();
-    }
+    this.props.onMouseEnter();
   }
 
   private onMouseExit() {
-    if(this.props.cellState === Cell.State.SELECTED) {
-      this.props.onMouseExit();
-    }
+    this.props.onMouseExit();
   }
 
-  private static readonly TEXT_STYLE_SMALL = {
-    boxLayout: 'border-box' as 'border-box',
-    fontSize: '16px',
-    height: '26px',
-    width: '26px',
-    innerHeight: '26px',
-    innerWidth: '26px'
-  };
-  private static readonly TEXT_STYLE_LARGE = {
-    fontSize: '24px',
-    height: '40px',
-    width: '40px',
-    innerHeight: '40px',
-    innerWidth: '40px'
+  private static readonly TEXT_AND_SIZE_STYLE = {
+    large: {
+      fontSize: '24px',
+      height: '40px',
+      width: '40px',
+      innerHeight: '40px',
+      innerWidth: '40px'
+    },
+    small: {
+      boxLayout: 'border-box' as 'border-box',
+      fontSize: '16px',
+      height: '26px',
+      width: '26px',
+      innerHeight: '26px',
+      innerWidth: '26px'
+    }
   };
   private static readonly CELL_STYLE = StyleSheet.create({
     default: {
@@ -168,8 +166,8 @@ export class Cell extends React.Component<Properties, {}> {
       borderColor: '#00D3DB'
     },
     clueDefault: {
-      backgroundColor: '#FBFBFB',
-      borderColor: '#EBEBEB',
+      backgroundColor: '#F8F8F8',
+      borderColor: '#F8F8F8',
       borderRadius: '4px',
       borderStyle: 'solid' as 'solid',
       borderWidth: '1px',
@@ -177,6 +175,9 @@ export class Cell extends React.Component<Properties, {}> {
       fontFamily: 'Roboto',
       textAlign: 'center' as 'center',
       verticalAlign: 'middle' as 'middle',
+      ':hover': {
+        borderColor: '#4B23A0'
+      },
       ':focus': {
         outline: '0'
       },

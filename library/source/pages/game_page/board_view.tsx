@@ -31,6 +31,7 @@ interface Properties {
 interface State {
   currentCell: [number, number];
   isCurrentCellHovered: boolean;
+  hoveredCell: [number, number];
 }
 
 /** Implements a component that displays a sudoku board. */
@@ -39,11 +40,12 @@ export class BoardView extends React.Component<Properties, State> {
     super(props);
     this.state = {
       currentCell: undefined,
+      hoveredCell: undefined,
       isCurrentCellHovered: false
     };
     this.onCellClicked = this.onCellClicked.bind(this);
     this.onCellHovered = this.onCellHovered.bind(this);
-    this.onCellNotHovered = this.onCellNotHovered.bind(this);
+    this.onCellNotHoveredWithE = this.onCellNotHoveredWithE.bind(this);
   }
 
   public render(): JSX.Element {
@@ -69,24 +71,7 @@ export class BoardView extends React.Component<Properties, State> {
         const squareColumnStart = (g % 3) * 3;
         for(let i = squareRowStart; i < squareRowStart + 3; ++i) {
           for(let j = squareColumnStart; j < squareColumnStart + 3; ++j) {
-            let cellState = Cell.State.NONE;
-            if(this.state.currentCell) {
-              const currentCellRow = this.state.currentCell[0];
-              const currentCellCol = this.state.currentCell[1];
-              const currentCellValue = this.props.currentBoard.get(
-                currentCellRow,
-                currentCellCol);
-              if(i === currentCellRow && j === currentCellCol) {
-                cellState = Cell.State.SELECTED;
-              } else if(currentCellValue > 0 && this.props.hasEffects) {
-                if(currentCellValue === this.props.currentBoard.get(i, j)) {
-                  cellState = Cell.State.TWIN;
-                }
-              } else if((i === currentCellRow || j === currentCellCol)
-                && this.state.isCurrentCellHovered && this.props.hasEffects) {
-                cellState = Cell.State.HIGHLIGHTED;
-              }
-            }
+            const cellState = this.getCellState(i, j);
             let isClueCell = false;
             if(this.props.initialBoard.get(i, j) > 0) {
               isClueCell = true;
@@ -98,8 +83,8 @@ export class BoardView extends React.Component<Properties, State> {
               isClue={isClueCell}
               value={this.props.currentBoard.get(i, j)}
               onClick={this.onCellClicked(i, j)}
-              onMouseEnter={this.onCellHovered}
-              onMouseExit={this.onCellNotHovered}
+              onMouseEnter={this.onCellHovered(i, j)}
+              onMouseExit={this.onCellNotHoveredWithE}
             />);
           }
         }
@@ -139,6 +124,41 @@ export class BoardView extends React.Component<Properties, State> {
     return this.state.currentCell;
   }
 
+  private getCellState(row: number, col: number) {
+    let cellState = Cell.State.NONE;
+    let currentHoveredCellValue = -1;
+    if(this.state.hoveredCell && this.props.hasEffects) {
+      const hoveredCellRow = this.state.hoveredCell[0];
+      const hoveredCellCol = this.state.hoveredCell[1];
+      currentHoveredCellValue = this.props.currentBoard.get(
+        hoveredCellRow, hoveredCellCol);
+      if(currentHoveredCellValue > 0) {
+        if(currentHoveredCellValue === this.props.currentBoard.get(row, col)) {
+          cellState = Cell.State.TWIN;
+        }
+      } else if(row === hoveredCellRow || col === hoveredCellCol) {
+        cellState = Cell.State.HIGHLIGHTED;
+      }
+    }
+    if(this.state.currentCell) {
+      const currentCellRow = this.state.currentCell[0];
+      const currentCellCol = this.state.currentCell[1];
+      const currentCellValue = this.props.currentBoard.get(
+        currentCellRow, currentCellCol);
+      if(row === currentCellRow && col === currentCellCol) {
+        cellState = Cell.State.SELECTED;
+      } else if(row === currentCellRow || col === currentCellCol) {
+        cellState = Cell.State.HIGHLIGHTED;
+      } else if(currentCellValue > 0) {
+        if(currentCellValue === this.props.currentBoard.get(row, col) &&
+          (currentHoveredCellValue<1)) {
+          cellState = Cell.State.TWIN;
+        }
+      }
+    }
+    return cellState;
+  }
+
   private onCellClicked(row: number, column: number) {
     return (() => {
       if(this.props.initialBoard.get(row, column) === 0) {
@@ -150,12 +170,16 @@ export class BoardView extends React.Component<Properties, State> {
     });
   }
 
-  private onCellHovered() {
-    this.setState({ isCurrentCellHovered: true });
+  private onCellHovered(row: number, column: number) {
+    return (() => {
+      this.setState({
+        hoveredCell: [row, column]
+      });
+    });
   }
 
-  private onCellNotHovered() {
-    this.setState({ isCurrentCellHovered: false });
+  private onCellNotHoveredWithE() {
+    this.setState({ hoveredCell: undefined, isCurrentCellHovered: false });
   }
 
   private static readonly CELL_BLOCK_STYLE = {
