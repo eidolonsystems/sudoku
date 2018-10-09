@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { Board } from '../../';
-import { Cell } from '../../';
+import {Board, Cell} from '../../';
 
 enum DisplayMode {
 
@@ -118,7 +117,7 @@ export class BoardView extends React.Component<Properties, State> {
   }
 
   /** Returns a tuple representing the coordinates of the current cell. */
-  public getCurrentCell(): [number, number] {
+  public getSelectedCell(): [number, number] {
     return this.state.currentCell;
   }
 
@@ -150,9 +149,10 @@ export class BoardView extends React.Component<Properties, State> {
       } else if((row === currentCellRow || col === currentCellCol)
         && hoveredCellValue !== 0) {
         cellState = Cell.State.HIGHLIGHTED;
-      } else if(currentCellValue > 0) {
+      }
+      if(currentCellValue > 0) {
         if(currentCellValue === this.props.currentBoard.get(row, col) &&
-          (hoveredCellValue < 1)) {
+          (hoveredCellValue < 1 || hoveredCellValue === currentCellValue)) {
           cellState = Cell.State.TWIN;
         }
       }
@@ -167,12 +167,18 @@ export class BoardView extends React.Component<Properties, State> {
           const currentRow = this.state.currentCell[0];
           const currentCol = this.state.currentCell[1];
           if(currentRow === row && currentCol === column) {
-            this.setState({ currentCell: undefined });
+            this.setState({
+              currentCell: undefined
+            });
           } else {
-            this.setState({ currentCell: [row, column] });
+            this.setState({
+              currentCell: [row, column]
+            });
           }
         } else {
-          this.setState({ currentCell: [row, column] });
+          this.setState({
+            currentCell: [row, column]
+          });
         }
       }
     });
@@ -187,7 +193,9 @@ export class BoardView extends React.Component<Properties, State> {
   }
 
   private onCellNotHovered() {
-    this.setState({ hoveredCell: undefined });
+    this.setState({
+      hoveredCell: undefined
+    });
   }
 
   private static readonly CELL_BLOCK_STYLE = {

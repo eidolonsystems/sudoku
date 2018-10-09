@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Board, BoardView, EditButton, EffectButton, NumberBar, Timer } from '../..';
-import { Padding, VBoxLayout } from '../../layouts';
+import {Board, BoardView, EditButton,
+  EffectButton, NumberBar, Timer} from '../..';
+import {Padding, VBoxLayout} from '../../layouts';
 
 enum DisplayMode {
 
@@ -51,30 +52,30 @@ export class GameController extends React.Component<Properties, State> {
     })();
     return (
       <VBoxLayout width={displayWidth}>
-        <Padding size='20px' />
+        <Padding size='20px'/>
         <div style={GameController.TIMER_BLOCK_STYLE}>
           <img src='resources/images/game_page/burger-purple.svg'
-            width='20px' height='16px' />
-          <Timer style={GameController.TIMER_STYLE} />
+            width='20px' height='16px'/>
+          <Timer style={GameController.TIMER_STYLE}/>
         </div>
-        <Padding size='20px' />
+        <Padding size='20px'/>
         <div style={GameController.NAME_AND_SETTINGS_BLOCK_STYLE}>
           <div style={GameController.USER_NAME_STYLE}>
             {this.props.username}</div>
           <EffectButton style={GameController.EFFECT_BUTTON_STYLE}
             isOn={this.state.hasEffects}
-            toggle={this.toggleEffects} />
-          <EditButton />
+            toggle={this.toggleEffects}/>
+          <EditButton/>
         </div>
-        <Padding size='40px' />
+        <Padding size='40px'/>
         <BoardView ref={this.myRef}
           currentBoard={this.state.board}
           initialBoard={this.props.initialBoard}
           hasEffects={this.state.hasEffects}
-          displayMode={this.state.displayMode} />
-        <Padding size='17px' />
+          displayMode={this.state.displayMode}/>
+        <Padding size='17px'/>
         <NumberBar onValueSelected={this.changeCellValue}
-          displayMode={this.state.displayMode} />
+          displayMode={this.state.displayMode}/>
       </VBoxLayout>);
   }
 
@@ -102,8 +103,7 @@ export class GameController extends React.Component<Properties, State> {
   private changeCellValue(value: number) {
     const node = this.myRef.current;
     if(node) {
-      const cell = node.getCurrentCell();
-
+      const cell = node.getSelectedCell();
       if(cell && this.props.initialBoard.get(cell[0], cell[1]) === 0) {
         if(this.state.board.get(cell[0], cell[1]) === value) {
           this.state.board.set(cell[0], cell[1], 0);
@@ -117,7 +117,6 @@ export class GameController extends React.Component<Properties, State> {
   }
 
   private toggleEffects() {
-    console.log('Effects should be off!');
     if(this.state.hasEffects) {
       this.setState({ hasEffects: false });
     } else {
