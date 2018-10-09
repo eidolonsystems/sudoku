@@ -30,7 +30,6 @@ interface Properties {
 
 interface State {
   currentCell: [number, number];
-  isCurrentCellHovered: boolean;
   hoveredCell: [number, number];
 }
 
@@ -40,12 +39,11 @@ export class BoardView extends React.Component<Properties, State> {
     super(props);
     this.state = {
       currentCell: undefined,
-      hoveredCell: undefined,
-      isCurrentCellHovered: false
+      hoveredCell: undefined
     };
     this.onCellClicked = this.onCellClicked.bind(this);
     this.onCellHovered = this.onCellHovered.bind(this);
-    this.onCellNotHoveredWithE = this.onCellNotHoveredWithE.bind(this);
+    this.onCellNotHovered = this.onCellNotHovered.bind(this);
   }
 
   public render(): JSX.Element {
@@ -84,7 +82,7 @@ export class BoardView extends React.Component<Properties, State> {
               value={this.props.currentBoard.get(i, j)}
               onClick={this.onCellClicked(i, j)}
               onMouseEnter={this.onCellHovered(i, j)}
-              onMouseExit={this.onCellNotHoveredWithE}
+              onMouseExit={this.onCellNotHovered}
             />);
           }
         }
@@ -148,9 +146,9 @@ export class BoardView extends React.Component<Properties, State> {
       const currentCellValue = this.props.currentBoard.get(
         currentCellRow, currentCellCol);
       if(row === currentCellRow && col === currentCellCol) {
-          cellState = Cell.State.SELECTED;
+        cellState = Cell.State.SELECTED;
       } else if((row === currentCellRow || col === currentCellCol)
-        && hoveredCellValue > 0) {
+        && hoveredCellValue !== 0) {
         cellState = Cell.State.HIGHLIGHTED;
       } else if(currentCellValue > 0) {
         if(currentCellValue === this.props.currentBoard.get(row, col) &&
@@ -165,10 +163,17 @@ export class BoardView extends React.Component<Properties, State> {
   private onCellClicked(row: number, column: number) {
     return (() => {
       if(this.props.initialBoard.get(row, column) === 0) {
-        this.setState({
-          currentCell: [row, column],
-          isCurrentCellHovered: true
-        });
+        if(this.state.currentCell) {
+          const currentRow = this.state.currentCell[0];
+          const currentCol = this.state.currentCell[1];
+          if(currentRow === row && currentCol === column) {
+            this.setState({ currentCell: undefined });
+          } else {
+            this.setState({ currentCell: [row, column] }); \
+          }
+        } else {
+          this.setState({ currentCell: [row, column] });
+        }
       }
     });
   }
@@ -181,8 +186,8 @@ export class BoardView extends React.Component<Properties, State> {
     });
   }
 
-  private onCellNotHoveredWithE() {
-    this.setState({ hoveredCell: undefined, isCurrentCellHovered: false });
+  private onCellNotHovered() {
+    this.setState({ hoveredCell: undefined });
   }
 
   private static readonly CELL_BLOCK_STYLE = {
