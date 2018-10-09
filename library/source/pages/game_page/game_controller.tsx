@@ -24,8 +24,7 @@ interface Properties {
 interface State {
   board: Board;
   displayMode: DisplayMode;
-  hasEffects: boolean; //NEWWW!!!!!!
-
+  hasEffects: boolean;
 }
 
 /** Implements a component that displays a sudoku board. */

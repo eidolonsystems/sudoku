@@ -5,7 +5,10 @@ interface Properties {
   /** The CSS style to apply. */
   style?: any;
 
+  /** The callback funciton when the button is clicked. */
   toggle(): void;
+
+  /** Specifies if the button is on or off. */
   isOn: boolean;
 }
 
@@ -19,7 +22,6 @@ export class EffectButton extends React.Component<Properties, {}> {
     const image = (() => {
       if(this.props.isOn) {
         return ('resources/images/game_page/effect-grey.svg');
-
       } else {
         return ('resources/images/game_page/effect-green.svg');
       }
@@ -28,7 +30,7 @@ export class EffectButton extends React.Component<Properties, {}> {
       <input type='image' onClick={this.props.toggle}
         style={this.props.style}
         className={css(EffectButton.NO_FOCUS_STYLE.default)}
-        src={image} />
+        src={image}/>
     );
   }
 
@@ -44,5 +46,4 @@ export class EffectButton extends React.Component<Properties, {}> {
       }
     }
   });
-
 }

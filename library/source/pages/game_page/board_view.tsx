@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Board, Cell} from '../../';
+import { Board, Cell } from '../../';
 
 enum DisplayMode {
 
@@ -28,8 +28,8 @@ interface Properties {
 }
 
 interface State {
-  currentCell: [number, number];
   hoveredCell: [number, number];
+  selectedCell: [number, number];
 }
 
 /** Implements a component that displays a sudoku board. */
@@ -37,8 +37,8 @@ export class BoardView extends React.Component<Properties, State> {
   constructor(props: Properties) {
     super(props);
     this.state = {
-      currentCell: undefined,
-      hoveredCell: undefined
+      hoveredCell: undefined,
+      selectedCell: undefined
     };
     this.onCellClicked = this.onCellClicked.bind(this);
     this.onCellHovered = this.onCellHovered.bind(this);
@@ -118,7 +118,7 @@ export class BoardView extends React.Component<Properties, State> {
 
   /** Returns a tuple representing the coordinates of the current cell. */
   public getSelectedCell(): [number, number] {
-    return this.state.currentCell;
+    return this.state.selectedCell;
   }
 
   private getCellState(row: number, col: number) {
@@ -139,22 +139,19 @@ export class BoardView extends React.Component<Properties, State> {
         }
       }
     }
-    if(this.state.currentCell) {
-      const currentCellRow = this.state.currentCell[0];
-      const currentCellCol = this.state.currentCell[1];
-      const currentCellValue = this.props.currentBoard.get(
-        currentCellRow, currentCellCol);
-      if(row === currentCellRow && col === currentCellCol) {
+    if(this.state.selectedCell) {
+      const selectedCellRow = this.state.selectedCell[0];
+      const selectedCellCol = this.state.selectedCell[1];
+      const selectedCellValue = this.props.currentBoard.get(
+        selectedCellRow, selectedCellCol);
+      if(row === selectedCellRow && col === selectedCellCol) {
         cellState = Cell.State.SELECTED;
-      } else if((row === currentCellRow || col === currentCellCol)
-        && hoveredCellValue !== 0) {
-        cellState = Cell.State.HIGHLIGHTED;
-      }
-      if(currentCellValue > 0) {
-        if(currentCellValue === this.props.currentBoard.get(row, col) &&
-          (hoveredCellValue < 1 || hoveredCellValue === currentCellValue)) {
+      } else if(selectedCellValue === this.props.currentBoard.get(row, col) &&
+        (hoveredCellValue < 1 ) && selectedCellValue > 0) {
           cellState = Cell.State.TWIN;
-        }
+      } else if((row === selectedCellRow || col === selectedCellCol)
+        && (hoveredCellValue !==0) ) {
+        cellState = Cell.State.HIGHLIGHTED; //why is this not happeneding for empty cells!!!!!fgkhfldhsgjk
       }
     }
     return cellState;
@@ -163,21 +160,21 @@ export class BoardView extends React.Component<Properties, State> {
   private onCellClicked(row: number, column: number) {
     return (() => {
       if(this.props.initialBoard.get(row, column) === 0) {
-        if(this.state.currentCell) {
-          const currentRow = this.state.currentCell[0];
-          const currentCol = this.state.currentCell[1];
+        if(this.state.selectedCell) {
+          const currentRow = this.state.selectedCell[0];
+          const currentCol = this.state.selectedCell[1];
           if(currentRow === row && currentCol === column) {
             this.setState({
-              currentCell: undefined
+              selectedCell: undefined
             });
           } else {
             this.setState({
-              currentCell: [row, column]
+              selectedCell: [row, column]
             });
           }
         } else {
           this.setState({
-            currentCell: [row, column]
+            selectedCell: [row, column]
           });
         }
       }
