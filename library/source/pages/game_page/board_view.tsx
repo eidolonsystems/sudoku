@@ -126,18 +126,20 @@ export class BoardView extends React.Component<Properties, State> {
 
   private getCellState(row: number, col: number) {
     let cellState = Cell.State.NONE;
-    let currentHoveredCellValue = -1;
+    let hoveredCellValue = -1;
     if(this.state.hoveredCell && this.props.hasEffects) {
       const hoveredCellRow = this.state.hoveredCell[0];
       const hoveredCellCol = this.state.hoveredCell[1];
-      currentHoveredCellValue = this.props.currentBoard.get(
+      hoveredCellValue = this.props.currentBoard.get(
         hoveredCellRow, hoveredCellCol);
-      if(currentHoveredCellValue > 0) {
-        if(currentHoveredCellValue === this.props.currentBoard.get(row, col)) {
-          cellState = Cell.State.TWIN;
+      if(hoveredCellRow !== row || hoveredCellCol !== col) {
+        if(hoveredCellValue > 0) {
+          if(hoveredCellValue === this.props.currentBoard.get(row, col)) {
+            cellState = Cell.State.TWIN;
+          }
+        } else if(row === hoveredCellRow || col === hoveredCellCol) {
+          cellState = Cell.State.HIGHLIGHTED;
         }
-      } else if(row === hoveredCellRow || col === hoveredCellCol) {
-        cellState = Cell.State.HIGHLIGHTED;
       }
     }
     if(this.state.currentCell) {
@@ -146,12 +148,13 @@ export class BoardView extends React.Component<Properties, State> {
       const currentCellValue = this.props.currentBoard.get(
         currentCellRow, currentCellCol);
       if(row === currentCellRow && col === currentCellCol) {
-        cellState = Cell.State.SELECTED;
-      } else if(row === currentCellRow || col === currentCellCol) {
+          cellState = Cell.State.SELECTED;
+      } else if((row === currentCellRow || col === currentCellCol)
+        && hoveredCellValue > 0) {
         cellState = Cell.State.HIGHLIGHTED;
       } else if(currentCellValue > 0) {
         if(currentCellValue === this.props.currentBoard.get(row, col) &&
-          (currentHoveredCellValue<1)) {
+          (hoveredCellValue < 1)) {
           cellState = Cell.State.TWIN;
         }
       }
