@@ -37,7 +37,7 @@ export class GameController extends React.Component<Properties, State> {
       hasEffects: true
     };
     this.onResize = this.onResize.bind(this);
-    this.updateCell = this.updateCell.bind(this);
+    this.changeCellValue = this.changeCellValue.bind(this);
     this.toggleEffects = this.toggleEffects.bind(this);
   }
 
@@ -62,7 +62,7 @@ export class GameController extends React.Component<Properties, State> {
           <div style={GameController.USER_NAME_STYLE}>
             {this.props.username}</div>
           <EffectButton style={GameController.EFFECT_BUTTON_STYLE}
-            isOn = {this.state.hasEffects}
+            isOn={this.state.hasEffects}
             toggle={this.toggleEffects} />
           <EditButton />
         </div>
@@ -73,7 +73,7 @@ export class GameController extends React.Component<Properties, State> {
           hasEffects={this.state.hasEffects}
           displayMode={this.state.displayMode} />
         <Padding size='17px' />
-        <NumberBar onValueSelected={this.updateCell}
+        <NumberBar onValueSelected={this.changeCellValue}
           displayMode={this.state.displayMode} />
       </VBoxLayout>);
   }
@@ -99,13 +99,19 @@ export class GameController extends React.Component<Properties, State> {
     }
   }
 
-  private updateCell(value: number) {
+  private changeCellValue(value: number) {
     const node = this.myRef.current;
     if(node) {
       const cell = node.getCurrentCell();
+
       if(cell && this.props.initialBoard.get(cell[0], cell[1]) === 0) {
-        this.state.board.set(cell[0], cell[1], value);
-        this.myRef.current.forceUpdate();
+        if(this.state.board.get(cell[0], cell[1]) === value) {
+          this.state.board.set(cell[0], cell[1], 0);
+          this.myRef.current.forceUpdate();
+        } else {
+          this.state.board.set(cell[0], cell[1], value);
+          this.myRef.current.forceUpdate();
+        }
       }
     }
   }

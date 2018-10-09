@@ -169,7 +169,7 @@ export class BoardView extends React.Component<Properties, State> {
           if(currentRow === row && currentCol === column) {
             this.setState({ currentCell: undefined });
           } else {
-            this.setState({ currentCell: [row, column] }); \
+            this.setState({ currentCell: [row, column] });
           }
         } else {
           this.setState({ currentCell: [row, column] });
