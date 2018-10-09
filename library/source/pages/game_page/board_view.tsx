@@ -150,8 +150,8 @@ export class BoardView extends React.Component<Properties, State> {
         (hoveredCellValue < 1 ) && selectedCellValue > 0) {
           cellState = Cell.State.TWIN;
       } else if((row === selectedCellRow || col === selectedCellCol)
-        && (hoveredCellValue !==0) ) {
-        cellState = Cell.State.HIGHLIGHTED; //why is this not happeneding for empty cells!!!!!fgkhfldhsgjk
+        && (hoveredCellValue !==0) && cellState !== Cell.State.TWIN) {
+        cellState = Cell.State.HIGHLIGHTED;
       }
     }
     return cellState;
