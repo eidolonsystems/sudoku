@@ -141,10 +141,12 @@ export class BoardView extends React.Component<Properties, State> {
 
   private onCellClicked(row: number, column: number) {
     return (() => {
-      this.setState({
-        currentCell: [row, column],
-        isCurrentCellHovered: true
-      });
+      if(this.props.initialBoard.get(row, column) === 0) {
+        this.setState({
+          currentCell: [row, column],
+          isCurrentCellHovered: true
+        });
+      }
     });
   }
 

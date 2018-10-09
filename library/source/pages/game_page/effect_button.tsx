@@ -18,9 +18,10 @@ export class EffectButton extends React.Component<Properties, {}> {
   public render(): JSX.Element {
     const image = (() => {
       if(this.props.isOn) {
-        return ('resources/images/game_page/effect-green.svg');
-      } else {
         return ('resources/images/game_page/effect-grey.svg');
+
+      } else {
+        return ('resources/images/game_page/effect-green.svg');
       }
     })();
     return (
