@@ -1,5 +1,3 @@
-import { SSL_OP_NO_SESSION_RESUMPTION_ON_RENEGOTIATION } from "constants";
-
 /** Represents a standard 9x9 Sudoku board. Each position on the board is
  *  a number from [0-9] where 0 indicates a blank space.
  */
