@@ -37,8 +37,8 @@ export class BoardView extends React.Component<Properties, State> {
   constructor(props: Properties) {
     super(props);
     this.state = {
-      hoveredCell: undefined,
-      selectedCell: undefined
+      hoveredCell: null,
+      selectedCell: null
     };
     this.onCellClicked = this.onCellClicked.bind(this);
     this.onCellHovered = this.onCellHovered.bind(this);
@@ -130,9 +130,17 @@ export class BoardView extends React.Component<Properties, State> {
       const hoveredCellCol = this.state.hoveredCell[1];
       hoveredCellValue = this.props.currentBoard.get(
         hoveredCellRow, hoveredCellCol);
+      const isHoveredCellEditable = (() => {
+        if(this.props.initialBoard.get(hoveredCellRow , hoveredCellCol) === 0) {
+          return true;
+        } else {
+          return false;
+        }
+      })();
       if(currentCellValue === hoveredCellValue && hoveredCellValue > 0) {
         cellState = Cell.State.TWIN;
-      } else if(row === hoveredCellRow || col === hoveredCellCol) {
+      } else if((row === hoveredCellRow || col === hoveredCellCol) &&
+        isHoveredCellEditable) {
         cellState = Cell.State.HIGHLIGHTED;
       }
     }
@@ -144,12 +152,12 @@ export class BoardView extends React.Component<Properties, State> {
       if(row === selectedCellRow && col === selectedCellCol) {
         cellState = Cell.State.SELECTED;
       } else if((currentCellValue === selectedCellValue) &&
-          (hoveredCellValue <= 1 || hoveredCellValue === currentCellValue) &&
-          currentCellValue > 0) {
+        (hoveredCellValue <= 1 || hoveredCellValue === currentCellValue) &&
+        currentCellValue > 0) {
         cellState = Cell.State.TWIN;
       } else if((row === selectedCellRow || col === selectedCellCol) &&
-          (hoveredCellValue !== 0)) {
-        cellState = Cell.State.HIGHLIGHTED;
+        (hoveredCellValue !== 0)) {
+        //cellState = Cell.State.HIGHLIGHTED;
       }
     }
     return cellState;
@@ -158,23 +166,20 @@ export class BoardView extends React.Component<Properties, State> {
   private onCellClicked(row: number, column: number) {
     return (() => {
       if(this.props.initialBoard.get(row, column) === 0) {
+        let currentCell: [number, number];
+        currentCell = [row, column];
         if(this.state.selectedCell) {
           const currentRow = this.state.selectedCell[0];
           const currentCol = this.state.selectedCell[1];
           if(currentRow === row && currentCol === column) {
-            this.setState({
-              selectedCell: undefined
-            });
+            currentCell = null;
           } else {
-            this.setState({
-              selectedCell: [row, column]
-            });
+            currentCell = [row, column];
           }
-        } else {
-          this.setState({
-            selectedCell: [row, column]
-          });
         }
+        this.setState({
+          selectedCell: currentCell
+        });
       }
     });
   }

@@ -237,33 +237,37 @@ function isValidIfSet(board: Board,
   return true;
 }
 
+/** Generates a board with the specified number of clues. 
+ * @param numberoOfClues - number of clue cells
+ * @return A board with the specified number of clues. If the number of clues
+ *         is too low to produce a board with a unique solution it returns null.
+ */
 export function generateIncompleteBoard(numberoOfClues: number): Board {
-  let board = new Board();
-  fillCell(board, 0, 0);
-  board = emptyCell(board, (Board.ROWS * Board.COLUMNS - numberoOfClues));
-  return board;
+  if(numberoOfClues < 17) {
+    return null;
+  } else {
+    const board = new Board();
+    fillCell(board, 0, 0);
+    return emptyCell(board, (Board.ROWS * Board.COLUMNS - numberoOfClues));
+  }
 }
 
 function emptyCell(board: Board, cellsToEmpty: number): Board {
   if(cellsToEmpty === 0) {
     return board;
   }
-  let noCellSelected = true;
-  let row = Math.floor(Math.random() * Board.ROWS);
-  let col = Math.floor(Math.random() * Board.COLUMNS);
-  while(noCellSelected) {
+  while(true) {
+    const row = Math.floor(Math.random() * Board.ROWS);
+    const col = Math.floor(Math.random() * Board.COLUMNS);
     if(board.get(row, col) > 0) {
       const clone = board.clone();
       clone.set(row, col, 0);
       if(solve(clone) !== null) {
         const emptierBoard = emptyCell(clone, cellsToEmpty - 1);
         if(emptierBoard) {
-          noCellSelected = false;
           return emptierBoard;
         }
       }
     }
-    row = Math.floor(Math.random() * Board.ROWS);
-    col = Math.floor(Math.random() * Board.COLUMNS);
   }
 }
