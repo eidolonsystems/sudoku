@@ -46,7 +46,7 @@ interface Properties {
   onMouseEnter(): void;
 
   /** Callback when the mouse leaves the cell. */
-  onMouseExit(): void;
+  onMouseLeave(): void;
 }
 
 /** Implements a cell of a sudoku board. */
@@ -96,12 +96,11 @@ export class Cell extends React.Component<Properties, {}> {
     return (
       <button onClick={this.props.onClick}
           onMouseEnter={this.props.onMouseEnter}
-          onMouseLeave={this.props.onMouseExit}
+          onMouseLeave={this.props.onMouseLeave}
           className={css(baseStyle, borderStyle)}
           style={cellTextStyle}>
         {cellValue}
-      </button>
-    );
+      </button>);
   }
 
   private static readonly TEXT_AND_SIZE_STYLE = {

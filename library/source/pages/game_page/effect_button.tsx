@@ -30,9 +30,7 @@ export class EffectButton extends React.Component<Properties, {}> {
       <input type='image' onClick={this.props.onClick}
         style={this.props.style}
         className={css(EffectButton.NO_FOCUS_STYLE.default)}
-        src={image}
-        />
-    );
+        src={image}/>);
   }
 
   private static readonly NO_FOCUS_STYLE = StyleSheet.create({

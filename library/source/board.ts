@@ -4,6 +4,7 @@
 export class Board {
   public static ROWS = 9;
   public static COLUMNS = 9;
+  public static MIN_CLUES = 17;
 
   /** Constructs a blank board. */
   constructor() {
@@ -238,16 +239,16 @@ function isValidIfSet(board: Board,
 }
 
 /** Generates a board with the specified number of clues.
- * @param numberoOfClues - number of clue cells
+ * @param numberOfClues - number of clue cells
  * @return A board with the specified number of clues. If the number of clues
  *         is too few to produce a board with a unique solution it returns null.
  */
-export function generateIncompleteBoard(numberoOfClues: number): Board {
-  if(numberoOfClues < 17) {
+export function generateIncompleteBoard(numberOfClues: number): Board {
+  if(numberOfClues < Board.MIN_CLUES) {
     return null;
   } else {
     return emptyCell(generateBoard(),
-      (Board.ROWS * Board.COLUMNS - numberoOfClues));
+      (Board.ROWS * Board.COLUMNS - numberOfClues));
   }
 }
 

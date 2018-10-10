@@ -78,7 +78,7 @@ export class BoardView extends React.Component<Properties, State> {
               value={this.props.currentBoard.get(i, j)}
               onClick={this.onCellClicked(i, j)}
               onMouseEnter={this.onCellHovered(i, j)}
-              onMouseExit={this.onCellNotHovered}
+              onMouseLeave={this.onCellNotHovered}
             />);
           }
         }
@@ -109,8 +109,7 @@ export class BoardView extends React.Component<Properties, State> {
       return blocks;
     })();
     return (
-      <div style={displayPadding}>{cells}</div>
-    );
+      <div style={displayPadding}>{cells}</div>);
   }
 
   /** Returns a tuple representing the coordinates of the current cell. */
@@ -158,18 +157,20 @@ export class BoardView extends React.Component<Properties, State> {
   private onCellClicked(row: number, column: number) {
     return (() => {
       if(this.props.initialBoard.get(row, column) === 0) {
-        let currentCell: [number, number];
-        currentCell = [row, column];
-        if(this.state.selectedCell) {
-          const currentRow = this.state.selectedCell[0];
-          const currentCol = this.state.selectedCell[1];
-          if(currentRow === row && currentCol === column) {
-            currentCell = null;
+        const currentCell = (() => {
+          if(this.state.selectedCell) {
+            const currentRow = this.state.selectedCell[0];
+            const currentCol = this.state.selectedCell[1];
+            if(currentRow === row && currentCol === column) {
+              return null;
+            } else {
+              return [row, column] as [number, number];
+            }
+          } else {
+            return [row, column] as [number, number];
           }
-        }
-        this.setState({
-          selectedCell: currentCell
-        });
+        })();
+        this.setState({selectedCell: currentCell});
       }
     });
   }
