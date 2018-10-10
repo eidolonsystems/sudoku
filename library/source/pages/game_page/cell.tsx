@@ -97,21 +97,13 @@ export class Cell extends React.Component<Properties, {}> {
     })();
     return (
       <button onClick={this.props.onClick}
-        onMouseOver={this.onMouseOver}
-        onMouseLeave={this.onMouseExit}
-        className={css(baseStyle, borderStyle)}
-        style={cellTextStyle}>
+          onMouseEnter={this.props.onMouseEnter}
+          onMouseLeave={this.props.onMouseExit}
+          className={css(baseStyle, borderStyle)}
+          style={cellTextStyle}>
         {cellValue}
       </button>
     );
-  }
-
-  private onMouseOver() {
-    this.props.onMouseEnter();
-  }
-
-  private onMouseExit() {
-    this.props.onMouseExit();
   }
 
   private static readonly TEXT_AND_SIZE_STYLE = {
