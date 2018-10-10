@@ -53,8 +53,6 @@ interface Properties {
 export class Cell extends React.Component<Properties, {}> {
   constructor(props: Properties) {
     super(props);
-    this.onMouseOver = this.onMouseOver.bind(this);
-    this.onMouseExit = this.onMouseExit.bind(this);
   }
 
   public render(): JSX.Element {

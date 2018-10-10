@@ -246,8 +246,7 @@ export function generateIncompleteBoard(numberoOfClues: number): Board {
   if(numberoOfClues < 17) {
     return null;
   } else {
-    const board = new Board();
-    fillCell(board, 0, 0);
+    const board = generateBoard();
     return emptyCell(board, (Board.ROWS * Board.COLUMNS - numberoOfClues));
   }
 }

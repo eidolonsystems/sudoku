@@ -165,15 +165,14 @@ export class BoardView extends React.Component<Properties, State> {
 
   private onCellClicked(row: number, column: number) {
     return (() => {
-      if(this.props.initialBoard.get(row, column) === 0) {
+      if(this.props.initialBoard.get(row, column) === 0) { //if editable cell
         let currentCell: [number, number];
+        currentCell = [row, column];
         if(this.state.selectedCell) {
           const currentRow = this.state.selectedCell[0];
           const currentCol = this.state.selectedCell[1];
           if(currentRow === row && currentCol === column) {
             currentCell = null;
-          } else {
-            currentCell = [row, column];
           }
         }
         this.setState({
