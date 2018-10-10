@@ -58,7 +58,6 @@ export class BoardTester {
   public testGeneratingIncompleteBoard(): void {
     const clues = 50;
     const board = sudoku.generateIncompleteBoard(clues);
-    //const board = sudoku.generateBoard();
     let clueCells = 0;
     for(let i = 0; i < sudoku.Board.ROWS; ++i) {
       for(let j = 0; j < sudoku.Board.COLUMNS; ++j) {

@@ -5,8 +5,8 @@ interface Properties {
   /** The CSS style to apply. */
   style?: any;
 
-  /** The callback funciton when the button is clicked. */
-  toggle(): void;
+  /** The callback when the button is clicked. */
+  onClick(): void;
 
   /** Specifies if the button is on or off. */
   isOn: boolean;
@@ -21,16 +21,17 @@ export class EffectButton extends React.Component<Properties, {}> {
   public render(): JSX.Element {
     const image = (() => {
       if(this.props.isOn) {
-        return ('resources/images/game_page/effect-grey.svg');
+        return 'resources/images/game_page/effect-grey.svg';
       } else {
-        return ('resources/images/game_page/effect-green.svg');
+        return 'resources/images/game_page/effect-green.svg';
       }
     })();
     return (
-      <input type='image' onClick={this.props.toggle}
+      <input type='image' onClick={this.props.onClick}
         style={this.props.style}
         className={css(EffectButton.NO_FOCUS_STYLE.default)}
-        src={image}/>
+        src={image}
+        />
     );
   }
 
