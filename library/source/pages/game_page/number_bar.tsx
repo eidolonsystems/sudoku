@@ -69,6 +69,7 @@ export class NumberBar extends React.Component<Properties, {}> {
       margin: '2px',
       padding: '0px',
       textAlign: 'center' as 'center',
+      backgroundColor: '#FFFFFF',
       ':hover': {
         boxShadow: '0px 0px 2px #C8C8C8',
         border: '0px solid #FFFFFF',

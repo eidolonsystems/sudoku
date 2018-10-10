@@ -4,6 +4,7 @@
 export class Board {
   public static ROWS = 9;
   public static COLUMNS = 9;
+  public static MIN_CLUES = 17;
 
   /** Constructs a blank board. */
   constructor() {
@@ -151,8 +152,9 @@ export function isSolved(board: Board): boolean {
  *         distinct object from the board argument.
  */
 export function solve(board: Board): Board {
-  if(solveHelper(board, 0, 0)) {
-    return board;
+  const copy = board.clone();
+  if(solveHelper(copy, 0, 0)) {
+    return copy;
   } else {
     return null;
   }
@@ -234,4 +236,35 @@ function isValidIfSet(board: Board,
     }
   }
   return true;
+}
+
+/** Generates a board with the specified number of clues.
+ * @param numberOfClues - number of clue cells
+ * @return A board with the specified number of clues. If the number of clues
+ *         is too few to produce a board with a unique solution it returns null.
+ */
+export function generateIncompleteBoard(numberOfClues: number): Board {
+  if(numberOfClues < Board.MIN_CLUES) {
+    return null;
+  } else {
+    return emptyCell(generateBoard(),
+      (Board.ROWS * Board.COLUMNS - numberOfClues));
+  }
+}
+
+function emptyCell(board: Board, cellsToEmpty: number): Board {
+  if(cellsToEmpty === 0) {
+    return board;
+  }
+  while(true) {
+    const row = Math.floor(Math.random() * Board.ROWS);
+    const col = Math.floor(Math.random() * Board.COLUMNS);
+    if(board.get(row, col) > 0) {
+      const clone = board.clone();
+      clone.set(row, col, 0);
+      if(solve(clone) !== null) {
+        return emptyCell(clone, cellsToEmpty - 1);
+      }
+    }
+  }
 }

@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { Board } from '../../';
-import { Cell } from '../../';
+import { Board, Cell } from '../../';
 
 enum DisplayMode {
 
@@ -14,7 +13,10 @@ enum DisplayMode {
 interface Properties {
 
   /** A 2D array that documents the values of all cells on the board. */
-  board: Board;
+  currentBoard: Board;
+
+  /** A 2D array that documents the values of all cells on the board. */
+  initialBoard: Board;
 
   /** Used to determine if effects on cells that are not the selected cell
    * should be shown.
@@ -26,8 +28,8 @@ interface Properties {
 }
 
 interface State {
-  currentCell: [number, number];
-  isCurrentCellHovered: boolean;
+  hoveredCell: [number, number];
+  selectedCell: [number, number];
 }
 
 /** Implements a component that displays a sudoku board. */
@@ -35,8 +37,8 @@ export class BoardView extends React.Component<Properties, State> {
   constructor(props: Properties) {
     super(props);
     this.state = {
-      currentCell: undefined,
-      isCurrentCellHovered: false
+      hoveredCell: null,
+      selectedCell: null
     };
     this.onCellClicked = this.onCellClicked.bind(this);
     this.onCellHovered = this.onCellHovered.bind(this);
@@ -66,31 +68,17 @@ export class BoardView extends React.Component<Properties, State> {
         const squareColumnStart = (g % 3) * 3;
         for(let i = squareRowStart; i < squareRowStart + 3; ++i) {
           for(let j = squareColumnStart; j < squareColumnStart + 3; ++j) {
-            let cellState = Cell.State.NONE;
-            if(this.state.currentCell) {
-              const currentCellRow = this.state.currentCell[0];
-              const currentCellCol = this.state.currentCell[1];
-              const currentCellValue = this.props.board.get(currentCellRow,
-                currentCellCol);
-              if(i === currentCellRow && j === currentCellCol) {
-                cellState = Cell.State.SELECTED;
-              } else if(currentCellValue > 0) {
-                if(currentCellValue === this.props.board.get(i, j)) {
-                  cellState = Cell.State.TWIN;
-                }
-              } else if((i === currentCellRow || j === currentCellCol)
-                  && this.state.isCurrentCellHovered) {
-                cellState = Cell.State.HIGHLIGHTED;
-              }
-            }
+            const cellState = this.getCellState(i, j);
+            const isClueCell = this.props.initialBoard.get(i, j) > 0;
             cellBlock.push(<Cell
               key={i + ' ' + j}
               displayMode={this.props.displayMode}
               cellState={cellState}
-              value={this.props.board.get(i, j)}
+              isClue={isClueCell}
+              value={this.props.currentBoard.get(i, j)}
               onClick={this.onCellClicked(i, j)}
-              onMouseEnter={this.onCellHovered}
-              onMouseExit={this.onCellNotHovered}
+              onMouseEnter={this.onCellHovered(i, j)}
+              onMouseLeave={this.onCellNotHovered}
             />);
           }
         }
@@ -121,30 +109,84 @@ export class BoardView extends React.Component<Properties, State> {
       return blocks;
     })();
     return (
-      <div style={displayPadding}>{cells}</div>
-    );
+      <div style={displayPadding}>{cells}</div>);
   }
 
   /** Returns a tuple representing the coordinates of the current cell. */
-  public getCurrentCell(): [number, number] {
-    return this.state.currentCell;
+  public getSelectedCell(): [number, number] {
+    return this.state.selectedCell;
+  }
+
+  private getCellState(row: number, col: number) {
+    let cellState = Cell.State.NONE;
+    const currentCellValue = this.props.currentBoard.get(row, col);
+    let hoveredCellValue = -1;
+    if(this.state.hoveredCell && this.props.hasEffects) {
+      const hoveredCellRow = this.state.hoveredCell[0];
+      const hoveredCellCol = this.state.hoveredCell[1];
+      hoveredCellValue = this.props.currentBoard.get(
+        hoveredCellRow, hoveredCellCol);
+      const isHoveredCellEditable =
+        this.props.initialBoard.get(hoveredCellRow , hoveredCellCol) === 0;
+      if(currentCellValue === hoveredCellValue && hoveredCellValue > 0) {
+        cellState = Cell.State.TWIN;
+      } else if((row === hoveredCellRow || col === hoveredCellCol) &&
+          isHoveredCellEditable) {
+        cellState = Cell.State.HIGHLIGHTED;
+      }
+    }
+    if(this.state.selectedCell) {
+      const selectedCellRow = this.state.selectedCell[0];
+      const selectedCellCol = this.state.selectedCell[1];
+      const selectedCellValue = this.props.currentBoard.get(
+        selectedCellRow, selectedCellCol);
+      if(row === selectedCellRow && col === selectedCellCol) {
+        cellState = Cell.State.SELECTED;
+      } else if((currentCellValue === selectedCellValue) &&
+          (hoveredCellValue <= 1 || hoveredCellValue === currentCellValue) &&
+          currentCellValue > 0) {
+        cellState = Cell.State.TWIN;
+      } else if((row === selectedCellRow || col === selectedCellCol) &&
+          (hoveredCellValue !== 0)) {
+        cellState = Cell.State.HIGHLIGHTED;
+      }
+    }
+    return cellState;
   }
 
   private onCellClicked(row: number, column: number) {
     return (() => {
+      if(this.props.initialBoard.get(row, column) === 0) {
+        const currentCell = (() => {
+          if(this.state.selectedCell) {
+            const currentRow = this.state.selectedCell[0];
+            const currentCol = this.state.selectedCell[1];
+            if(currentRow === row && currentCol === column) {
+              return null;
+            } else {
+              return [row, column] as [number, number];
+            }
+          } else {
+            return [row, column] as [number, number];
+          }
+        })();
+        this.setState({selectedCell: currentCell});
+      }
+    });
+  }
+
+  private onCellHovered(row: number, column: number) {
+    return (() => {
       this.setState({
-        currentCell: [row, column],
-        isCurrentCellHovered: true
+        hoveredCell: [row, column]
       });
     });
   }
 
-  private onCellHovered() {
-    this.setState({ isCurrentCellHovered: true });
-  }
-
   private onCellNotHovered() {
-    this.setState({ isCurrentCellHovered: false });
+    this.setState({
+      hoveredCell: undefined
+    });
   }
 
   private static readonly CELL_BLOCK_STYLE = {

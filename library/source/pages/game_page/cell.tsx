@@ -33,6 +33,9 @@ interface Properties {
   /** Specifies the state of the cell. */
   cellState: CellState;
 
+  /** Specifies if the cell is a clue cell. */
+  isClue: boolean;
+
   /** The value that the cell holds */
   value: number;
 
@@ -43,23 +46,28 @@ interface Properties {
   onMouseEnter(): void;
 
   /** Callback when the mouse leaves the cell. */
-  onMouseExit(): void;
+  onMouseLeave(): void;
 }
 
 /** Implements a cell of a sudoku board. */
 export class Cell extends React.Component<Properties, {}> {
   constructor(props: Properties) {
     super(props);
-    this.onMouseOver = this.onMouseOver.bind(this);
-    this.onMouseExit = this.onMouseExit.bind(this);
   }
 
   public render(): JSX.Element {
+    const baseStyle = (() => {
+      if(this.props.isClue) {
+        return Cell.CELL_STYLE.clueDefault;
+      } else {
+        return Cell.CELL_STYLE.default;
+      }
+    })();
     const cellTextStyle = (() => {
       if(this.props.displayMode === DisplayMode.LARGE) {
-        return Cell.TEXT_STYLE_LARGE;
+        return Cell.TEXT_AND_SIZE_STYLE.large;
       } else {
-        return Cell.TEXT_STYLE_SMALL;
+        return Cell.TEXT_AND_SIZE_STYLE.small;
       }
     })();
     const borderStyle = (() => {
@@ -78,7 +86,7 @@ export class Cell extends React.Component<Properties, {}> {
           return undefined;
       }
     })();
-    const displayValue = (() => {
+    const cellValue = (() => {
       if(this.props.value === 0) {
         return '';
       } else {
@@ -87,41 +95,30 @@ export class Cell extends React.Component<Properties, {}> {
     })();
     return (
       <button onClick={this.props.onClick}
-          onMouseOver={this.onMouseOver}
-          onMouseLeave={this.onMouseExit}
-          className={css(Cell.CELL_STYLE.default, borderStyle)}
+          onMouseEnter={this.props.onMouseEnter}
+          onMouseLeave={this.props.onMouseLeave}
+          className={css(baseStyle, borderStyle)}
           style={cellTextStyle}>
-        {displayValue}
-      </button>
-    );
+        {cellValue}
+      </button>);
   }
 
-  private onMouseOver() {
-    if(this.props.cellState === Cell.State.SELECTED) {
-      this.props.onMouseEnter();
+  private static readonly TEXT_AND_SIZE_STYLE = {
+    large: {
+      fontSize: '24px',
+      height: '40px',
+      width: '40px',
+      innerHeight: '40px',
+      innerWidth: '40px'
+    },
+    small: {
+      boxLayout: 'border-box' as 'border-box',
+      fontSize: '16px',
+      height: '26px',
+      width: '26px',
+      innerHeight: '26px',
+      innerWidth: '26px'
     }
-  }
-
-  private onMouseExit() {
-    if(this.props.cellState === Cell.State.SELECTED) {
-      this.props.onMouseExit();
-    }
-  }
-
-  private static readonly TEXT_STYLE_SMALL = {
-    boxLayout: 'border-box' as 'border-box',
-    fontSize: '16px',
-    height: '26px',
-    width: '26px',
-    innerHeight: '26px',
-    innerWidth: '26px'
-  };
-  private static readonly TEXT_STYLE_LARGE = {
-    fontSize: '24px',
-    height: '40px',
-    width: '40px',
-    innerHeight: '40px',
-    innerWidth: '40px'
   };
   private static readonly CELL_STYLE = StyleSheet.create({
     default: {
@@ -146,7 +143,7 @@ export class Cell extends React.Component<Properties, {}> {
     },
     highlightedFilled: {
       backgroundColor: '#F8F8F8',
-      borderColor: '##B9B4EC'
+      borderColor: '#B9B4EC'
     },
     highlighted: {
       backgroundColor: '#F8F8F8'
@@ -156,6 +153,26 @@ export class Cell extends React.Component<Properties, {}> {
     },
     twin: {
       borderColor: '#00D3DB'
+    },
+    clueDefault: {
+      backgroundColor: '#F8F8F8',
+      borderColor: '#F8F8F8',
+      borderRadius: '4px',
+      borderStyle: 'solid' as 'solid',
+      borderWidth: '1px',
+      color: '#4B23A0',
+      fontFamily: 'Roboto',
+      textAlign: 'center' as 'center',
+      verticalAlign: 'middle' as 'middle',
+      ':hover': {
+        borderColor: '#4B23A0'
+      },
+      ':focus': {
+        outline: '0'
+      },
+      '::-moz-focus-inner': {
+        border: '0'
+      }
     }
   });
 }

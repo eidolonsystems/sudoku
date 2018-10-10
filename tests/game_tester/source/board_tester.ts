@@ -1,6 +1,6 @@
-import {Expect, Test} from "alsatian";
+import { Expect, Test } from "alsatian";
 import * as sudoku from 'sudoku';
-import {Board} from "sudoku";
+import { Board } from "sudoku";
 
 
 /** Tests the Board class. */
@@ -10,8 +10,8 @@ export class BoardTester {
   @Test()
   public testConstructor(): void {
     const b = new sudoku.Board();
-    for (let i = 0; i < sudoku.Board.ROWS; ++i) {
-      for (let j = 0; j < sudoku.Board.COLUMNS; ++j) {
+    for(let i = 0; i < sudoku.Board.ROWS; ++i) {
+      for(let j = 0; j < sudoku.Board.COLUMNS; ++j) {
         Expect(b.get(i, j)).toEqual(0);
       }
     }
@@ -35,8 +35,8 @@ export class BoardTester {
     originalBoard.set(1, 3, 7);
     originalBoard.set(5, 2, 1);
     const clonedBoard = originalBoard.clone();
-    for (let i = 0; i < sudoku.Board.ROWS; ++i) {
-      for (let j = 0; j < sudoku.Board.COLUMNS; ++j) {
+    for(let i = 0; i < sudoku.Board.ROWS; ++i) {
+      for(let j = 0; j < sudoku.Board.COLUMNS; ++j) {
         Expect(originalBoard.get(i, j)).toEqual(clonedBoard.get(i, j));
       }
     }
@@ -46,8 +46,8 @@ export class BoardTester {
   @Test()
   public testGeneratingCompleteBoard(): void {
     const fullBoard = sudoku.generateBoard();
-    for (let i = 0; i < sudoku.Board.ROWS; ++i) {
-      for (let j = 0; j < sudoku.Board.COLUMNS; ++j) {
+    for(let i = 0; i < sudoku.Board.ROWS; ++i) {
+      for(let j = 0; j < sudoku.Board.COLUMNS; ++j) {
         Expect(fullBoard.get(i, j)).toBeGreaterThan(0);
       }
     }
@@ -56,7 +56,17 @@ export class BoardTester {
   /** Test generating an incomplete game board. */
   @Test()
   public testGeneratingIncompleteBoard(): void {
-    Expect(false).toEqual(true);
+    const clues = 50;
+    const board = sudoku.generateIncompleteBoard(clues);
+    let clueCells = 0;
+    for(let i = 0; i < sudoku.Board.ROWS; ++i) {
+      for(let j = 0; j < sudoku.Board.COLUMNS; ++j) {
+        if(board.get(i, j) > 0) {
+          ++clueCells;
+        }
+      }
+    }
+    Expect(clueCells).toEqual(clues);
   }
 
   /** Test solving an incomplete board. */
@@ -155,10 +165,10 @@ export class BoardTester {
 
     const solutionBoard = b.clone();
     solutionBoard.set(6, 5, 5);
-    sudoku.solve(b);
-    for (let i = 0; i < sudoku.Board.ROWS; ++i) {
-      for (let j = 0; j < sudoku.Board.COLUMNS; ++j) {
-        Expect(b.get(i, j)).toEqual(solutionBoard.get(i, j));
+    const solvedBoard = sudoku.solve(b);
+    for(let i = 0; i < sudoku.Board.ROWS; ++i) {
+      for(let j = 0; j < sudoku.Board.COLUMNS; ++j) {
+        Expect(solvedBoard.get(i, j)).toEqual(solutionBoard.get(i, j));
       }
     }
     const emptyBoard = new sudoku.Board();
