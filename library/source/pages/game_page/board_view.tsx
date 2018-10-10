@@ -69,10 +69,7 @@ export class BoardView extends React.Component<Properties, State> {
         for(let i = squareRowStart; i < squareRowStart + 3; ++i) {
           for(let j = squareColumnStart; j < squareColumnStart + 3; ++j) {
             const cellState = this.getCellState(i, j);
-            let isClueCell = false;
-            if(this.props.initialBoard.get(i, j) > 0) {
-              isClueCell = true;
-            }
+            const isClueCell = this.props.initialBoard.get(i, j) > 0;
             cellBlock.push(<Cell
               key={i + ' ' + j}
               displayMode={this.props.displayMode}
@@ -130,17 +127,12 @@ export class BoardView extends React.Component<Properties, State> {
       const hoveredCellCol = this.state.hoveredCell[1];
       hoveredCellValue = this.props.currentBoard.get(
         hoveredCellRow, hoveredCellCol);
-      const isHoveredCellEditable = (() => {
-        if(this.props.initialBoard.get(hoveredCellRow , hoveredCellCol) === 0) {
-          return true;
-        } else {
-          return false;
-        }
-      })();
+      const isHoveredCellEditable =
+        this.props.initialBoard.get(hoveredCellRow , hoveredCellCol) === 0;
       if(currentCellValue === hoveredCellValue && hoveredCellValue > 0) {
         cellState = Cell.State.TWIN;
       } else if((row === hoveredCellRow || col === hoveredCellCol) &&
-        isHoveredCellEditable) {
+          isHoveredCellEditable) {
         cellState = Cell.State.HIGHLIGHTED;
       }
     }
@@ -152,12 +144,12 @@ export class BoardView extends React.Component<Properties, State> {
       if(row === selectedCellRow && col === selectedCellCol) {
         cellState = Cell.State.SELECTED;
       } else if((currentCellValue === selectedCellValue) &&
-        (hoveredCellValue <= 1 || hoveredCellValue === currentCellValue) &&
-        currentCellValue > 0) {
+          (hoveredCellValue <= 1 || hoveredCellValue === currentCellValue) &&
+          currentCellValue > 0) {
         cellState = Cell.State.TWIN;
       } else if((row === selectedCellRow || col === selectedCellCol) &&
-        (hoveredCellValue !== 0)) {
-          cellState = Cell.State.HIGHLIGHTED;
+          (hoveredCellValue !== 0)) {
+        cellState = Cell.State.HIGHLIGHTED;
       }
     }
     return cellState;
@@ -165,7 +157,7 @@ export class BoardView extends React.Component<Properties, State> {
 
   private onCellClicked(row: number, column: number) {
     return (() => {
-      if(this.props.initialBoard.get(row, column) === 0) { //if editable cell
+      if(this.props.initialBoard.get(row, column) === 0) {
         let currentCell: [number, number];
         currentCell = [row, column];
         if(this.state.selectedCell) {

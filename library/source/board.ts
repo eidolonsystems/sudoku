@@ -237,17 +237,17 @@ function isValidIfSet(board: Board,
   return true;
 }
 
-/** Generates a board with the specified number of clues. 
+/** Generates a board with the specified number of clues.
  * @param numberoOfClues - number of clue cells
  * @return A board with the specified number of clues. If the number of clues
- *         is too low to produce a board with a unique solution it returns null.
+ *         is too few to produce a board with a unique solution it returns null.
  */
 export function generateIncompleteBoard(numberoOfClues: number): Board {
   if(numberoOfClues < 17) {
     return null;
   } else {
-    const board = generateBoard();
-    return emptyCell(board, (Board.ROWS * Board.COLUMNS - numberoOfClues));
+    return emptyCell(generateBoard(),
+      (Board.ROWS * Board.COLUMNS - numberoOfClues));
   }
 }
 
@@ -262,10 +262,7 @@ function emptyCell(board: Board, cellsToEmpty: number): Board {
       const clone = board.clone();
       clone.set(row, col, 0);
       if(solve(clone) !== null) {
-        const emptierBoard = emptyCell(clone, cellsToEmpty - 1);
-        if(emptierBoard) {
-          return emptierBoard;
-        }
+        return emptyCell(clone, cellsToEmpty - 1);
       }
     }
   }

@@ -53,13 +53,13 @@ export class GameController extends React.Component<Properties, State> {
     })();
     return (
       <VBoxLayout width={displayWidth}>
-        <Padding size='20px' />
+        <Padding size='20px'/>
         <div style={GameController.TIMER_BLOCK_STYLE}>
           <img src='resources/images/game_page/burger-purple.svg'
-            width='20px' height='16px' />
-          <Timer style={GameController.TIMER_STYLE} />
+            width='20px' height='16px'/>
+          <Timer style={GameController.TIMER_STYLE}/>
         </div>
-        <Padding size='20px' />
+        <Padding size='20px'/>
         <div style={GameController.NAME_AND_SETTINGS_BLOCK_STYLE}>
           <div style={GameController.USER_NAME_STYLE}>
             {this.props.username}
@@ -68,16 +68,16 @@ export class GameController extends React.Component<Properties, State> {
             isOn={this.state.hasEffects}
             onClick={this.toggleEffects}
           />
-          <EditButton />
+          <EditButton/>
         </div>
-        <Padding size='40px' />
+        <Padding size='40px'/>
         <BoardView ref={this.myRef}
           currentBoard={this.state.board}
           initialBoard={this.props.initialBoard}
           hasEffects={this.state.hasEffects}
           displayMode={this.state.displayMode}
         />
-        <Padding size='17px' />
+        <Padding size='17px'/>
         <NumberBar onValueSelected={this.changeCellValue}
           displayMode={this.state.displayMode}
         />
