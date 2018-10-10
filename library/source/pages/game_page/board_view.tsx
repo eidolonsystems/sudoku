@@ -123,20 +123,17 @@ export class BoardView extends React.Component<Properties, State> {
 
   private getCellState(row: number, col: number) {
     let cellState = Cell.State.NONE;
+    const currentCellValue = this.props.currentBoard.get(row, col);
     let hoveredCellValue = -1;
     if(this.state.hoveredCell && this.props.hasEffects) {
       const hoveredCellRow = this.state.hoveredCell[0];
       const hoveredCellCol = this.state.hoveredCell[1];
       hoveredCellValue = this.props.currentBoard.get(
         hoveredCellRow, hoveredCellCol);
-      if(hoveredCellRow !== row || hoveredCellCol !== col) {
-        if(hoveredCellValue > 0) {
-          if(hoveredCellValue === this.props.currentBoard.get(row, col)) {
-            cellState = Cell.State.TWIN;
-          }
-        } else if(row === hoveredCellRow || col === hoveredCellCol) {
-          cellState = Cell.State.HIGHLIGHTED;
-        }
+      if(currentCellValue === hoveredCellValue && hoveredCellValue > 0) {
+        cellState = Cell.State.TWIN;
+      } else if(row === hoveredCellRow || col === hoveredCellCol) {
+        cellState = Cell.State.HIGHLIGHTED;
       }
     }
     if(this.state.selectedCell) {
@@ -146,11 +143,12 @@ export class BoardView extends React.Component<Properties, State> {
         selectedCellRow, selectedCellCol);
       if(row === selectedCellRow && col === selectedCellCol) {
         cellState = Cell.State.SELECTED;
-      } else if(selectedCellValue === this.props.currentBoard.get(row, col) &&
-        (hoveredCellValue < 1 ) && selectedCellValue > 0) {
-          cellState = Cell.State.TWIN;
+      } else if((currentCellValue === selectedCellValue)
+          && (hoveredCellValue <= 1 || hoveredCellValue === currentCellValue)
+          && currentCellValue > 0) {
+        cellState = Cell.State.TWIN;
       } else if((row === selectedCellRow || col === selectedCellCol)
-        && (hoveredCellValue !==0) && cellState !== Cell.State.TWIN) {
+        && (hoveredCellValue !== 0)) {
         cellState = Cell.State.HIGHLIGHTED;
       }
     }
