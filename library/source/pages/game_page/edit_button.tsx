@@ -20,18 +20,16 @@ export class EditButton extends React.Component<Properties, State> {
   }
 
   public render(): JSX.Element {
-    const image = (() => {
+    const source = (() => {
       if(this.state.isOn) {
-        return (<img src='resources/images/game_page/edit-green.svg'
-          width='16px' height='16px'/>);
+        return 'resources/images/game_page/edit-green.svg';
       } else {
-        return (<img src='resources/images/game_page/edit-grey.svg'
-          width='16px' height='16px'/>);
+        return 'resources/images/game_page/edit-grey.svg';
       }
     })();
     return (
       <div style = {this.props.style}>
-        {image}
+        <img src={source} height='16px' width='16px'/>
       </div>
     );
   }
