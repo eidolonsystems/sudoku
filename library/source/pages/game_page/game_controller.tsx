@@ -51,6 +51,7 @@ export class GameController extends React.Component<Properties, State> {
         return undefined;
       }
     })();
+
     return (
       <VBoxLayout width={displayWidth}>
         <Padding size='20px'/>

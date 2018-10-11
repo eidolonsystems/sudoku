@@ -37,7 +37,7 @@ export class SideMenu extends React.Component<Properties, State> {
   constructor(props: Properties) {
     super(props);
     this.state = {
-      isMenuOpen: true
+      isMenuOpen: false
     };
     this.changeVisibility = this.changeVisibility.bind(this);
   }
@@ -50,12 +50,15 @@ export class SideMenu extends React.Component<Properties, State> {
         return SideMenu.CONTAINER_STYLE.hidden;
       }
     })();
+    const hamburgerButtonPositon = (() => {
+      if(this.state.isMenuOpen) {
+        return SideMenu.MENU_BUTTON_PLACEMENT.menuOpen;
+      } else {
+        return SideMenu.MENU_BUTTON_PLACEMENT.menuClosed;
+      }
+    })();
     return (
       <div>
-        <input type='image'
-          onClick={this.changeVisibility}
-          width='20px' height='16px'
-          src='resources/images/game_page/burger-purple.svg' />
         <div style={visibility}>
           <img src='resources/images/landing_page/sudoku.svg'
             style={SideMenu.LOGO_STYLE} />
@@ -80,7 +83,11 @@ export class SideMenu extends React.Component<Properties, State> {
             Exit
         </a>
         </ div>
-        <div background-color='#00F0F8FF' />
+        <input type='image'
+          onClick={this.changeVisibility}
+          width='20px' height='16px'
+          style={hamburgerButtonPositon}
+          src='resources/images/game_page/burger-purple.svg' />
       </div>
     );
   }
@@ -93,9 +100,9 @@ export class SideMenu extends React.Component<Properties, State> {
       backgroundColor: '#FFFFFF', //change to white!!!!
       display: 'flex' as 'flex',
       flexDirection: 'column' as 'column',
-      boxSixing: 'border-box' as 'border-box',
+      boxSizing: 'border-box' as 'border-box',
       position: 'fixed' as 'fixed',
-      width: '200px',
+      width: '200px', //uh, but 
       height: '100%',
       top: '0',
       left: '0',
@@ -112,6 +119,7 @@ export class SideMenu extends React.Component<Properties, State> {
     width: '80px',
     height: '40px',
     marginTop: '20px'
+    //add hover stuff BLAGHFGHFGHSDF
   };
   private static readonly TEXT_STYLE = {
     fontSize: '16px',
@@ -124,6 +132,20 @@ export class SideMenu extends React.Component<Properties, State> {
     },
     bottomLink: {
       marginBotom: '40px'
+    }
+    //add focus
+    //add on click and on hoooover
+  };
+  private static readonly MENU_BUTTON_PLACEMENT = {
+    menuClosed: {
+      position: 'absolute' as 'absolute', //?????
+      left: '17px',
+      top: '20px'
+    },
+    menuOpen: {
+      position: 'absolute' as 'absolute', //?????
+      left: '217px',
+      top: '20px'
     }
   };
 }
