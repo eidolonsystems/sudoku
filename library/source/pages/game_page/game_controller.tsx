@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {
   Board, BoardView, EditButton,
-  EffectButton, NumberBar, Timer
+  EffectButton, NumberBar, SideMenu, Timer
 } from '../..';
 import { Padding, VBoxLayout } from '../../layouts';
 
@@ -55,8 +55,7 @@ export class GameController extends React.Component<Properties, State> {
       <VBoxLayout width={displayWidth}>
         <Padding size='20px'/>
         <div style={GameController.TIMER_BLOCK_STYLE}>
-          <img src='resources/images/game_page/burger-purple.svg'
-            width='20px' height='16px'/>
+          <SideMenu onClick={null}/>
           <Timer style={GameController.TIMER_STYLE}/>
         </div>
         <Padding size='20px'/>
