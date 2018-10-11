@@ -51,15 +51,28 @@ export class GameController extends React.Component<Properties, State> {
         return undefined;
       }
     })();
-
-    return (
-      <VBoxLayout width={displayWidth}>
-        <Padding size='20px'/>
+    const infoBars = (() => {
+      if(this.state.displayMode === DisplayMode.LARGE) {
+        return(
+        <div>
+          <div style={GameController.NAME_AND_SETTINGS_BLOCK_STYLE}>
+            <div style={GameController.USER_NAME_STYLE}>
+              {this.props.username}
+            </div>
+            <EffectButton style={GameController.EFFECT_BUTTON_STYLE}
+              isOn={this.state.hasEffects}
+              onClick={this.toggleEffects}
+            />
+            <EditButton />
+            <Timer style={GameController.TIMER_STYLE} />
+          </div>
+          </div>);
+      } else {
+        return(
+          <div>
         <div style={GameController.TIMER_BLOCK_STYLE}>
-          <SideMenu onClick={null}/>
-          <Timer style={GameController.TIMER_STYLE}/>
+          <Timer style={GameController.TIMER_STYLE} />
         </div>
-        <Padding size='20px'/>
         <div style={GameController.NAME_AND_SETTINGS_BLOCK_STYLE}>
           <div style={GameController.USER_NAME_STYLE}>
             {this.props.username}
@@ -69,15 +82,25 @@ export class GameController extends React.Component<Properties, State> {
             onClick={this.toggleEffects}
           />
           <EditButton/>
-        </div>
-        <Padding size='40px'/>
+          </div>
+          </div>);
+      }
+
+    })();
+    return (
+      <VBoxLayout width={displayWidth}>
+        <Padding size='20px' />
+        <SideMenu onClick={null} />
+        <Padding size='20px' />
+        {infoBars}
+        <Padding size='40px' />
         <BoardView ref={this.myRef}
           currentBoard={this.state.board}
           initialBoard={this.props.initialBoard}
           hasEffects={this.state.hasEffects}
           displayMode={this.state.displayMode}
         />
-        <Padding size='17px'/>
+        <Padding size='17px' />
         <NumberBar onValueSelected={this.changeCellValue}
           displayMode={this.state.displayMode}
         />
@@ -135,11 +158,13 @@ export class GameController extends React.Component<Properties, State> {
   private static readonly TIMER_STYLE = {
     color: '#000000',
     fontFamily: 'Roboto',
-    fontSize: '14px'
+    fontSize: '14px',
+    marginLeft: '20px'
   };
   private static readonly TIMER_BLOCK_STYLE = {
     display: 'flex' as 'flex',
-    justifyContent: 'space-between' as 'space-between'
+    justifyContent: 'flex-end' as 'flex-end',
+    marginBottom: '20px'
   };
   private static readonly NAME_AND_SETTINGS_BLOCK_STYLE = {
     display: 'flex' as 'flex',
