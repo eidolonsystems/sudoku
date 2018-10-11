@@ -50,6 +50,13 @@ export class SideMenu extends React.Component<Properties, State> {
         return SideMenu.CONTAINER_STYLE.hidden;
       }
     })();
+    const background = (() => {
+      if(this.state.isMenuOpen) {
+        return SideMenu.TINTED_OVERLAY_STYLE;
+      } else {
+        return undefined;
+      }
+    })();
     const hamburgerButtonPositon = (() => {
       if(this.state.isMenuOpen) {
         return SideMenu.MENU_BUTTON_PLACEMENT.menuOpen;
@@ -58,8 +65,13 @@ export class SideMenu extends React.Component<Properties, State> {
       }
     })();
     return (
-      <div>
-        <div style={visibility}>
+      <div z-index='5' style={background}>
+        <input type='image'
+          onClick={this.changeVisibility}
+          width='20px' height='16px'
+          style={hamburgerButtonPositon}
+          src='resources/images/game_page/burger-purple.svg' />
+        <div style={{ ...visibility }} z-index={3}>
           <img src='resources/images/landing_page/sudoku.svg'
             style={SideMenu.LOGO_STYLE} />
           <a
@@ -83,11 +95,6 @@ export class SideMenu extends React.Component<Properties, State> {
             Exit
         </a>
         </ div>
-        <input type='image'
-          onClick={this.changeVisibility}
-          width='20px' height='16px'
-          style={hamburgerButtonPositon}
-          src='resources/images/game_page/burger-purple.svg' />
       </div>
     );
   }
@@ -95,6 +102,15 @@ export class SideMenu extends React.Component<Properties, State> {
   private changeVisibility() {
     this.setState({ isMenuOpen: !this.state.isMenuOpen });
   }
+
+  private static readonly TINTED_OVERLAY_STYLE = {
+    position: 'fixed' as 'fixed',
+    top: '0',
+    left: '0',
+    backgroundColor: '#70707046',
+    width: '100%',
+    height: '100%'
+  };
   private static readonly CONTAINER_STYLE = {
     visible: {
       backgroundColor: '#FFFFFF', //change to white!!!!
@@ -102,14 +118,16 @@ export class SideMenu extends React.Component<Properties, State> {
       flexDirection: 'column' as 'column',
       boxSizing: 'border-box' as 'border-box',
       position: 'fixed' as 'fixed',
-      width: '200px', //uh, but 
+      width: '200px', //not fixeD?
+      maxWidth: '200px',
       height: '100%',
       top: '0',
       left: '0',
       right: '0',
       bottom: '0',
       paddingLeft: '17px',
-      borderRight: '1px solid #EBEBEB'
+      borderRight: '1px solid #EBEBEB',
+      margin: '0'
     },
     hidden: {
       display: 'none' as 'none'
@@ -143,7 +161,7 @@ export class SideMenu extends React.Component<Properties, State> {
       top: '20px'
     },
     menuOpen: {
-      position: 'absolute' as 'absolute', //?????
+      position: 'fixed' as 'fixed',//?????
       left: '217px',
       top: '20px'
     }
