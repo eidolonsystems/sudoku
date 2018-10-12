@@ -70,26 +70,25 @@ export class SideMenu extends React.Component<Properties, State> {
           <img src='resources/images/landing_page/sudoku.svg'
             style={SideMenu.LOGO_STYLE}/>
           <a tabIndex={1}
-            // tslint:disable-next-line:jsx-no-multiline-js
-            className={css(SideMenu.TEXT_STYLE.base,
-            SideMenu.TEXT_STYLE.topLink)}
-            onClick={() => this.props.onClick(SideMenuItem.NEW_GAME)}>
+              className={css(SideMenu.TEXT_STYLE.base,
+                SideMenu.TEXT_STYLE.topLink)}
+              onClick={() => this.props.onClick(SideMenuItem.NEW_GAME)}>
             New Game
           </a>
           <a tabIndex={2}
-            onClick={() => this.props.onClick(SideMenuItem.STANDINGS)}
-            className={css(SideMenu.TEXT_STYLE.base)}>
+              onClick={() => this.props.onClick(SideMenuItem.STANDINGS)}
+              className={css(SideMenu.TEXT_STYLE.base)}>
             See Standings
           </a>
           <a tabIndex={3}
-            onClick={() => this.props.onClick(SideMenuItem.ABOUT)}
-            className={css(SideMenu.TEXT_STYLE.base)}>
+              onClick={() => this.props.onClick(SideMenuItem.ABOUT)}
+              className={css(SideMenu.TEXT_STYLE.base)}>
             About
           </a>
           <a tabIndex={4}
-            className={css(SideMenu.TEXT_STYLE.base,
-            SideMenu.TEXT_STYLE.topLink)}
-            onClick={() => this.props.onClick(SideMenuItem.EXIT)}>
+              className={css(SideMenu.TEXT_STYLE.base,
+                SideMenu.TEXT_STYLE.topLink)}
+              onClick={() => this.props.onClick(SideMenuItem.EXIT)}>
             Exit
           </a>
         </div>
