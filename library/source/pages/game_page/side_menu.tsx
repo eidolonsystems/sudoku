@@ -1,6 +1,5 @@
 import { css, StyleSheet } from 'aphrodite/no-important';
 import * as React from 'react';
-import { Padding, VBoxLayout } from '../../layouts';
 
 /** Lists the side menu items. */
 enum SideMenuItem {
@@ -22,11 +21,6 @@ interface Properties {
 
   /** The on-click handler. */
   onClick(item: SideMenuItem): void;
-  /*
-  A function of type (e: CustomEvent) => void is no longer considered 
-  to be a valid instance of EventListener, which takes an Event parameter, 
-  not a CustomEvent.
-  */
 }
 
 interface State {
@@ -70,38 +64,35 @@ export class SideMenu extends React.Component<Properties, State> {
         <input type='image'
           onClick={this.changeVisibility}
           width='20px' height='16px'
-          className={css(SideMenu.MENU_BUTTON.base,hamburgerPositon )}
+          className={css(SideMenu.MENU_BUTTON.base, hamburgerPositon)}
           src='resources/images/game_page/burger-purple.svg' />
         <div style={{ ...visibility }} z-index={3}>
           <img src='resources/images/landing_page/sudoku.svg'
             style={SideMenu.LOGO_STYLE} />
-          <a
-            tabIndex={1}
-            onClick={() => this.props.onClick(SideMenuItem.NEW_GAME)}
-            className={css(SideMenu.TEXT_STYLE.base)}>
+          <a tabIndex={1}
+              className={css(SideMenu.TEXT_STYLE.base,
+                SideMenu.TEXT_STYLE.topLink)}
+              onClick={() => this.props.onClick(SideMenuItem.NEW_GAME)}>
             New Game
-        </a>
-          <a
-            tabIndex={2}
-            onClick={() => this.props.onClick(SideMenuItem.STANDINGS)}
-            className={css(SideMenu.TEXT_STYLE.base)}>
+          </a>
+          <a tabIndex={2}
+              onClick={() => this.props.onClick(SideMenuItem.STANDINGS)}
+              className={css(SideMenu.TEXT_STYLE.base)}>
             See Standings
-        </a>
-          <a // I never made a about page? Should maybe be removed.
-            tabIndex={3}
-            onClick={() => this.props.onClick(SideMenuItem.ABOUT)}
-            className={css(SideMenu.TEXT_STYLE.base)}>
+          </a>
+          <a tabIndex={3}
+              onClick={() => this.props.onClick(SideMenuItem.ABOUT)}
+              className={css(SideMenu.TEXT_STYLE.base)}>
             About
-        </a>
-          <a
-            tabIndex={4}
-            onClick={() => this.props.onClick(SideMenuItem.EXIT)}
-            className={css(SideMenu.TEXT_STYLE.base)}>
+          </a>
+          <a tabIndex={4}
+              className={css(SideMenu.TEXT_STYLE.base,
+                SideMenu.TEXT_STYLE.topLink)}
+              onClick={() => this.props.onClick(SideMenuItem.EXIT)}>
             Exit
-        </a>
+          </a>
         </ div>
-      </div>
-    );
+      </div>);
   }
 
   private changeVisibility() {
@@ -131,7 +122,6 @@ export class SideMenu extends React.Component<Properties, State> {
       right: '0',
       bottom: '0',
       paddingLeft: '17px',
-      //borderRight: '1px solid #EBEBEB',
       margin: '0'
     },
     hidden: {
@@ -142,7 +132,6 @@ export class SideMenu extends React.Component<Properties, State> {
     width: '80px',
     height: '40px',
     marginTop: '20px'
-    //add hover stuff
   };
   private static readonly TEXT_STYLE = StyleSheet.create({
     base: {
@@ -171,7 +160,6 @@ export class SideMenu extends React.Component<Properties, State> {
       marginBotom: '40px'
     }
   });
-
   private static readonly MENU_BUTTON = StyleSheet.create({
     base: {
       ':focus': {
