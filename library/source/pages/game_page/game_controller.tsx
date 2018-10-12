@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {
   Board, BoardView, EditButton,
-  EffectButton, NumberBar, Timer
+  EffectButton, NumberBar, SideMenu, Timer
 } from '../..';
 import { Padding, VBoxLayout } from '../../layouts';
 
@@ -46,41 +46,61 @@ export class GameController extends React.Component<Properties, State> {
   public render(): JSX.Element {
     const displayWidth = (() => {
       if(this.state.displayMode === DisplayMode.SMALL) {
-        return '320px';
+        return GameController.MIN_WIDTH_STYLE.minWidth;
       } else {
         return undefined;
       }
     })();
+    const infoBars = (() => {
+      if(this.state.displayMode === DisplayMode.LARGE) {
+        return (
+          <div>
+            <div style={GameController.NAME_AND_SETTINGS_BLOCK_STYLE}>
+              <div style={GameController.USER_NAME_STYLE}>
+                {this.props.username}
+              </div>
+              <EffectButton style={GameController.EFFECT_BUTTON_STYLE}
+                isOn={this.state.hasEffects}
+                onClick={this.toggleEffects}
+              />
+              <EditButton />
+              <Timer style={GameController.TIMER_STYLE} />
+            </div>
+          </div>);
+      } else {
+        return (
+          <div>
+            <div style={GameController.TIMER_BLOCK_STYLE}>
+              <Timer style={GameController.TIMER_STYLE} />
+            </div>
+            <div style={GameController.NAME_AND_SETTINGS_BLOCK_STYLE}>
+              <div style={GameController.USER_NAME_STYLE}>
+                {this.props.username}
+              </div>
+              <EffectButton style={GameController.EFFECT_BUTTON_STYLE}
+                isOn={this.state.hasEffects}
+                onClick={this.toggleEffects}
+              />
+              <EditButton />
+            </div>
+          </div>);
+      }
+    })();
     return (
-      <VBoxLayout width={displayWidth}>
+      <VBoxLayout style={displayWidth}>
         <Padding size='20px'/>
-        <div style={GameController.TIMER_BLOCK_STYLE}>
-          <img src='resources/images/game_page/burger-purple.svg'
-            width='20px' height='16px'/>
-          <Timer style={GameController.TIMER_STYLE}/>
-        </div>
+        <SideMenu onClick={null}/>
         <Padding size='20px'/>
-        <div style={GameController.NAME_AND_SETTINGS_BLOCK_STYLE}>
-          <div style={GameController.USER_NAME_STYLE}>
-            {this.props.username}
-          </div>
-          <EffectButton style={GameController.EFFECT_BUTTON_STYLE}
-            isOn={this.state.hasEffects}
-            onClick={this.toggleEffects}
-          />
-          <EditButton/>
-        </div>
+        {infoBars}
         <Padding size='40px'/>
         <BoardView ref={this.myRef}
           currentBoard={this.state.board}
           initialBoard={this.props.initialBoard}
           hasEffects={this.state.hasEffects}
-          displayMode={this.state.displayMode}
-        />
+          displayMode={this.state.displayMode}/>
         <Padding size='17px'/>
         <NumberBar onValueSelected={this.changeCellValue}
-          displayMode={this.state.displayMode}
-        />
+          displayMode={this.state.displayMode}/>
       </VBoxLayout>);
   }
 
@@ -132,14 +152,19 @@ export class GameController extends React.Component<Properties, State> {
     fontWeight: 'bold' as 'bold',
     marginRight: 'auto' as 'auto'
   };
+  private static readonly MIN_WIDTH_STYLE = {
+    minWidth: '320px'
+  };
   private static readonly TIMER_STYLE = {
     color: '#000000',
     fontFamily: 'Roboto',
-    fontSize: '14px'
+    fontSize: '14px',
+    marginLeft: '20px'
   };
   private static readonly TIMER_BLOCK_STYLE = {
     display: 'flex' as 'flex',
-    justifyContent: 'space-between' as 'space-between'
+    justifyContent: 'flex-end' as 'flex-end',
+    marginBottom: '20px'
   };
   private static readonly NAME_AND_SETTINGS_BLOCK_STYLE = {
     display: 'flex' as 'flex',
