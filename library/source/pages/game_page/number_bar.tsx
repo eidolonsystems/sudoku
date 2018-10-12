@@ -40,6 +40,7 @@ export class NumberBar extends React.Component<Properties, {}> {
       for(let i = 1; i <= Board.ROWS; ++i) {
         buttonRow.push(
           <button onClick={this.sendValue(i)}
+              tabIndex={-1}
               className={css(NumberBar.BUTTON_STYLE.button)}>
             {i}
           </button>);
@@ -68,6 +69,7 @@ export class NumberBar extends React.Component<Properties, {}> {
       width: '26px',
       margin: '2px',
       padding: '0px',
+      tabIndex: '-1',
       textAlign: 'center' as 'center',
       backgroundColor: '#FFFFFF',
       ':hover': {

@@ -46,49 +46,49 @@ export class GameController extends React.Component<Properties, State> {
   public render(): JSX.Element {
     const displayWidth = (() => {
       if(this.state.displayMode === DisplayMode.SMALL) {
-        return '320px';
+        return GameController.MIN_WDITH_STYLE.minWidth;
       } else {
         return undefined;
       }
     })();
     const infoBars = (() => {
       if(this.state.displayMode === DisplayMode.LARGE) {
-        return(
-        <div>
-          <div style={GameController.NAME_AND_SETTINGS_BLOCK_STYLE}>
-            <div style={GameController.USER_NAME_STYLE}>
-              {this.props.username}
+        return (
+          <div>
+            <div style={GameController.NAME_AND_SETTINGS_BLOCK_STYLE}>
+              <div style={GameController.USER_NAME_STYLE}>
+                {this.props.username}
+              </div>
+              <EffectButton style={GameController.EFFECT_BUTTON_STYLE}
+                isOn={this.state.hasEffects}
+                onClick={this.toggleEffects}
+              />
+              <EditButton />
+              <Timer style={GameController.TIMER_STYLE} />
             </div>
-            <EffectButton style={GameController.EFFECT_BUTTON_STYLE}
-              isOn={this.state.hasEffects}
-              onClick={this.toggleEffects}
-            />
-            <EditButton />
-            <Timer style={GameController.TIMER_STYLE} />
-          </div>
           </div>);
       } else {
-        return(
+        return (
           <div>
-        <div style={GameController.TIMER_BLOCK_STYLE}>
-          <Timer style={GameController.TIMER_STYLE} />
-        </div>
-        <div style={GameController.NAME_AND_SETTINGS_BLOCK_STYLE}>
-          <div style={GameController.USER_NAME_STYLE}>
-            {this.props.username}
-          </div>
-          <EffectButton style={GameController.EFFECT_BUTTON_STYLE}
-            isOn={this.state.hasEffects}
-            onClick={this.toggleEffects}
-          />
-          <EditButton/>
-          </div>
+            <div style={GameController.TIMER_BLOCK_STYLE}>
+              <Timer style={GameController.TIMER_STYLE} />
+            </div>
+            <div style={GameController.NAME_AND_SETTINGS_BLOCK_STYLE}>
+              <div style={GameController.USER_NAME_STYLE}>
+                {this.props.username}
+              </div>
+              <EffectButton style={GameController.EFFECT_BUTTON_STYLE}
+                isOn={this.state.hasEffects}
+                onClick={this.toggleEffects}
+              />
+              <EditButton />
+            </div>
           </div>);
       }
 
     })();
     return (
-      <VBoxLayout width={displayWidth}>
+      <VBoxLayout style={displayWidth}>
         <Padding size='20px' />
         <SideMenu onClick={null} />
         <Padding size='20px' />
@@ -154,6 +154,9 @@ export class GameController extends React.Component<Properties, State> {
     fontSize: '16px',
     fontWeight: 'bold' as 'bold',
     marginRight: 'auto' as 'auto'
+  };
+  private static readonly MIN_WDITH_STYLE = {
+    minWidth: '320px'
   };
   private static readonly TIMER_STYLE = {
     color: '#000000',

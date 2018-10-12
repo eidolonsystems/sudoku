@@ -94,7 +94,8 @@ export class Cell extends React.Component<Properties, {}> {
       }
     })();
     return (
-      <button onClick={this.props.onClick}
+      <button tabIndex={-1}
+          onClick={this.props.onClick}
           onMouseEnter={this.props.onMouseEnter}
           onMouseLeave={this.props.onMouseLeave}
           className={css(baseStyle, borderStyle)}
