@@ -7,7 +7,7 @@ enum SideMenuItem {
   /** Create a new game. */
   NEW_GAME,
 
-  /** Display the standings page. */
+  /** Display the standings page.        */
   STANDINGS,
 
   /** Display the about page. */
@@ -49,7 +49,7 @@ export class SideMenu extends React.Component<Properties, State> {
       if(this.state.isMenuOpen) {
         return SideMenu.TINTED_OVERLAY_STYLE;
       } else {
-        return undefined;
+        return null;
       }
     })();
     const hamburgerPositon = (() => {
@@ -65,33 +65,34 @@ export class SideMenu extends React.Component<Properties, State> {
           onClick={this.changeVisibility}
           width='20px' height='16px'
           className={css(SideMenu.MENU_BUTTON.base, hamburgerPositon)}
-          src='resources/images/game_page/burger-purple.svg' />
+          src='resources/images/game_page/burger-purple.svg'/>
         <div style={{ ...visibility }} z-index={3}>
           <img src='resources/images/landing_page/sudoku.svg'
-            style={SideMenu.LOGO_STYLE} />
+            style={SideMenu.LOGO_STYLE}/>
           <a tabIndex={1}
-              className={css(SideMenu.TEXT_STYLE.base,
-                SideMenu.TEXT_STYLE.topLink)}
-              onClick={() => this.props.onClick(SideMenuItem.NEW_GAME)}>
+            // tslint:disable-next-line:jsx-no-multiline-js
+            className={css(SideMenu.TEXT_STYLE.base,
+            SideMenu.TEXT_STYLE.topLink)}
+            onClick={() => this.props.onClick(SideMenuItem.NEW_GAME)}>
             New Game
           </a>
           <a tabIndex={2}
-              onClick={() => this.props.onClick(SideMenuItem.STANDINGS)}
-              className={css(SideMenu.TEXT_STYLE.base)}>
+            onClick={() => this.props.onClick(SideMenuItem.STANDINGS)}
+            className={css(SideMenu.TEXT_STYLE.base)}>
             See Standings
           </a>
           <a tabIndex={3}
-              onClick={() => this.props.onClick(SideMenuItem.ABOUT)}
-              className={css(SideMenu.TEXT_STYLE.base)}>
+            onClick={() => this.props.onClick(SideMenuItem.ABOUT)}
+            className={css(SideMenu.TEXT_STYLE.base)}>
             About
           </a>
           <a tabIndex={4}
-              className={css(SideMenu.TEXT_STYLE.base,
-                SideMenu.TEXT_STYLE.topLink)}
-              onClick={() => this.props.onClick(SideMenuItem.EXIT)}>
+            className={css(SideMenu.TEXT_STYLE.base,
+            SideMenu.TEXT_STYLE.topLink)}
+            onClick={() => this.props.onClick(SideMenuItem.EXIT)}>
             Exit
           </a>
-        </ div>
+        </div>
       </div>);
   }
 
@@ -163,6 +164,7 @@ export class SideMenu extends React.Component<Properties, State> {
   private static readonly MENU_BUTTON = StyleSheet.create({
     base: {
       ':focus': {
+        cursor: 'default' as 'default',
         outline: '0',
         outlineColor: 'transparent',
         outlineCtyle: 'one'

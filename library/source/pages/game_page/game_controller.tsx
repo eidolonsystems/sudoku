@@ -46,7 +46,7 @@ export class GameController extends React.Component<Properties, State> {
   public render(): JSX.Element {
     const displayWidth = (() => {
       if(this.state.displayMode === DisplayMode.SMALL) {
-        return GameController.MIN_WDITH_STYLE.minWidth;
+        return GameController.MIN_WIDTH_STYLE.minWidth;
       } else {
         return undefined;
       }
@@ -85,25 +85,22 @@ export class GameController extends React.Component<Properties, State> {
             </div>
           </div>);
       }
-
     })();
     return (
       <VBoxLayout style={displayWidth}>
-        <Padding size='20px' />
-        <SideMenu onClick={null} />
-        <Padding size='20px' />
+        <Padding size='20px'/>
+        <SideMenu onClick={null}/>
+        <Padding size='20px'/>
         {infoBars}
-        <Padding size='40px' />
+        <Padding size='40px'/>
         <BoardView ref={this.myRef}
           currentBoard={this.state.board}
           initialBoard={this.props.initialBoard}
           hasEffects={this.state.hasEffects}
-          displayMode={this.state.displayMode}
-        />
-        <Padding size='17px' />
+          displayMode={this.state.displayMode}/>
+        <Padding size='17px'/>
         <NumberBar onValueSelected={this.changeCellValue}
-          displayMode={this.state.displayMode}
-        />
+          displayMode={this.state.displayMode}/>
       </VBoxLayout>);
   }
 
@@ -155,7 +152,7 @@ export class GameController extends React.Component<Properties, State> {
     fontWeight: 'bold' as 'bold',
     marginRight: 'auto' as 'auto'
   };
-  private static readonly MIN_WDITH_STYLE = {
+  private static readonly MIN_WIDTH_STYLE = {
     minWidth: '320px'
   };
   private static readonly TIMER_STYLE = {
