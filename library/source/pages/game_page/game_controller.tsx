@@ -87,7 +87,7 @@ export class GameController extends React.Component<Properties, State> {
       }
     })();
     return (
-      <VBoxLayout style={displayWidth}>
+      <VBoxLayout>
         <Padding size='20px'/>
         <SideMenu onClick={null}/>
         <Padding size='20px'/>
