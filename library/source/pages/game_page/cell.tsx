@@ -102,7 +102,7 @@ export class Cell extends React.Component<Properties, {}> {
           onMouseEnter={this.props.onMouseEnter}
           onMouseLeave={this.props.onMouseLeave}
           className={css(baseStyle, cellTextStyle, borderStyle)}
-          >
+          style={this.props.style}>
         {cellValue}
       </button>);
   }
@@ -122,7 +122,6 @@ export class Cell extends React.Component<Properties, {}> {
       textAlign: 'center' as 'center',
       verticalAlign: 'middle' as 'middle',
       padding: '0px',
-      margin: '0px',
       ':hover': {
         borderColor: '#4B23A0'
       },
@@ -175,7 +174,6 @@ export class Cell extends React.Component<Properties, {}> {
       textAlign: 'center' as 'center',
       verticalAlign: 'middle' as 'middle',
       padding: '0px',
-      margin: '0px',
       ':hover': {
         borderColor: '#4B23A0'
       },

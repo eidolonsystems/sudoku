@@ -48,9 +48,9 @@ export class BoardView extends React.Component<Properties, State> {
   public render(): JSX.Element {
     const displayPadding = (() => {
       if(this.props.displayMode === DisplayMode.LARGE) {
-        return BoardView.BOARD_CONTAINER_STYLE.large;
+        return BoardView.NO_GRID_BOARD_CONTAINER_STYLE.large;
       } else {
-        return BoardView.BOARD_CONTAINER_STYLE.small;
+        return BoardView.NO_GRID_BOARD_CONTAINER_STYLE.small;
       }
     })();
     const blockPadding = (() => {
@@ -61,7 +61,7 @@ export class BoardView extends React.Component<Properties, State> {
       }
     })();
     const cells = (() => {
-      if(false){
+      if(true){
        return this.noGridDisplay();
       }
       const blocks = [];
@@ -208,6 +208,22 @@ export class BoardView extends React.Component<Properties, State> {
           for(let j = squareColumnStart; j < squareColumnStart + 3; ++j) {
             const cellState = this.getCellState(i, j);
             const isClueCell = this.props.initialBoard.get(i, j) > 0;
+            let topCellPad = {};
+            let bottomCellPad = {};
+            let rightCellPad = {};
+            let leftCellPad = {};
+            if(i <= squareRowStart+1) {
+              topCellPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.cellTop;
+            }
+            if(i >= squareRowStart+1) {
+              bottomCellPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.cellBottom;
+            }
+            if(j <= squareColumnStart+1) {
+              leftCellPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.cellLeft;
+            }
+            if(j >= squareColumnStart+1) {
+              rightCellPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.cellRight;
+            }
             cellBlock.push(<Cell
               key={i + ' ' + j}
               displayMode={this.props.displayMode}
@@ -217,7 +233,8 @@ export class BoardView extends React.Component<Properties, State> {
               onClick={this.onCellClicked(i, j)}
               onMouseEnter={this.onCellHovered(i, j)}
               onMouseLeave={this.onCellNotHovered}
-            />);
+              style={{...topCellPad, ...leftCellPad, 
+                ...rightCellPad, ...bottomCellPad}}/>);
           }
         }
         let topPad = {};
@@ -225,9 +242,11 @@ export class BoardView extends React.Component<Properties, State> {
         let rightPad = {};
         let leftPad = {};
         if(squareRowStart <= Board.ROWS / 3) {
+          console.log('TOP ROW');
           topPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.top;
         }
         if(squareRowStart >= Board.ROWS / 3) {
+          console.log('BOTTOM ROW');
           bottomPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.bottom;
         }
         if(squareColumnStart <= Board.COLUMNS / 3) {
@@ -237,9 +256,8 @@ export class BoardView extends React.Component<Properties, State> {
           rightPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.right;
         }
         blocks.push(
-          (<div style={{ //y dis do nothing????????
-            ...blockPadding,
-            ...topPad, ...leftPad, ...rightPad, ...bottomPad
+          (<div style={{
+            ...blockPadding,...topPad, ...leftPad, ...rightPad, ...bottomPad
           }}>
             {cellBlock}
           </div>));
@@ -250,11 +268,11 @@ export class BoardView extends React.Component<Properties, State> {
   private static readonly CELL_BLOCK_STYLE = {
     top: {
       paddingBottom: '5px',
-      paddingTop: '0px'
+      paddingTop: '0px',
     },
     bottom: {
       paddingBottom: '0px',
-      paddingTop: '5px'
+      paddingTop: '5px',
     },
     left: {
       paddingLeft: '0px',
@@ -289,34 +307,50 @@ export class BoardView extends React.Component<Properties, State> {
   private static readonly NO_GRID_CELL_BLOCK_STYLE = {
     top: {
       paddingBottom: '5px',
-      paddingTop: '0px'
+      marginBottom: '0.5px',
     },
     bottom: {
-      paddingBottom: '0px',
-      paddingTop: '5px'
+      paddingTop: '5px',
+      marginTop: '0.5px'
     },
     left: {
-      paddingLeft: '0px',
-      paddingRight: '5px'
+      paddingRight: '5px',
+      marginRight: '0.5px'
     },
     right: {
       paddingLeft: '5px',
-      paddingRight: '0px'
+      marginLeft: '0.5px'
+    },
+    cellTop: {
+      marginBottom: '2.5px',
+    },
+    cellBottom: {
+      marginTop: '2.5px'
+    },
+    cellLeft: {
+      marginRight: '2.5px'
+    },
+    cellRight: {
+      marginLeft: '2.5px',
     },
     large: {
+      //boxSizing: 'border-box' as 'border-box',
       display: 'flex' as 'flex',
       flexDirection: 'row' as 'row', 
       flexWrap: 'wrap' as 'wrap',
-      height: '135px',
-      width: '135px',
+      height: '130px',
+      width: '130px',
       alignItems: 'center' as 'center',
       backgroundColor: 'white',
       justifyItems: 'center' as 'center'
     },
     small: {
+      //boxSizing: 'border-box' as 'border-box',
       display: 'flex' as 'flex',
       flexDirection: 'row' as 'row', 
       flexWrap: 'wrap' as 'wrap',
+      height: '88px',
+      width: '88px',
       alignItems: 'center' as 'center',
       backgroundColor: 'white',
       justifyItems: 'center' as 'center'
@@ -326,17 +360,24 @@ export class BoardView extends React.Component<Properties, State> {
     large: {
       backgroundColor: '#C8C8C8',
       width: '412px',
+      height: '412px',
+      display: 'flex' as 'flex',
+      flexDirection: 'row' as 'row', 
+      flexWrap: 'wrap' as 'wrap',
     },
     small: {
       backgroundColor: '#C8C8C8',
-      width: '286px'
+      width: '286px',
+      display: 'flex' as 'flex',
+      flexDirection: 'row' as 'row', 
+      flexWrap: 'wrap' as 'wrap',
     }
   };
   private static readonly BOARD_CONTAINER_STYLE = {
     large: {
       backgroundColor: '#C8C8C8',
       display: 'grid' as 'grid',
-      gap: '1px',
+      //gap: '1px',
       gridTemplateColumns: '135px 140px 135px',
       gridTemplateRows: '135px 140px 135px',
       width: '412px',
@@ -344,7 +385,7 @@ export class BoardView extends React.Component<Properties, State> {
     small: {
       backgroundColor: '#C8C8C8',
       display: 'grid' as 'grid',
-      gap: '1px',
+      //gap: '1px',
       gridTemplateColumns: '93px 98px 93px',
       gridTemplateRows: '93px 98px 93px',
       width: '286px'
