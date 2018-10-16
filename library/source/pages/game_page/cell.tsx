@@ -47,6 +47,9 @@ interface Properties {
 
   /** Callback when the mouse leaves the cell. */
   onMouseLeave(): void;
+
+  /**Additonal style info Cell might need. Specifically padding. */
+  style?: any;
 }
 
 /** Implements a cell of a sudoku board. */
@@ -65,9 +68,9 @@ export class Cell extends React.Component<Properties, {}> {
     })();
     const cellTextStyle = (() => {
       if(this.props.displayMode === DisplayMode.LARGE) {
-        return Cell.TEXT_AND_SIZE_STYLE.large;
+        return Cell.CELL_STYLE.large;
       } else {
-        return Cell.TEXT_AND_SIZE_STYLE.small;
+        return Cell.CELL_STYLE.small;
       }
     })();
     const borderStyle = (() => {
@@ -98,28 +101,14 @@ export class Cell extends React.Component<Properties, {}> {
           onClick={this.props.onClick}
           onMouseEnter={this.props.onMouseEnter}
           onMouseLeave={this.props.onMouseLeave}
-          className={css(baseStyle, borderStyle)}
-          style={cellTextStyle}>
+          className={css(baseStyle, cellTextStyle, borderStyle)}
+          >
         {cellValue}
       </button>);
   }
 
   private static readonly TEXT_AND_SIZE_STYLE = {
-    large: {
-      fontSize: '24px',
-      height: '40px',
-      width: '40px',
-      innerHeight: '40px',
-      innerWidth: '40px'
-    },
-    small: {
-      boxLayout: 'border-box' as 'border-box',
-      fontSize: '16px',
-      height: '26px',
-      width: '26px',
-      innerHeight: '26px',
-      innerWidth: '26px'
-    }
+ 
   };
   private static readonly CELL_STYLE = StyleSheet.create({
     default: {
@@ -132,6 +121,8 @@ export class Cell extends React.Component<Properties, {}> {
       fontFamily: 'Roboto',
       textAlign: 'center' as 'center',
       verticalAlign: 'middle' as 'middle',
+      padding: '0px',
+      margin: '0px',
       ':hover': {
         borderColor: '#4B23A0'
       },
@@ -141,6 +132,24 @@ export class Cell extends React.Component<Properties, {}> {
       '::-moz-focus-inner': {
         border: '0'
       }
+    },
+    large: {
+      boxSizing: 'border-box' as 'border-box',
+      fontSize: '24px',
+      height: '40px',
+      maxWidth: '40px',
+      width: '40px',
+      //innerHeight: '40px',
+      //innerWidth: '40px'
+    },
+    small: {
+      boxSizing: 'border-box' as 'border-box',
+      fontSize: '16px',
+      height: '26px',
+      width: '26px',
+      maxWidth: '40px',
+      //innerHeight: '26px',
+      //innerWidth: '26px'
     },
     highlightedFilled: {
       backgroundColor: '#F8F8F8',
@@ -165,6 +174,8 @@ export class Cell extends React.Component<Properties, {}> {
       fontFamily: 'Roboto',
       textAlign: 'center' as 'center',
       verticalAlign: 'middle' as 'middle',
+      padding: '0px',
+      margin: '0px',
       ':hover': {
         borderColor: '#4B23A0'
       },

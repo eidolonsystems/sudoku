@@ -61,6 +61,9 @@ export class BoardView extends React.Component<Properties, State> {
       }
     })();
     const cells = (() => {
+      if(false){
+       return this.noGridDisplay();
+      }
       const blocks = [];
       for(let g = 0; g < Board.ROWS; ++g) {
         const cellBlock = [];
@@ -188,6 +191,61 @@ export class BoardView extends React.Component<Properties, State> {
       hoveredCell: undefined
     });
   }
+  
+  private noGridDisplay(){
+      let blockPadding = null;
+      if(this.props.displayMode === DisplayMode.LARGE) {
+        blockPadding =  BoardView.NO_GRID_CELL_BLOCK_STYLE.large;
+      } else {
+        blockPadding =  BoardView.NO_GRID_CELL_BLOCK_STYLE.small;
+      }
+      const blocks = [];
+      for(let g = 0; g < Board.ROWS; ++g) {
+        const cellBlock = [];
+        const squareRowStart = Math.floor(g / 3) * 3;
+        const squareColumnStart = (g % 3) * 3;
+        for(let i = squareRowStart; i < squareRowStart + 3; ++i) {
+          for(let j = squareColumnStart; j < squareColumnStart + 3; ++j) {
+            const cellState = this.getCellState(i, j);
+            const isClueCell = this.props.initialBoard.get(i, j) > 0;
+            cellBlock.push(<Cell
+              key={i + ' ' + j}
+              displayMode={this.props.displayMode}
+              cellState={cellState}
+              isClue={isClueCell}
+              value={this.props.currentBoard.get(i, j)}
+              onClick={this.onCellClicked(i, j)}
+              onMouseEnter={this.onCellHovered(i, j)}
+              onMouseLeave={this.onCellNotHovered}
+            />);
+          }
+        }
+        let topPad = {};
+        let bottomPad = {};
+        let rightPad = {};
+        let leftPad = {};
+        if(squareRowStart <= Board.ROWS / 3) {
+          topPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.top;
+        }
+        if(squareRowStart >= Board.ROWS / 3) {
+          bottomPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.bottom;
+        }
+        if(squareColumnStart <= Board.COLUMNS / 3) {
+          leftPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.left;
+        }
+        if(squareColumnStart >= Board.COLUMNS / 3) {
+          rightPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.right;
+        }
+        blocks.push(
+          (<div style={{ //y dis do nothing????????
+            ...blockPadding,
+            ...topPad, ...leftPad, ...rightPad, ...bottomPad
+          }}>
+            {cellBlock}
+          </div>));
+      }
+      return blocks;
+  }
 
   private static readonly CELL_BLOCK_STYLE = {
     top: {
@@ -209,6 +267,7 @@ export class BoardView extends React.Component<Properties, State> {
     large: {
       alignItems: 'center' as 'center',
       backgroundColor: 'white',
+      boxSizing: 'border-box' as 'border-box',
       display: 'grid' as 'grid',
       gap: '5px',
       gridTemplateColumns: '40px 40px 40px',
@@ -218,11 +277,59 @@ export class BoardView extends React.Component<Properties, State> {
     small: {
       alignItems: 'center' as 'center',
       backgroundColor: 'white',
+      boxSizing: 'border-box' as 'border-box',
       display: 'grid' as 'grid',
       gap: '5px',
       gridTemplateColumns: '26px 26px 26px',
       gridTemplateRows: '26px 26px 26px',
       justifyItems: 'center' as 'center'
+    }
+  };
+
+  private static readonly NO_GRID_CELL_BLOCK_STYLE = {
+    top: {
+      paddingBottom: '5px',
+      paddingTop: '0px'
+    },
+    bottom: {
+      paddingBottom: '0px',
+      paddingTop: '5px'
+    },
+    left: {
+      paddingLeft: '0px',
+      paddingRight: '5px'
+    },
+    right: {
+      paddingLeft: '5px',
+      paddingRight: '0px'
+    },
+    large: {
+      display: 'flex' as 'flex',
+      flexDirection: 'row' as 'row', 
+      flexWrap: 'wrap' as 'wrap',
+      height: '135px',
+      width: '135px',
+      alignItems: 'center' as 'center',
+      backgroundColor: 'white',
+      justifyItems: 'center' as 'center'
+    },
+    small: {
+      display: 'flex' as 'flex',
+      flexDirection: 'row' as 'row', 
+      flexWrap: 'wrap' as 'wrap',
+      alignItems: 'center' as 'center',
+      backgroundColor: 'white',
+      justifyItems: 'center' as 'center'
+    }
+  };
+  private static readonly NO_GRID_BOARD_CONTAINER_STYLE = {
+    large: {
+      backgroundColor: '#C8C8C8',
+      width: '412px',
+    },
+    small: {
+      backgroundColor: '#C8C8C8',
+      width: '286px'
     }
   };
   private static readonly BOARD_CONTAINER_STYLE = {
@@ -232,7 +339,7 @@ export class BoardView extends React.Component<Properties, State> {
       gap: '1px',
       gridTemplateColumns: '135px 140px 135px',
       gridTemplateRows: '135px 140px 135px',
-      width: '412px'
+      width: '412px',
     },
     small: {
       backgroundColor: '#C8C8C8',
