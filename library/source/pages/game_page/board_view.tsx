@@ -202,9 +202,9 @@ export class BoardView extends React.Component<Properties, State> {
   private noGridDisplay(){
       let blockPadding = null;
       if(this.props.displayMode === DisplayMode.LARGE) {
-        blockPadding =  BoardView.NO_GRID_CELL_BLOCK_STYLE.large;
+        blockPadding = BoardView.NO_GRID_CELL_BLOCK_STYLE.large;
       } else {
-        blockPadding =  BoardView.NO_GRID_CELL_BLOCK_STYLE.small;
+        blockPadding = BoardView.NO_GRID_CELL_BLOCK_STYLE.small;
       }
       const blocks = [];
       for(let g = 0; g < Board.ROWS; ++g) {
@@ -219,16 +219,16 @@ export class BoardView extends React.Component<Properties, State> {
             let bottomCellPad = {};
             let rightCellPad = {};
             let leftCellPad = {};
-            if(i <= squareRowStart+1) {
+            if(i <= squareRowStart + 1) {
               topCellPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.cellTop;
             }
-            if(i >= squareRowStart+1) {
+            if(i >= squareRowStart + 1) {
               bottomCellPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.cellBottom;
             }
-            if(j <= squareColumnStart+1) {
+            if(j <= squareColumnStart + 1) {
               leftCellPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.cellLeft;
             }
-            if(j >= squareColumnStart+1) {
+            if(j >= squareColumnStart + 1) {
               rightCellPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.cellRight;
             }
             cellBlock.push(<Cell
@@ -249,11 +249,9 @@ export class BoardView extends React.Component<Properties, State> {
         let rightPad = {};
         let leftPad = {};
         if(squareRowStart <= Board.ROWS / 3) {
-          console.log('TOP ROW');
           topPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.top;
         }
         if(squareRowStart >= Board.ROWS / 3) {
-          console.log('BOTTOM ROW');
           bottomPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.bottom;
         }
         if(squareColumnStart <= Board.COLUMNS / 3) {
@@ -263,13 +261,12 @@ export class BoardView extends React.Component<Properties, State> {
           rightPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.right;
         }
         blocks.push(
-          (<div style={{
-            ...blockPadding,...topPad, ...leftPad, ...rightPad, ...bottomPad
-          }}>
+          (<div style={{...blockPadding,
+              ...topPad, ...leftPad, ...rightPad, ...bottomPad}}>
             {cellBlock}
           </div>));
       }
-      return blocks;
+    return blocks;
   }
 
   private static readonly CELL_BLOCK_STYLE = {
@@ -341,7 +338,6 @@ export class BoardView extends React.Component<Properties, State> {
       marginLeft: '2.5px',
     },
     large: {
-      //boxSizing: 'border-box' as 'border-box',
       display: 'flex' as 'flex',
       flexDirection: 'row' as 'row', 
       flexWrap: 'wrap' as 'wrap',
@@ -352,7 +348,6 @@ export class BoardView extends React.Component<Properties, State> {
       justifyItems: 'center' as 'center'
     },
     small: {
-      //boxSizing: 'border-box' as 'border-box',
       display: 'flex' as 'flex',
       flexDirection: 'row' as 'row', 
       flexWrap: 'wrap' as 'wrap',

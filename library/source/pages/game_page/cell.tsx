@@ -107,9 +107,6 @@ export class Cell extends React.Component<Properties, {}> {
       </button>);
   }
 
-  private static readonly TEXT_AND_SIZE_STYLE = {
- 
-  };
   private static readonly CELL_STYLE = StyleSheet.create({
     default: {
       backgroundColor: '#FFFFFF',
@@ -138,8 +135,6 @@ export class Cell extends React.Component<Properties, {}> {
       height: '40px',
       maxWidth: '40px',
       width: '40px',
-      //innerHeight: '40px',
-      //innerWidth: '40px'
     },
     small: {
       boxSizing: 'border-box' as 'border-box',
@@ -147,8 +142,6 @@ export class Cell extends React.Component<Properties, {}> {
       height: '26px',
       width: '26px',
       maxWidth: '40px',
-      //innerHeight: '26px',
-      //innerWidth: '26px'
     },
     highlightedFilled: {
       backgroundColor: '#F8F8F8',
