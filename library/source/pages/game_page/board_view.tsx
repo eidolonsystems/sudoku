@@ -47,6 +47,13 @@ export class BoardView extends React.Component<Properties, State> {
 
   public render(): JSX.Element {
     const displayPadding = (() => {
+      if(CSS.supports("grid-gap")){
+       if(this.props.displayMode === DisplayMode.LARGE) {
+        return BoardView.BOARD_CONTAINER_STYLE.large;
+      } else {
+        return BoardView.BOARD_CONTAINER_STYLE.small;
+        }
+      }
       if(this.props.displayMode === DisplayMode.LARGE) {
         return BoardView.NO_GRID_BOARD_CONTAINER_STYLE.large;
       } else {
@@ -61,7 +68,7 @@ export class BoardView extends React.Component<Properties, State> {
       }
     })();
     const cells = (() => {
-      if(true){
+      if(!CSS.supports("grid-gap")){
        return this.noGridDisplay();
       }
       const blocks = [];
@@ -377,7 +384,7 @@ export class BoardView extends React.Component<Properties, State> {
     large: {
       backgroundColor: '#C8C8C8',
       display: 'grid' as 'grid',
-      //gap: '1px',
+      gap: '1px',
       gridTemplateColumns: '135px 140px 135px',
       gridTemplateRows: '135px 140px 135px',
       width: '412px',
@@ -385,7 +392,7 @@ export class BoardView extends React.Component<Properties, State> {
     small: {
       backgroundColor: '#C8C8C8',
       display: 'grid' as 'grid',
-      //gap: '1px',
+      gap: '1px',
       gridTemplateColumns: '93px 98px 93px',
       gridTemplateRows: '93px 98px 93px',
       width: '286px'
