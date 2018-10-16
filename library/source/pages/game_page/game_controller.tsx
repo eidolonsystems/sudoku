@@ -61,17 +61,16 @@ export class GameController extends React.Component<Properties, State> {
               </div>
               <EffectButton style={GameController.EFFECT_BUTTON_STYLE}
                 isOn={this.state.hasEffects}
-                onClick={this.toggleEffects}
-              />
-              <EditButton />
-              <Timer style={GameController.TIMER_STYLE} />
+                onClick={this.toggleEffects}/>
+              <EditButton/>
+              <Timer style={GameController.TIMER_STYLE}/>
             </div>
           </div>);
       } else {
         return (
           <div>
             <div style={GameController.TIMER_BLOCK_STYLE}>
-              <Timer style={GameController.TIMER_STYLE} />
+              <Timer style={GameController.TIMER_STYLE}/>
             </div>
             <div style={GameController.NAME_AND_SETTINGS_BLOCK_STYLE}>
               <div style={GameController.USER_NAME_STYLE}>
@@ -79,9 +78,8 @@ export class GameController extends React.Component<Properties, State> {
               </div>
               <EffectButton style={GameController.EFFECT_BUTTON_STYLE}
                 isOn={this.state.hasEffects}
-                onClick={this.toggleEffects}
-              />
-              <EditButton />
+                onClick={this.toggleEffects}/>
+              <EditButton/>
             </div>
           </div>);
       }

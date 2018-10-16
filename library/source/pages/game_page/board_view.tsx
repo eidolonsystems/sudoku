@@ -179,7 +179,9 @@ export class BoardView extends React.Component<Properties, State> {
             return [row, column] as [number, number];
           }
         })();
-        this.setState({ selectedCell: currentCell });
+        this.setState({
+          selectedCell: currentCell
+        });
       }
     });
   }
@@ -241,8 +243,7 @@ export class BoardView extends React.Component<Properties, State> {
             onMouseLeave={this.onCellNotHovered}
             style={{
               ...topCellPad, ...leftCellPad,
-              ...rightCellPad, ...bottomCellPad
-            }}/>);
+              ...rightCellPad, ...bottomCellPad}}/>);
         }
       }
       let topPad = {};
