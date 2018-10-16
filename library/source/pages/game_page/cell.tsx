@@ -48,7 +48,7 @@ interface Properties {
   /** Callback when the mouse leaves the cell. */
   onMouseLeave(): void;
 
-  /**Additonal style info Cell might need. Specifically padding. */
+  /** Additonal style info Cell might need. Specifically padding. */
   style?: any;
 }
 
@@ -134,14 +134,14 @@ export class Cell extends React.Component<Properties, {}> {
       fontSize: '24px',
       height: '40px',
       maxWidth: '40px',
-      width: '40px',
+      width: '40px'
     },
     small: {
       boxSizing: 'border-box' as 'border-box',
       fontSize: '16px',
       height: '26px',
       width: '26px',
-      maxWidth: '40px',
+      maxWidth: '40px'
     },
     highlightedFilled: {
       backgroundColor: '#F8F8F8',
