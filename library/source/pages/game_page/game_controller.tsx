@@ -3,7 +3,7 @@ import {
   Board, BoardView, EditButton,
   EffectButton, NumberBar, SideMenu, Timer
 } from '../..';
-import { Padding, VBoxLayout } from '../../layouts';
+import {Padding, VBoxLayout} from '../../layouts';
 
 enum DisplayMode {
 
@@ -116,11 +116,11 @@ export class GameController extends React.Component<Properties, State> {
   private onResize() {
     if(document.body.clientWidth >= 446) {
       if(this.state.displayMode !== DisplayMode.LARGE) {
-        this.setState({ displayMode: DisplayMode.LARGE });
+        this.setState({displayMode: DisplayMode.LARGE});
       }
     } else {
       if(this.state.displayMode !== DisplayMode.SMALL) {
-        this.setState({ displayMode: DisplayMode.SMALL });
+        this.setState({displayMode: DisplayMode.SMALL});
       }
     }
   }
@@ -142,7 +142,7 @@ export class GameController extends React.Component<Properties, State> {
   }
 
   private toggleEffects() {
-    this.setState({ hasEffects: !this.state.hasEffects });
+    this.setState({hasEffects: !this.state.hasEffects});
   }
 
   private static readonly USER_NAME_STYLE = {
