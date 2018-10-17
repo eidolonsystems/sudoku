@@ -162,6 +162,7 @@ export class SideMenu extends React.Component<Properties, State> {
   });
   private static readonly MENU_BUTTON = StyleSheet.create({
     base: {
+      borderRadius: '0px',
       ':focus': {
         cursor: 'default' as 'default',
         outline: '0',
