@@ -22,19 +22,11 @@ export class Timer extends React.Component<Properties, State> {
   public render(): JSX.Element {
     const seconds = (() => {
       const value = (this.state.currentSeconds % 60);
-      if(value <= 9) {
-        return '0' + value.toString();
-      } else {
-        return value.toString();
-      }
+      return value.toString().padStart(2, '0');
     })();
     const min = (() => {
       const value = Math.floor(this.state.currentSeconds / 60);
-      if(value < 9) {
-        return '0' + value.toString();
-      } else {
-        return value.toString();
-      }
+      return value.toString().padStart(2, '0');
     })();
     return (
       <div style={this.props.style}>
