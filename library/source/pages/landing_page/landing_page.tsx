@@ -1,8 +1,7 @@
-import {StyleSheet, css} from 'aphrodite';
+import {css, StyleSheet} from 'aphrodite';
 import * as React from 'react';
 import * as Router from 'react-router-dom';
 import {HBoxLayout, Padding, VBoxLayout} from '../../layouts';
-
 
 /** Specifies the React properties for the landing page. */
 interface Properties {
@@ -18,13 +17,13 @@ enum Breakpoint {
   SMALL,
   MEDIUM,
   LARGE
-};
+}
 
 interface State {
   redirect: string;
   breakPoint: Breakpoint;
   isNameValid: boolean;
-};
+}
 
 /** Displays the Sudoku landing page. */
 export class LandingPage extends React.Component<Properties, State> {
@@ -45,7 +44,7 @@ export class LandingPage extends React.Component<Properties, State> {
       return <Router.Redirect push to={this.state.redirect}/>;
     }
     const topPadding = (() => {
-      switch(this.state.breakPoint){
+      switch(this.state.breakPoint) {
         case Breakpoint.SMALL:
           return undefined;
         case Breakpoint.MEDIUM:
@@ -86,10 +85,10 @@ export class LandingPage extends React.Component<Properties, State> {
           <Padding size='8px'/>
           <input placeholder = 'Max. of 10 Characters'
             type='text' maxLength={10}
-            className={css(LandingPage.NAME_INPUT_DEFAULT_STYLE.input, 
+            className={css(LandingPage.NAME_INPUT_DEFAULT_STYLE.input,
               nameInputStyle)}
-            ref={(e) => this.nameInput = e}/> 
-          <div className={css(LandingPage.NAME_INPUT_DEFAULT_STYLE.div, 
+            ref={(e) => this.nameInput = e}/>
+          <div className={css(LandingPage.NAME_INPUT_DEFAULT_STYLE.div,
               errorMessageStyle)}>
             Name is required.
           </div>
@@ -138,7 +137,7 @@ export class LandingPage extends React.Component<Properties, State> {
         this.setState({breakPoint: Breakpoint.LARGE});
       }
     } else if(document.body.clientWidth >= 560) {
-      if(this.state.breakPoint !== Breakpoint.MEDIUM){
+      if(this.state.breakPoint !== Breakpoint.MEDIUM) {
         this.setState({breakPoint: Breakpoint.MEDIUM});
       }
     } else {
@@ -179,18 +178,18 @@ export class LandingPage extends React.Component<Properties, State> {
       textAlign: 'center' as 'center',
       color: '#4B23A0',
       background: '#FFFFFF',
-        ':focus': {
-          background: '#F2F2FF',
-          color: '4B23A0'
-        },
-        ':hover': {
-          background: '#4B23A0',
-          color: '#F2F2FF'
-        },
-        ':active':{
-          background: '#4B23A0',
-          color: '#F2F2FF'
-        }
+      ':focus': {
+        background: '#F2F2FF',
+        color: '4B23A0'
+      },
+      ':hover': {
+        background: '#4B23A0',
+        color: '#F2F2FF'
+      },
+      ':active':{
+        background: '#4B23A0',
+        color: '#F2F2FF'
+      }
     }
   });
   private static readonly NAME_INPUT_DEFAULT_STYLE = StyleSheet.create({
@@ -230,7 +229,7 @@ export class LandingPage extends React.Component<Properties, State> {
           fontFamily: 'Roboto',
           fontSize: '16px'
           }
-      },
+      }
     },
     div:{
       visibility: 'hidden',
@@ -239,7 +238,7 @@ export class LandingPage extends React.Component<Properties, State> {
   });
   private static readonly NAME_INPUT_INVALID_STYLE = StyleSheet.create({
     input:{
-      border: '1px solid #E63F44',
+      border: '1px solid #E63F44'
     },
     div:{
       paddingTop: '8px',

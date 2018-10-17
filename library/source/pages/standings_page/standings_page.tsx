@@ -39,7 +39,7 @@ export class StandingsPage extends React.Component<Properties, State> {
       isLoading: true,
       redirect: null,
       breakpoint: Breakpoint.LARGE
-      };
+    };
     this.onResize = this.onResize.bind(this);
     this.onGotIt = this.onGotIt.bind(this);
   }
@@ -118,7 +118,7 @@ export class StandingsPage extends React.Component<Properties, State> {
                 {i + 1}
               </td>
               <td className={css(StandingsPage.RANKING_ENTRY_STYLE.name)}>
-                Championz
+                Champion
               </td>
               <td>
                 {String.fromCharCode(8734)}
@@ -128,7 +128,7 @@ export class StandingsPage extends React.Component<Properties, State> {
         }
       }
       return rows;
-    })(); 
+    })();
     return (
       <HBoxLayout height='100%' width='100%' style={StandingsPage.SCROLL_STYLE}>
         <Padding/>
@@ -189,9 +189,10 @@ export class StandingsPage extends React.Component<Properties, State> {
   private onGotIt() {
     this.setState({redirect: this.props.exitUrl});
   }
+
   private static readonly SCROLL_STYLE = {
     overflowY: 'auto' as 'auto'
-  }
+  };
   private static readonly MODAL_CONTAINTER_STYLE = {
     default: {
       width: '100%',
@@ -277,7 +278,7 @@ export class StandingsPage extends React.Component<Properties, State> {
       paddingBottom: '0px',
       paddingLeft: '0px',
       paddingRight: '17px'
-    }  
+    }
   });
   private static readonly GOT_IT_BUTTON_STYLE = StyleSheet.create({
     button: {
