@@ -31,21 +31,18 @@ export class Timer extends React.Component<Properties, State> {
     return (
       <div style={this.props.style}>
         {min}:{seconds}
-      </div>
-    );
+      </div>);
   }
 
   public componentDidMount() {
-    this.timerID = setInterval(this.updateTime, 1000);
+    setInterval(this.updateTime, 1000);
   }
 
   public componentWillUnmount() {
-    clearInterval(this.timerID);
+    clearInterval();
   }
 
   private updateTime() {
     this.setState({currentSeconds: this.state.currentSeconds + 1});
   }
-
-  private timerID = setInterval(undefined, 1000);
 }
