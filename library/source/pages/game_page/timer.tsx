@@ -7,7 +7,6 @@ interface Properties {
 
 interface State {
   currentSeconds: number;
-  currentMin: number;
 }
 
 /** Implements a cell of a sudoku board. */
@@ -15,7 +14,6 @@ export class Timer extends React.Component<Properties, State> {
   constructor(props: Properties) {
     super(props);
     this.state = {
-      currentMin: 0,
       currentSeconds: 0
     };
     this.updateTime = this.updateTime.bind(this);
@@ -23,17 +21,19 @@ export class Timer extends React.Component<Properties, State> {
 
   public render(): JSX.Element {
     const seconds = (() => {
-      if(this.state.currentSeconds <= 9) {
-        return '0' + this.state.currentSeconds.toString();
+      const value = (this.state.currentSeconds % 60);
+      if(value <= 9) {
+        return '0' + value.toString();
       } else {
-        return this.state.currentSeconds.toString();
+        return value.toString();
       }
     })();
     const min = (() => {
-      if(this.state.currentMin < 9) {
-        return '0' + this.state.currentMin.toString();
+      const value = Math.floor(this.state.currentSeconds / 60);
+      if(value < 9) {
+        return '0' + value.toString();
       } else {
-        return this.state.currentMin.toString();
+        return value.toString();
       }
     })();
     return (
@@ -52,14 +52,7 @@ export class Timer extends React.Component<Properties, State> {
   }
 
   private updateTime() {
-    if(this.state.currentSeconds === 59) {
-      this.setState({currentSeconds: 0});
-    } else {
-      this.setState({currentSeconds: this.state.currentSeconds + 1});
-    }
-    if(this.state.currentSeconds === 0) {
-      this.setState({currentMin: this.state.currentMin + 1});
-    }
+    this.setState({currentSeconds: this.state.currentSeconds + 1});
   }
 
   private timerID = setInterval(undefined, 1000);
