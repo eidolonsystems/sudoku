@@ -3,7 +3,7 @@ import {
   Board, BoardView, EditButton,
   EffectButton, NumberBar, SideMenu, Timer
 } from '../..';
-import { Padding, VBoxLayout } from '../../layouts';
+import {Padding, VBoxLayout} from '../../layouts';
 
 enum DisplayMode {
 
@@ -61,17 +61,16 @@ export class GameController extends React.Component<Properties, State> {
               </div>
               <EffectButton style={GameController.EFFECT_BUTTON_STYLE}
                 isOn={this.state.hasEffects}
-                onClick={this.toggleEffects}
-              />
-              <EditButton />
-              <Timer style={GameController.TIMER_STYLE} />
+                onClick={this.toggleEffects}/>
+              <EditButton/>
+              <Timer style={GameController.TIMER_STYLE}/>
             </div>
           </div>);
       } else {
         return (
           <div>
             <div style={GameController.TIMER_BLOCK_STYLE}>
-              <Timer style={GameController.TIMER_STYLE} />
+              <Timer style={GameController.TIMER_STYLE}/>
             </div>
             <div style={GameController.NAME_AND_SETTINGS_BLOCK_STYLE}>
               <div style={GameController.USER_NAME_STYLE}>
@@ -79,15 +78,14 @@ export class GameController extends React.Component<Properties, State> {
               </div>
               <EffectButton style={GameController.EFFECT_BUTTON_STYLE}
                 isOn={this.state.hasEffects}
-                onClick={this.toggleEffects}
-              />
-              <EditButton />
+                onClick={this.toggleEffects}/>
+              <EditButton/>
             </div>
           </div>);
       }
     })();
     return (
-      <VBoxLayout style={displayWidth}>
+      <VBoxLayout>
         <Padding size='20px'/>
         <SideMenu onClick={null}/>
         <Padding size='20px'/>
@@ -116,11 +114,11 @@ export class GameController extends React.Component<Properties, State> {
   private onResize() {
     if(document.body.clientWidth >= 446) {
       if(this.state.displayMode !== DisplayMode.LARGE) {
-        this.setState({ displayMode: DisplayMode.LARGE });
+        this.setState({displayMode: DisplayMode.LARGE});
       }
     } else {
       if(this.state.displayMode !== DisplayMode.SMALL) {
-        this.setState({ displayMode: DisplayMode.SMALL });
+        this.setState({displayMode: DisplayMode.SMALL});
       }
     }
   }
@@ -142,7 +140,7 @@ export class GameController extends React.Component<Properties, State> {
   }
 
   private toggleEffects() {
-    this.setState({ hasEffects: !this.state.hasEffects });
+    this.setState({hasEffects: !this.state.hasEffects});
   }
 
   private static readonly USER_NAME_STYLE = {
