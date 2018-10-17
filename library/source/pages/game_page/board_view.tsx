@@ -53,69 +53,141 @@ export class BoardView extends React.Component<Properties, State> {
         } else {
           return BoardView.BOARD_CONTAINER_STYLE.small;
         }
-      }
-      if(this.props.displayMode === DisplayMode.LARGE) {
-        return BoardView.NO_GRID_BOARD_CONTAINER_STYLE.large;
       } else {
-        return BoardView.NO_GRID_BOARD_CONTAINER_STYLE.small;
-      }
-    })();
-    const blockPadding = (() => {
-      if(this.props.displayMode === DisplayMode.LARGE) {
-        return BoardView.CELL_BLOCK_STYLE.large;
-      } else {
-        return BoardView.CELL_BLOCK_STYLE.small;
+        if(this.props.displayMode === DisplayMode.LARGE) {
+          return BoardView.NO_GRID_BOARD_CONTAINER_STYLE.large;
+        } else {
+          return BoardView.NO_GRID_BOARD_CONTAINER_STYLE.small;
+        }
       }
     })();
     const cells = (() => {
       if(!CSS.supports('grid-gap')) {
-        return this.noGridDisplay();
-      }
-      const blocks = [];
-      for(let g = 0; g < Board.ROWS; ++g) {
-        const cellBlock = [];
-        const squareRowStart = Math.floor(g / 3) * 3;
-        const squareColumnStart = (g % 3) * 3;
-        for(let i = squareRowStart; i < squareRowStart + 3; ++i) {
-          for(let j = squareColumnStart; j < squareColumnStart + 3; ++j) {
-            const cellState = this.getCellState(i, j);
-            const isClueCell = this.props.initialBoard.get(i, j) > 0;
-            cellBlock.push(<Cell
-              key={i + ' ' + j}
-              displayMode={this.props.displayMode}
-              cellState={cellState}
-              isClue={isClueCell}
-              value={this.props.currentBoard.get(i, j)}
-              onClick={this.onCellClicked(i, j)}
-              onMouseEnter={this.onCellHovered(i, j)}
-              onMouseLeave={this.onCellNotHovered}/>);
+        const blockPadding = (() => {
+          if(this.props.displayMode === DisplayMode.LARGE) {
+            return BoardView.NO_GRID_CELL_BLOCK_STYLE.large;
+          } else {
+            return BoardView.NO_GRID_CELL_BLOCK_STYLE.small;
           }
+        })();
+        const blocks = [];
+        for(let g = 0; g < Board.ROWS; ++g) {
+          const cellBlock = [];
+          const squareRowStart = Math.floor(g / 3) * 3;
+          const squareColumnStart = (g % 3) * 3;
+          for(let i = squareRowStart; i < squareRowStart + 3; ++i) {
+            for(let j = squareColumnStart; j < squareColumnStart + 3; ++j) {
+              const cellState = this.getCellState(i, j);
+              const isClueCell = this.props.initialBoard.get(i, j) > 0;
+              let topCellPad = {};
+              let bottomCellPad = {};
+              let rightCellPad = {};
+              let leftCellPad = {};
+              if(i <= squareRowStart + 1) {
+                topCellPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.cellTop;
+              }
+              if(i >= squareRowStart + 1) {
+                bottomCellPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.cellBottom;
+              }
+              if(j <= squareColumnStart + 1) {
+                leftCellPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.cellLeft;
+              }
+              if(j >= squareColumnStart + 1) {
+                rightCellPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.cellRight;
+              }
+              cellBlock.push(<Cell
+                key={i + ' ' + j}
+                displayMode={this.props.displayMode}
+                cellState={cellState}
+                isClue={isClueCell}
+                value={this.props.currentBoard.get(i, j)}
+                onClick={this.onCellClicked(i, j)}
+                onMouseEnter={this.onCellHovered(i, j)}
+                onMouseLeave={this.onCellNotHovered}
+                style={{
+                  ...topCellPad, ...leftCellPad,
+                  ...rightCellPad, ...bottomCellPad}}/>);
+            }
+          }
+          let topPad = {};
+          let bottomPad = {};
+          let rightPad = {};
+          let leftPad = {};
+          if(squareRowStart <= Board.ROWS / 3) {
+            topPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.top;
+          }
+          if(squareRowStart >= Board.ROWS / 3) {
+            bottomPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.bottom;
+          }
+          if(squareColumnStart <= Board.COLUMNS / 3) {
+            leftPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.left;
+          }
+          if(squareColumnStart >= Board.COLUMNS / 3) {
+            rightPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.right;
+          }
+          blocks.push(
+            (<div style={{
+              ...blockPadding,
+              ...topPad, ...leftPad, ...rightPad, ...bottomPad
+            }}>
+              {cellBlock}
+            </div>));
         }
-        let topPad = {};
-        let bottomPad = {};
-        let rightPad = {};
-        let leftPad = {};
-        if(squareRowStart <= Board.ROWS / 3) {
-          topPad = BoardView.CELL_BLOCK_STYLE.top;
+        return blocks;
+      } else {
+        const blockPadding = (() => {
+          if(this.props.displayMode === DisplayMode.LARGE) {
+            return BoardView.NO_GRID_CELL_BLOCK_STYLE.large;
+          } else {
+            return BoardView.NO_GRID_CELL_BLOCK_STYLE.small;
+          }
+        })();
+        const blocks = [];
+        for(let g = 0; g < Board.ROWS; ++g) {
+          const cellBlock = [];
+          const squareRowStart = Math.floor(g / 3) * 3;
+          const squareColumnStart = (g % 3) * 3;
+          for(let i = squareRowStart; i < squareRowStart + 3; ++i) {
+            for(let j = squareColumnStart; j < squareColumnStart + 3; ++j) {
+              const cellState = this.getCellState(i, j);
+              const isClueCell = this.props.initialBoard.get(i, j) > 0;
+              cellBlock.push(<Cell
+                key={i + ' ' + j}
+                displayMode={this.props.displayMode}
+                cellState={cellState}
+                isClue={isClueCell}
+                value={this.props.currentBoard.get(i, j)}
+                onClick={this.onCellClicked(i, j)}
+                onMouseEnter={this.onCellHovered(i, j)}
+                onMouseLeave={this.onCellNotHovered}/>);
+            }
+          }
+          let topPad = {};
+          let bottomPad = {};
+          let rightPad = {};
+          let leftPad = {};
+          if(squareRowStart <= Board.ROWS / 3) {
+            topPad = BoardView.CELL_BLOCK_STYLE.top;
+          }
+          if(squareRowStart >= Board.ROWS / 3) {
+            bottomPad = BoardView.CELL_BLOCK_STYLE.bottom;
+          }
+          if(squareColumnStart <= Board.COLUMNS / 3) {
+            leftPad = BoardView.CELL_BLOCK_STYLE.left;
+          }
+          if(squareColumnStart >= Board.COLUMNS / 3) {
+            rightPad = BoardView.CELL_BLOCK_STYLE.right;
+          }
+          blocks.push(
+            (<div style={{
+              ...blockPadding,
+              ...topPad, ...leftPad, ...rightPad, ...bottomPad
+            }}>
+              {cellBlock}
+            </div>));
         }
-        if(squareRowStart >= Board.ROWS / 3) {
-          bottomPad = BoardView.CELL_BLOCK_STYLE.bottom;
-        }
-        if(squareColumnStart <= Board.COLUMNS / 3) {
-          leftPad = BoardView.CELL_BLOCK_STYLE.left;
-        }
-        if(squareColumnStart >= Board.COLUMNS / 3) {
-          rightPad = BoardView.CELL_BLOCK_STYLE.right;
-        }
-        blocks.push(
-          (<div style={{
-            ...blockPadding,
-            ...topPad, ...leftPad, ...rightPad, ...bottomPad
-          }}>
-            {cellBlock}
-          </div>));
+        return blocks;
       }
-      return blocks;
     })();
     return (
       <div style={displayPadding}>{cells}</div>);
@@ -198,79 +270,6 @@ export class BoardView extends React.Component<Properties, State> {
     this.setState({
       hoveredCell: undefined
     });
-  }
-
-  private noGridDisplay() {
-    let blockPadding = null;
-    if(this.props.displayMode === DisplayMode.LARGE) {
-      blockPadding = BoardView.NO_GRID_CELL_BLOCK_STYLE.large;
-    } else {
-      blockPadding = BoardView.NO_GRID_CELL_BLOCK_STYLE.small;
-    }
-    const blocks = [];
-    for(let g = 0; g < Board.ROWS; ++g) {
-      const cellBlock = [];
-      const squareRowStart = Math.floor(g / 3) * 3;
-      const squareColumnStart = (g % 3) * 3;
-      for(let i = squareRowStart; i < squareRowStart + 3; ++i) {
-        for(let j = squareColumnStart; j < squareColumnStart + 3; ++j) {
-          const cellState = this.getCellState(i, j);
-          const isClueCell = this.props.initialBoard.get(i, j) > 0;
-          let topCellPad = {};
-          let bottomCellPad = {};
-          let rightCellPad = {};
-          let leftCellPad = {};
-          if(i <= squareRowStart + 1) {
-            topCellPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.cellTop;
-          }
-          if(i >= squareRowStart + 1) {
-            bottomCellPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.cellBottom;
-          }
-          if(j <= squareColumnStart + 1) {
-            leftCellPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.cellLeft;
-          }
-          if(j >= squareColumnStart + 1) {
-            rightCellPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.cellRight;
-          }
-          cellBlock.push(<Cell
-            key={i + ' ' + j}
-            displayMode={this.props.displayMode}
-            cellState={cellState}
-            isClue={isClueCell}
-            value={this.props.currentBoard.get(i, j)}
-            onClick={this.onCellClicked(i, j)}
-            onMouseEnter={this.onCellHovered(i, j)}
-            onMouseLeave={this.onCellNotHovered}
-            style={{
-              ...topCellPad, ...leftCellPad,
-              ...rightCellPad, ...bottomCellPad}}/>);
-        }
-      }
-      let topPad = {};
-      let bottomPad = {};
-      let rightPad = {};
-      let leftPad = {};
-      if(squareRowStart <= Board.ROWS / 3) {
-        topPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.top;
-      }
-      if(squareRowStart >= Board.ROWS / 3) {
-        bottomPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.bottom;
-      }
-      if(squareColumnStart <= Board.COLUMNS / 3) {
-        leftPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.left;
-      }
-      if(squareColumnStart >= Board.COLUMNS / 3) {
-        rightPad = BoardView.NO_GRID_CELL_BLOCK_STYLE.right;
-      }
-      blocks.push(
-        (<div style={{
-          ...blockPadding,
-          ...topPad, ...leftPad, ...rightPad, ...bottomPad
-        }}>
-          {cellBlock}
-        </div>));
-    }
-    return blocks;
   }
 
   private static readonly CELL_BLOCK_STYLE = {
