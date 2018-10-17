@@ -5,7 +5,6 @@ import {HBoxLayout, Padding, VBoxLayout} from '../../layouts';
 import {LoadingPage} from '..';
 import {StandingsModel} from '.';
 
-
 interface Properties {
 
   /** The standings model to display. */
@@ -13,7 +12,7 @@ interface Properties {
 
   /** The URL to redirect to when leaving the page. */
   exitUrl: string;
-};
+}
 
 enum Breakpoint {
 
@@ -25,13 +24,13 @@ enum Breakpoint {
 
   /** Page is equal or greater than 1040 pixels. */
   LARGE
-};
+}
 
 interface State {
   isLoading: boolean;
   redirect: string;
   breakpoint: Breakpoint;
-};
+}
 
 export class StandingsPage extends React.Component<Properties, State> {
   constructor(props: Properties) {
@@ -40,12 +39,12 @@ export class StandingsPage extends React.Component<Properties, State> {
       isLoading: true,
       redirect: null,
       breakpoint: Breakpoint.LARGE
-    };
+      };
     this.onResize = this.onResize.bind(this);
     this.onGotIt = this.onGotIt.bind(this);
   }
 
-  public componentWillMount(): void {
+  public componentDidMount(): void {
     this.props.model.load().then(
       () => {
         this.setState({
@@ -53,6 +52,7 @@ export class StandingsPage extends React.Component<Properties, State> {
         });
       });
     window.addEventListener('resize', this.onResize);
+    this.onResize();
   }
 
   public componentWillUnmount(): void {
@@ -67,8 +67,8 @@ export class StandingsPage extends React.Component<Properties, State> {
     }
     const topPadding = (() => {
       switch(this.state.breakpoint) {
-        case Breakpoint.SMALL: 
-          return undefined;
+        case Breakpoint.SMALL:
+          return '40px';
         case Breakpoint.MEDIUM:
           return '150px';
         case Breakpoint.LARGE:
@@ -76,8 +76,8 @@ export class StandingsPage extends React.Component<Properties, State> {
       }
     })();
     const bottomPadding = (() => {
-      if(this.state.breakpoint === Breakpoint.SMALL) {
-        return undefined;
+      if(this.state.breakpoint === Breakpoint.LARGE) {
+        return '40px';
       } else {
         return '50px';
       }
@@ -91,7 +91,7 @@ export class StandingsPage extends React.Component<Properties, State> {
     })();
     const rankingEntries = (() => {
       const rows = [];
-      const displayedEntries = Math.min(10, 
+      const displayedEntries = Math.min(10,
         this.props.model.getStandings().length);
       for(let i = 0; i < 10; ++i) {
         if(i < displayedEntries) {
@@ -118,7 +118,7 @@ export class StandingsPage extends React.Component<Properties, State> {
                 {i + 1}
               </td>
               <td className={css(StandingsPage.RANKING_ENTRY_STYLE.name)}>
-                Bad Bot
+                Championz
               </td>
               <td>
                 {String.fromCharCode(8734)}
@@ -142,7 +142,7 @@ export class StandingsPage extends React.Component<Properties, State> {
                   <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.rank}>
                     RANK
                   </th>
-                  <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.name}> 
+                  <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.name}>
                     NAME
                   </th>
                   <th style={StandingsPage.RANK_TABLE_HEADER_STYLE.time}>
@@ -156,7 +156,7 @@ export class StandingsPage extends React.Component<Properties, State> {
               </tbody>
             </table>
             <div>
-              <button 
+              <button
                   onClick={this.onGotIt}
                   className={css(StandingsPage.GOT_IT_BUTTON_STYLE.button)}>
                 GOT IT
@@ -169,14 +169,14 @@ export class StandingsPage extends React.Component<Properties, State> {
       </HBoxLayout>
     );
   }
-  
+
   private onResize() {
     if(document.body.clientWidth >= 1040) {
       if(this.state.breakpoint !== Breakpoint.LARGE) {
         this.setState({breakpoint: Breakpoint.LARGE});
       }
     } else if(document.body.clientWidth >= 560) {
-      if(this.state.breakpoint !== Breakpoint.MEDIUM){
+      if(this.state.breakpoint !== Breakpoint.MEDIUM) {
         this.setState({breakpoint: Breakpoint.MEDIUM});
       }
     } else {
@@ -190,16 +190,12 @@ export class StandingsPage extends React.Component<Properties, State> {
     this.setState({redirect: this.props.exitUrl});
   }
   private static readonly SCROLL_STYLE = {
-    overflowY: 'auto' as 'auto',
+    overflowY: 'auto' as 'auto'
   }
   private static readonly MODAL_CONTAINTER_STYLE = {
     default: {
       width: '100%',
-      minWidth: '320px',
-      marginTop: 'auto' as 'auto',
-      marginBotton: 'auto' as 'auto',
-      marginLeft: 'auto' as 'auto',
-      marginRight: 'auto' as 'auto'
+      minWidth: '320px'
     },
     bordered: {
       height: '458px',
@@ -217,7 +213,7 @@ export class StandingsPage extends React.Component<Properties, State> {
       width: 'inherit',
       borderSpacing: '0',
       borderCollapse: 'collapse' as 'collapse',
-      tableLayout: 'fixed' as 'fixed' 
+      tableLayout: 'fixed' as 'fixed'
     }
   });
   private static readonly RANK_TABLE_HEADER_STYLE = {
@@ -310,7 +306,7 @@ export class StandingsPage extends React.Component<Properties, State> {
         background: '#4B23A0',
         color: '#FFFFFF',
         transition: 'none',
-        outline: '0' 
+        outline: '0'
       },
       ':active': {
         background: '#4B23A0',

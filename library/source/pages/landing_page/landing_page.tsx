@@ -46,7 +46,7 @@ export class LandingPage extends React.Component<Properties, State> {
     }
     const topPadding = (() => {
       switch(this.state.breakPoint){
-        case Breakpoint.SMALL: 
+        case Breakpoint.SMALL:
           return undefined;
         case Breakpoint.MEDIUM:
           return '150px';
@@ -111,8 +111,9 @@ export class LandingPage extends React.Component<Properties, State> {
     </HBoxLayout>);
   }
 
-  public componentWillMount() {
+  public componentDidMount() {
     window.addEventListener('resize', this.onResize);
+    this.onResize();
   }
 
   public componentWillUnmount() {
