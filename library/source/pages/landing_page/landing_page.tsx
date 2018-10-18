@@ -81,7 +81,7 @@ export class LandingPage extends React.Component<Properties, State> {
             DESIGNED AND DEVELOPED BY SPIRE
           </div>
           <Padding size='60px'/>
-          <div style={LandingPage.NAME_STYLE}>YOUR NAME</div>
+          <div style={LandingPage.NAME_BOX_LABEL_STYLE}>YOUR NAME</div>
           <Padding size='8px'/>
           <input placeholder = 'Max. of 10 Characters'
             type='text' maxLength={10}
@@ -101,7 +101,7 @@ export class LandingPage extends React.Component<Properties, State> {
           <Padding size='18px'/>
           <a tabIndex={0}
               onClick={this.onSeeStandings}
-              style={LandingPage.STANDINGS_STYLE}>
+              style={LandingPage.STANDINGS_LINK_STYLE}>
             See Standings
           </a>
           <Padding/>
@@ -151,20 +151,23 @@ export class LandingPage extends React.Component<Properties, State> {
     color: '#4B23A0',
     fontSize: '10px',
     fontFamily: 'Roboto',
-    textAlign: 'center' as 'center'
+    textAlign: 'center' as 'center',
+    cursor: 'default' as 'default'
   };
-  private static readonly NAME_STYLE = {
+  private static readonly NAME_BOX_LABEL_STYLE = {
     color: '#333333',
     fontSize: '12px',
     fontFamily: 'Roboto',
-    textAlign: 'center' as 'center'
+    textAlign: 'center' as 'center',
+    cursor: 'default' as 'default'
   };
-  private static readonly STANDINGS_STYLE = {
+  private static readonly STANDINGS_LINK_STYLE = {
     color: '#333333',
     fontSize: '14px',
     fontFamily: 'Roboto',
     textAlign: 'center' as 'center',
-    textDecoration: 'none ' as 'none'
+    textDecoration: 'none ' as 'none',
+    cursor: 'pointer' as 'pointer'
   };
   private static readonly BUTTON_STYLE = StyleSheet.create({
     button: {
@@ -178,6 +181,7 @@ export class LandingPage extends React.Component<Properties, State> {
       textAlign: 'center' as 'center',
       color: '#4B23A0',
       background: '#FFFFFF',
+      cursor: 'pointer' as 'pointer',
       ':focus': {
         background: '#F2F2FF',
         color: '4B23A0'
