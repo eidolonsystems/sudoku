@@ -24,7 +24,7 @@ export class LocalStandingsModel {
     if(this.isLoaded) {
       return;
     }
-    if(this.loadTime == 0) {
+    if(this.loadTime === 0) {
       this.isLoaded = true;
       return;
     }

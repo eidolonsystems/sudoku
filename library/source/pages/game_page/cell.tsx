@@ -120,7 +120,8 @@ export class Cell extends React.Component<Properties, {}> {
       verticalAlign: 'middle' as 'middle',
       padding: '0px',
       ':hover': {
-        borderColor: '#4B23A0'
+        borderColor: '#4B23A0',
+        backgroundColor: '#FFFFFF'
       },
       ':focus': {
         outline: '0'
@@ -151,7 +152,8 @@ export class Cell extends React.Component<Properties, {}> {
       backgroundColor: '#F8F8F8'
     },
     selected: {
-      borderColor: '#4B23A0'
+      borderColor: '#4B23A0',
+      backgroundColor: '#FFFFFF'
     },
     twin: {
       borderColor: '#00D3DB'

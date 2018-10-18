@@ -53,6 +53,16 @@ export class LandingPage extends React.Component<Properties, State> {
           return '220px';
       }
     })();
+    const bottomPadding = (() => {
+      switch(this.state.breakPoint) {
+        case Breakpoint.SMALL:
+          return undefined;
+        case Breakpoint.MEDIUM:
+          return '40px';
+        case Breakpoint.LARGE:
+          return '40px';
+      }
+    })();
     const nameInputStyle = (() => {
       if(this.state.isNameValid) {
         return LandingPage.NAME_INPUT_VALID_STYLE.input;
@@ -68,7 +78,7 @@ export class LandingPage extends React.Component<Properties, State> {
       }
     })();
     return (
-      <HBoxLayout height='100%' width='100%'>
+      <HBoxLayout height='100%' width='100%' style={LandingPage.SCROLL_STYLE}>
         <Padding/>
         <VBoxLayout width='200px'>
           <Padding size={topPadding}/>
@@ -104,7 +114,7 @@ export class LandingPage extends React.Component<Properties, State> {
               style={LandingPage.STANDINGS_LINK_STYLE}>
             See Standings
           </a>
-          <Padding/>
+          <Padding size={bottomPadding}/>
         </VBoxLayout>
       <Padding/>
     </HBoxLayout>);
@@ -147,6 +157,9 @@ export class LandingPage extends React.Component<Properties, State> {
     }
   }
 
+  private static readonly SCROLL_STYLE = {
+    overflowY: 'auto' as 'auto'
+  };
   private static readonly SUBHEADING_STYLE = {
     color: '#4B23A0',
     fontSize: '10px',
