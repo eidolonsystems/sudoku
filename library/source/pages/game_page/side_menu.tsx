@@ -140,6 +140,7 @@ export class SideMenu extends React.Component<Properties, State> {
       color: '#000000',
       fontFamily: 'Roboto',
       marginTop: '20px',
+      cursor: 'pointer' as 'pointer',
       ':hover': {
         color: '#4B23A0'
       },
@@ -163,8 +164,8 @@ export class SideMenu extends React.Component<Properties, State> {
   private static readonly MENU_BUTTON = StyleSheet.create({
     base: {
       borderRadius: '0px',
+      cursor: 'pointer' as 'pointer',
       ':focus': {
-        cursor: 'default' as 'default',
         outline: '0',
         outlineColor: 'transparent',
         outlineCtyle: 'one'
