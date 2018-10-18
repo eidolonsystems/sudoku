@@ -148,7 +148,8 @@ export class GameController extends React.Component<Properties, State> {
     fontFamily: 'Roboto',
     fontSize: '16px',
     fontWeight: 'bold' as 'bold',
-    marginRight: 'auto' as 'auto'
+    marginRight: 'auto' as 'auto',
+    cursor: 'default' as 'default'
   };
   private static readonly MIN_WIDTH_STYLE = {
     minWidth: '320px'
@@ -157,7 +158,8 @@ export class GameController extends React.Component<Properties, State> {
     color: '#000000',
     fontFamily: 'Roboto',
     fontSize: '14px',
-    marginLeft: '20px'
+    marginLeft: '20px',
+    cursor: 'default' as 'default'
   };
   private static readonly TIMER_BLOCK_STYLE = {
     display: 'flex' as 'flex',
