@@ -44,13 +44,6 @@ export class GameController extends React.Component<Properties, State> {
   }
 
   public render(): JSX.Element {
-    const displayWidth = (() => {
-      if(this.state.displayMode === DisplayMode.SMALL) {
-        return GameController.MIN_WIDTH_STYLE.minWidth;
-      } else {
-        return undefined;
-      }
-    })();
     const infoBars = (() => {
       if(this.state.displayMode === DisplayMode.LARGE) {
         return (
@@ -99,6 +92,7 @@ export class GameController extends React.Component<Properties, State> {
         <Padding size='17px'/>
         <NumberBar onValueSelected={this.changeCellValue}
           displayMode={this.state.displayMode}/>
+        <Padding size='40px'/>
       </VBoxLayout>);
   }
 
@@ -143,12 +137,16 @@ export class GameController extends React.Component<Properties, State> {
     this.setState({hasEffects: !this.state.hasEffects});
   }
 
+  private static readonly PAGE_STYLE = {
+    minHeight: '633px'
+  };
   private static readonly USER_NAME_STYLE = {
     color: '#4B23A0',
     fontFamily: 'Roboto',
     fontSize: '16px',
     fontWeight: 'bold' as 'bold',
-    marginRight: 'auto' as 'auto'
+    marginRight: 'auto' as 'auto',
+    cursor: 'default' as 'default'
   };
   private static readonly MIN_WIDTH_STYLE = {
     minWidth: '320px'
@@ -157,7 +155,8 @@ export class GameController extends React.Component<Properties, State> {
     color: '#000000',
     fontFamily: 'Roboto',
     fontSize: '14px',
-    marginLeft: '20px'
+    marginLeft: '20px',
+    cursor: 'default' as 'default'
   };
   private static readonly TIMER_BLOCK_STYLE = {
     display: 'flex' as 'flex',
