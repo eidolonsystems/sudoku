@@ -295,6 +295,7 @@ export class StandingsPage extends React.Component<Properties, State> {
       display: 'block' as 'block',
       margin: '0 auto',
       marginBottom: '40px',
+      cursor: 'pointer' as 'pointer',
       ':focus': {
         background: '#F2F2FF',
         color: '#4B23A0',
