@@ -20,7 +20,7 @@ class Application extends React.Component {
             render={() => {
               return <sudoku.GamePage
               initialBoard = {sudoku.generateIncompleteBoard(30)}
-              username = {'BLOOP'}
+              username = {this.landingPage.getName()}
               />;
             }}/>
         </Router.Switch>
