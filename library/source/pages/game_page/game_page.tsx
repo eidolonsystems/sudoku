@@ -97,7 +97,8 @@ export class GamePage extends React.Component<Properties, State> {
           <Padding size='40px'/>
         </VBoxLayout>
       <Padding/>
-      </HBoxLayout>);
+      </HBoxLayout>
+      );
   }
 
   public componentDidMount() {
