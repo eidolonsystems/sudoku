@@ -3,7 +3,7 @@ import {
   Board, BoardView, EditButton,
   EffectButton, NumberBar, SideMenu, Timer
 } from '../..';
-import {Padding, VBoxLayout} from '../../layouts';
+import {Padding, VBoxLayout, HBoxLayout} from '../../layouts';
 
 enum DisplayMode {
 
@@ -78,22 +78,26 @@ export class GameController extends React.Component<Properties, State> {
       }
     })();
     return (
-      <VBoxLayout>
-        <Padding size='20px'/>
-        <SideMenu onClick={null}/>
-        <Padding size='20px'/>
-        {infoBars}
-        <Padding size='40px'/>
-        <BoardView ref={this.myRef}
-          currentBoard={this.state.board}
-          initialBoard={this.props.initialBoard}
-          hasEffects={this.state.hasEffects}
-          displayMode={this.state.displayMode}/>
-        <Padding size='17px'/>
-        <NumberBar onValueSelected={this.changeCellValue}
-          displayMode={this.state.displayMode}/>
-        <Padding size='40px'/>
-      </VBoxLayout>);
+      <HBoxLayout height='100%' width='100%'>
+      <Padding/>
+        <VBoxLayout>
+          <Padding size='20px'/>
+          <SideMenu onClick={null}/>
+          <Padding size='20px'/>
+          {infoBars}
+          <Padding size='40px'/>
+          <BoardView ref={this.myRef}
+            currentBoard={this.state.board}
+            initialBoard={this.props.initialBoard}
+            hasEffects={this.state.hasEffects}
+            displayMode={this.state.displayMode}/>
+          <Padding size='17px'/>
+          <NumberBar onValueSelected={this.changeCellValue}
+            displayMode={this.state.displayMode}/>
+          <Padding size='40px'/>
+        </VBoxLayout>
+      <Padding/>
+      </HBoxLayout>);
   }
 
   public componentDidMount() {
