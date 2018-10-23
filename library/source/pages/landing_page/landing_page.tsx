@@ -45,11 +45,6 @@ export class LandingPage extends React.Component<Properties, State> {
 
   public getName(): string {
     return this.state.nameValue;
-    if(this.nameInput) {
-      return this.state.nameValue;
-    } else {
-      return 'Hauler';
-    }
   }
 
   public render(): JSX.Element {
@@ -142,8 +137,6 @@ export class LandingPage extends React.Component<Properties, State> {
 
   public componentWillUnmount() {
     window.removeEventListener('resize', this.onResize);
-    console.log('Landing_Page unmounted');
-    console.log('name was: ' + this.getName());
   }
 
   private onInputChange(event: any) {
@@ -154,7 +147,6 @@ export class LandingPage extends React.Component<Properties, State> {
     if(this.nameInput.value === '') {
       this.setState({isNameValid: false});
     } else {
-      console.log('name was: ' + this.getName());
       this.setState({nameValue: this.getName()});
       this.setState({redirect: this.props.gameUrl});
     }
