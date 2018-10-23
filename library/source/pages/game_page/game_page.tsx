@@ -3,7 +3,7 @@ import {
   Board, BoardView, EditButton,
   EffectButton, NumberBar, SideMenu, Timer
 } from '../..';
-import {Padding, VBoxLayout} from '../../layouts';
+import {Padding, VBoxLayout, HBoxLayout} from '../../layouts';
 
 enum DisplayMode {
 
@@ -30,7 +30,7 @@ interface State {
 }
 
 /** Implements a component that displays a sudoku board. */
-export class GameController extends React.Component<Properties, State> {
+export class GamePage extends React.Component<Properties, State> {
   constructor(props: Properties) {
     super(props);
     this.state = {
@@ -48,28 +48,28 @@ export class GameController extends React.Component<Properties, State> {
       if(this.state.displayMode === DisplayMode.LARGE) {
         return (
           <div>
-            <div style={GameController.NAME_AND_SETTINGS_BLOCK_STYLE}>
-              <div style={GameController.USER_NAME_STYLE}>
+            <div style={GamePage.NAME_AND_SETTINGS_BLOCK_STYLE}>
+              <div style={GamePage.USER_NAME_STYLE}>
                 {this.props.username}
               </div>
-              <EffectButton style={GameController.EFFECT_BUTTON_STYLE}
+              <EffectButton style={GamePage.EFFECT_BUTTON_STYLE}
                 isOn={this.state.hasEffects}
                 onClick={this.toggleEffects}/>
               <EditButton/>
-              <Timer style={GameController.TIMER_STYLE}/>
+              <Timer style={GamePage.TIMER_STYLE}/>
             </div>
           </div>);
       } else {
         return (
           <div>
-            <div style={GameController.TIMER_BLOCK_STYLE}>
-              <Timer style={GameController.TIMER_STYLE}/>
+            <div style={GamePage.TIMER_BLOCK_STYLE}>
+              <Timer style={GamePage.TIMER_STYLE}/>
             </div>
-            <div style={GameController.NAME_AND_SETTINGS_BLOCK_STYLE}>
-              <div style={GameController.USER_NAME_STYLE}>
+            <div style={GamePage.NAME_AND_SETTINGS_BLOCK_STYLE}>
+              <div style={GamePage.USER_NAME_STYLE}>
                 {this.props.username}
               </div>
-              <EffectButton style={GameController.EFFECT_BUTTON_STYLE}
+              <EffectButton style={GamePage.EFFECT_BUTTON_STYLE}
                 isOn={this.state.hasEffects}
                 onClick={this.toggleEffects}/>
               <EditButton/>
@@ -78,22 +78,27 @@ export class GameController extends React.Component<Properties, State> {
       }
     })();
     return (
-      <VBoxLayout>
-        <Padding size='20px'/>
-        <SideMenu onClick={null}/>
-        <Padding size='20px'/>
-        {infoBars}
-        <Padding size='40px'/>
-        <BoardView ref={this.myRef}
-          currentBoard={this.state.board}
-          initialBoard={this.props.initialBoard}
-          hasEffects={this.state.hasEffects}
-          displayMode={this.state.displayMode}/>
-        <Padding size='17px'/>
-        <NumberBar onValueSelected={this.changeCellValue}
-          displayMode={this.state.displayMode}/>
-        <Padding size='40px'/>
-      </VBoxLayout>);
+      <HBoxLayout height='100%' width='100%'>
+      <Padding/>
+        <VBoxLayout>
+          <Padding size='20px'/>
+          <SideMenu onClick={null}/>
+          <Padding size='20px'/>
+          {infoBars}
+          <Padding size='40px'/>
+          <BoardView ref={this.myRef}
+            currentBoard={this.state.board}
+            initialBoard={this.props.initialBoard}
+            hasEffects={this.state.hasEffects}
+            displayMode={this.state.displayMode}/>
+          <Padding size='17px'/>
+          <NumberBar onValueSelected={this.changeCellValue}
+            displayMode={this.state.displayMode}/>
+          <Padding size='40px'/>
+        </VBoxLayout>
+      <Padding/>
+      </HBoxLayout>
+      );
   }
 
   public componentDidMount() {
@@ -173,6 +178,6 @@ export class GameController extends React.Component<Properties, State> {
   private myRef = React.createRef<BoardView>();
 }
 
-export module GameController {
+export module GamePage {
   export const Mode = DisplayMode;
 }

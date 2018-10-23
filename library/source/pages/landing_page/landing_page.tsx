@@ -23,6 +23,7 @@ interface State {
   redirect: string;
   breakPoint: Breakpoint;
   isNameValid: boolean;
+  nameValue: string;
 }
 
 /** Displays the Sudoku landing page. */
@@ -32,11 +33,18 @@ export class LandingPage extends React.Component<Properties, State> {
     this.state = {
       redirect: '',
       breakPoint: Breakpoint.LARGE,
-      isNameValid: true
+      isNameValid: true,
+      nameValue: ''
     };
     this.onPlayNow = this.onPlayNow.bind(this);
     this.onSeeStandings = this.onSeeStandings.bind(this);
     this.onResize = this.onResize.bind(this);
+    this.getName = this.getName.bind(this);
+    this.onInputChange = this.onInputChange.bind(this);
+  }
+
+  public getName(): string {
+    return this.state.nameValue;
   }
 
   public render(): JSX.Element {
@@ -97,6 +105,8 @@ export class LandingPage extends React.Component<Properties, State> {
             type='text' maxLength={10}
             className={css(LandingPage.NAME_INPUT_DEFAULT_STYLE.input,
               nameInputStyle)}
+              value = {this.state.nameValue}
+              onChange = {this.onInputChange}
             ref={(e) => this.nameInput = e}/>
           <div className={css(LandingPage.NAME_INPUT_DEFAULT_STYLE.div,
               errorMessageStyle)}>
@@ -129,10 +139,15 @@ export class LandingPage extends React.Component<Properties, State> {
     window.removeEventListener('resize', this.onResize);
   }
 
+  private onInputChange(event: any) {
+    this.setState({nameValue: event.target.value});
+  }
+
   private onPlayNow() {
     if(this.nameInput.value === '') {
       this.setState({isNameValid: false});
     } else {
+      this.setState({nameValue: this.getName()});
       this.setState({redirect: this.props.gameUrl});
     }
   }
