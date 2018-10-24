@@ -1,6 +1,6 @@
 import { Board } from '../..';
 
-/** Model used to load game model?. */
+/** Model used to load the game. */
 export abstract class GameModel {
 
   /** Returns the start time. */
@@ -10,7 +10,7 @@ export abstract class GameModel {
   public abstract getUsername(): string;
 
   /** Returns the initial Board. */
-  public abstract getInitalBoard(): Board;
+  public abstract getInitialBoard(): Board;
 
   /** Returns the current Board. */
   public abstract getCurrentBoard(): Board;

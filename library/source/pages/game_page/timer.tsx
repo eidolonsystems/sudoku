@@ -1,7 +1,10 @@
 import * as React from 'react';
 
 interface Properties {
-  /** The time the timer started at. */
+  /** The time the timer started at.
+   *  The time measured in the number of milliseconds
+   *  elapsed since January 1, 1970 00:00:00 UTC.
+   */
   startTime: number;
 
   /** The CSS style to apply. */

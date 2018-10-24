@@ -16,7 +16,7 @@ standings.push({
   rank: 3,
   name: 'Miso',
   time: 140});
-const standingModel = new sudoku.LocalStandingsModel(standings, 1000);
+const standingsModel = new sudoku.LocalStandingsModel(standings, 1000);
 
 /** The main entry point to the React application. */
 class Application extends React.Component {
@@ -33,7 +33,7 @@ class Application extends React.Component {
           <Router.Route exact path='/standings'
             render={() => {
               return <sudoku.StandingsPage
-                model={standingModel}
+                model={standingsModel}
                 exitUrl='/'/>;
             }}/>
           <Router.Route exact path='/game'

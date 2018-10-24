@@ -85,7 +85,7 @@ export class GamePage extends React.Component<Properties, State> {
           <Padding size='40px'/>
           <BoardView ref={this.myRef}
             currentBoard={this.props.model.getCurrentBoard()}
-            initialBoard={this.props.model.getInitalBoard()}
+            initialBoard={this.props.model.getInitialBoard()}
             hasEffects={this.state.hasEffects}
             displayMode={this.state.displayMode}/>
           <Padding size='17px'/>
@@ -124,7 +124,7 @@ export class GamePage extends React.Component<Properties, State> {
     if(node) {
       const cell = node.getSelectedCell();
       if(cell &&
-          this.props.model.getInitalBoard().get(cell[0], cell[1]) === 0) {
+          this.props.model.getInitialBoard().get(cell[0], cell[1]) === 0) {
         if(this.props.model.getCurrentBoard().get(cell[0], cell[1]) === value) {
           this.props.model.getCurrentBoard().set(cell[0], cell[1], 0);
           this.myRef.current.forceUpdate();

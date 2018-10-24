@@ -9,29 +9,25 @@ export class LocalGameModel implements GameModel {
    * @param startTime - time the game started
    * @param initialBoard - what the board initally looks like
    */
-  constructor(username: string, startTime: number, initBoard: Board) {
+  constructor(username: string, startTime: number, initialBoard: Board) {
     this.username = username;
     this.startTime = startTime;
-    this.initialBoard = initBoard;
-    this.currentBoard = initBoard.clone();
+    this.initialBoard = initialBoard;
+    this.currentBoard = initialBoard.clone();
   }
 
-  /** Returns the start time. */
-  public  getStartTime(): number {
+  public getStartTime(): number {
     return this.startTime;
   }
 
-  /** Returns the username. */
-  public  getUsername(): string {
+  public getUsername(): string {
     return this.username;
   }
 
-  /** Returns the initial Board. */
-  public  getInitalBoard(): Board {
+  public getInitialBoard(): Board {
     return this.initialBoard;
   }
 
-  /** Returns the current Board. */
   public getCurrentBoard(): Board {
     return this.currentBoard;
   }
