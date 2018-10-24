@@ -19,6 +19,7 @@ export class Timer extends React.Component<Properties, State> {
     this.state = {
       currentTime: (Date.now() - this.props.startTime) / 1000
     };
+    this.updateTime = this.updateTime.bind(this);
   }
 
   public render(): JSX.Element {

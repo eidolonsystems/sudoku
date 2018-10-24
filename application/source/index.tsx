@@ -22,10 +22,6 @@ const standingModel = new sudoku.LocalStandingsModel(standings, 1000);
 /** The main entry point to the React application. */
 class Application extends React.Component {
   public render(): JSX.Element {
-    this.gameModel  =  new sudoku.LocalGameModel(
-                    this.landingPage.getName(),
-                    Date.now(),
-                    sudoku.generateIncompleteBoard(30));
     return (
       <Router.HashRouter>
         <Router.Switch>
@@ -43,6 +39,10 @@ class Application extends React.Component {
             }}/>
           <Router.Route exact path='/game'
             render={() => {
+              this.gameModel  =  new sudoku.LocalGameModel(
+                this.landingPage.getName(),
+                Date.now(),
+                sudoku.generateIncompleteBoard(30));
               return <sudoku.GamePage
                 ref = {(e) => this.gamePage = e}
                 model = {this.gameModel}/>;
