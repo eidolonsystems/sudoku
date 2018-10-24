@@ -1,36 +1,42 @@
 import * as React from 'react';
 
 interface Properties {
+  /** The time the timer started at.
+   *  The time measured in the number of milliseconds
+   *  elapsed since January 1, 1970 00:00:00 UTC.
+   */
+  startTime: number;
+
   /** The CSS style to apply. */
   style?: any;
 }
 
 interface State {
-  currentSeconds: number;
+  currentTime: number;
 }
 
-/** Implements a cell of a sudoku board. */
+/** Implements a timer. */
 export class Timer extends React.Component<Properties, State> {
   constructor(props: Properties) {
     super(props);
     this.state = {
-      currentSeconds: 0
+      currentTime: (Date.now() - this.props.startTime) / 1000
     };
     this.updateTime = this.updateTime.bind(this);
   }
 
   public render(): JSX.Element {
     const seconds = (() => {
-      const value = (this.state.currentSeconds % 60);
-      return value.toString().padStart(2, '0');
+      const value = (this.state.currentTime % 60);
+      return value.toFixed(0).toString().padStart(2, '0');
     })();
-    const min = (() => {
-      const value = Math.floor(this.state.currentSeconds / 60);
-      return value.toString().padStart(2, '0');
+    const minutes = (() => {
+      const value = Math.floor(this.state.currentTime / 60);
+      return value.toFixed(0).toString().padStart(2, '0');
     })();
     return (
       <div style={this.props.style}>
-        {min}:{seconds}
+        {minutes}:{seconds}
       </div>);
   }
 
@@ -43,6 +49,6 @@ export class Timer extends React.Component<Properties, State> {
   }
 
   private updateTime() {
-    this.setState({currentSeconds: this.state.currentSeconds + 1});
+    this.setState({currentTime: (Date.now() - this.props.startTime) / 1000 });
   }
 }

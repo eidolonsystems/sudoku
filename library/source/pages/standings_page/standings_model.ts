@@ -4,7 +4,7 @@ import {StandingEntry} from '.';
 export abstract class StandingsModel {
 
   /** Returns the player standings. */
-  public abstract getStandings(): Array<StandingEntry>;
+  public abstract getStandings(): StandingEntry[];
 
   /** Loads the model. */
   public abstract async load(): Promise<void>;

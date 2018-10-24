@@ -12,7 +12,7 @@ interface Properties {
   isOn: boolean;
 }
 
-/** Implements a cell of a sudoku board. */
+/** Implements a button that turns effects on or off. */
 export class EffectButton extends React.Component<Properties, {}> {
   constructor(props: Properties) {
     super(props);

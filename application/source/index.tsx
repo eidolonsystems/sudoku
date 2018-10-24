@@ -16,7 +16,7 @@ standings.push({
   rank: 3,
   name: 'Miso',
   time: 140});
-const model = new sudoku.LocalStandingsModel(standings, 1000);
+const standingsModel = new sudoku.LocalStandingsModel(standings, 1000);
 
 /** The main entry point to the React application. */
 class Application extends React.Component {
@@ -33,21 +33,24 @@ class Application extends React.Component {
           <Router.Route exact path='/standings'
             render={() => {
               return <sudoku.StandingsPage
-                model={model}
-                exitUrl='/'
-              />;
+                model={standingsModel}
+                exitUrl='/'/>;
             }}/>
           <Router.Route exact path='/game'
             render={() => {
+              this.gameModel  =  new sudoku.LocalGameModel(
+                this.landingPage.getName(),
+                Date.now(),
+                sudoku.generateIncompleteBoard(30));
               return <sudoku.GamePage
-                initialBoard={sudoku.generateIncompleteBoard(30)}
-                username={this.landingPage.getName()}
-              />;
+                model = {this.gameModel}/>;
             }}/>
         </Router.Switch>
       </Router.HashRouter>);
   }
+
   private landingPage: sudoku.LandingPage;
+  private gameModel: sudoku.LocalGameModel;
 }
 
 ReactDOM.render(<Application/>, document.getElementById('main'));

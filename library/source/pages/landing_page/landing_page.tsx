@@ -23,7 +23,6 @@ interface State {
   redirect: string;
   breakPoint: Breakpoint;
   isNameValid: boolean;
-  nameValue: string;
 }
 
 /** Displays the Sudoku landing page. */
@@ -33,8 +32,7 @@ export class LandingPage extends React.Component<Properties, State> {
     this.state = {
       redirect: '',
       breakPoint: Breakpoint.LARGE,
-      isNameValid: true,
-      nameValue: ''
+      isNameValid: true
     };
     this.onPlayNow = this.onPlayNow.bind(this);
     this.onSeeStandings = this.onSeeStandings.bind(this);
@@ -43,8 +41,9 @@ export class LandingPage extends React.Component<Properties, State> {
     this.onInputChange = this.onInputChange.bind(this);
   }
 
+  /** Returns the name the player provided. */
   public getName(): string {
-    return this.state.nameValue;
+    return this.name;
   }
 
   public render(): JSX.Element {
@@ -105,9 +104,7 @@ export class LandingPage extends React.Component<Properties, State> {
             type='text' maxLength={10}
             className={css(LandingPage.NAME_INPUT_DEFAULT_STYLE.input,
               nameInputStyle)}
-              value = {this.state.nameValue}
-              onChange = {this.onInputChange}
-            ref={(e) => this.nameInput = e}/>
+              onChange = {this.onInputChange}/>
           <div className={css(LandingPage.NAME_INPUT_DEFAULT_STYLE.div,
               errorMessageStyle)}>
             Name is required.
@@ -140,14 +137,13 @@ export class LandingPage extends React.Component<Properties, State> {
   }
 
   private onInputChange(event: any) {
-    this.setState({nameValue: event.target.value});
+    this.name = event.target.value;
   }
 
   private onPlayNow() {
-    if(this.nameInput.value === '') {
+    if(this.name === '') {
       this.setState({isNameValid: false});
     } else {
-      this.setState({nameValue: this.getName()});
       this.setState({redirect: this.props.gameUrl});
     }
   }
@@ -279,5 +275,5 @@ export class LandingPage extends React.Component<Properties, State> {
       color: '#E63F44'
     }
   });
-  private nameInput: HTMLInputElement;
+  private name: string;
 }

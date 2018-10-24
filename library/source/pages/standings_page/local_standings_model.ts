@@ -1,19 +1,19 @@
-import {StandingEntry, StandingsModel} from '.';
+import { StandingEntry, StandingsModel } from '.';
 
 /** Implements the standings using local memory. */
-export class LocalStandingsModel {
+export class LocalStandingsModel implements StandingsModel {
 
   /** Constructs a local model.
    * @param standings - The list of standings to represent.
    * @param loadTime - The number of milliseconds used to simulate load time.
    */
-  constructor(standings: Array<StandingEntry>, loadTime: number = 0) {
+  constructor(standings: StandingEntry[], loadTime: number = 0) {
     this.loadTime = loadTime;
     this.isLoaded = false;
     this.standings = standings.slice();
   }
 
-  public getStandings(): Array<StandingEntry> {
+  public getStandings(): StandingEntry[] {
     if(!this.isLoaded) {
       throw new Error('Model not loaded.');
     }
@@ -38,5 +38,5 @@ export class LocalStandingsModel {
 
   private loadTime: number;
   private isLoaded: boolean;
-  private standings: Array<StandingEntry>;
+  private standings: StandingEntry[];
 }
