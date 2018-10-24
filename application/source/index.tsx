@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom';
 import * as Router from 'react-router-dom';
 import * as sudoku from 'sudoku';
 
+
 const standings = new Array<sudoku.StandingEntry>();
 standings.push({
   rank: 1,
@@ -21,7 +22,10 @@ const standingModel = new sudoku.LocalStandingsModel(standings, 1000);
 /** The main entry point to the React application. */
 class Application extends React.Component {
   public render(): JSX.Element {
-    console.log('current time! ' + Date.now());
+    this.gameModel  =  new sudoku.LocalGameModel(
+                    this.landingPage.getName(),
+                    Date.now(),
+                    sudoku.generateIncompleteBoard(30));
     return (
       <Router.HashRouter>
         <Router.Switch>
@@ -41,11 +45,7 @@ class Application extends React.Component {
             render={() => {
               return <sudoku.GamePage
                 ref = {(e) => this.gamePage = e}
-                model = {
-                  this.gameModel =  new sudoku.LocalGameModel(
-                    this.landingPage.getName(),
-                    Date.now(),
-                    sudoku.generateIncompleteBoard(30))}/>;
+                model = {this.gameModel}/>;
             }}/>
         </Router.Switch>
       </Router.HashRouter>);

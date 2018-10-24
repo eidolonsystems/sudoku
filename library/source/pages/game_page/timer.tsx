@@ -8,21 +8,26 @@ interface Properties {
   style?: any;
 }
 
+interface State {
+  currentTime: number;
+}
+
 /** Implements a timer. */
-export class Timer extends React.Component<Properties, {}> {
+export class Timer extends React.Component<Properties, State> {
   constructor(props: Properties) {
     super(props);
-    this.forceUpdate = this.forceUpdate.bind(this);
+    this.state = {
+      currentTime: (Date.now() - this.props.startTime) / 1000
+    };
   }
 
   public render(): JSX.Element {
-    const currentTime = (Date.now() - this.props.startTime) / 1000 ;
     const seconds = (() => {
-      const value = (currentTime % 60);
+      const value = (this.state.currentTime % 60);
       return value.toFixed(0).toString().padStart(2, '0');
     })();
     const minutes = (() => {
-      const value = Math.floor(currentTime / 60);
+      const value = Math.floor(this.state.currentTime / 60);
       return value.toFixed(0).toString().padStart(2, '0');
     })();
     return (
@@ -33,11 +38,15 @@ export class Timer extends React.Component<Properties, {}> {
 
   public componentDidMount() {
     console.log('Timer is mounted?');
-    setInterval(this.forceUpdate, 1000);
+    setInterval(this.updateTime, 1000);
   }
 
   public componentWillUnmount() {
     console.log('Timer is unmounted?');
     clearInterval();
+  }
+
+  private updateTime() {
+    this.setState({currentTime: (Date.now() - this.props.startTime) / 1000 });
   }
 }

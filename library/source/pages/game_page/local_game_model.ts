@@ -4,7 +4,7 @@ import { Board } from '../../board';
 // implementation of game_model
 
 /** Implements the standings using local memory. */
-export class LocalGameModel extends GameModel {
+export class LocalGameModel implements GameModel {
 
   /** Constructs a local model.
    * @param username
@@ -12,7 +12,8 @@ export class LocalGameModel extends GameModel {
    * @param initialBoard
    */
   constructor(username: string, startTime: number, initBoard: Board) {
-    super();
+    //super();
+    console.log('Making a model! ');
     this.username = username;
     this.startTime = startTime;
     this.initialBoard = initBoard;
@@ -34,6 +35,7 @@ export class LocalGameModel extends GameModel {
     return this.initialBoard;
   }
 
+  /** Returns the current Board. */
   public getCurrentBoard(): Board {
     return this.currentBoard;
   }

@@ -1,7 +1,5 @@
-import { Expect, Test } from "alsatian";
+import { Expect, Test } from 'alsatian';
 import * as sudoku from 'sudoku';
-import { Board } from "sudoku";
-
 
 /** Tests the Board class. */
 export class BoardTester {
