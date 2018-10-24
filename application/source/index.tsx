@@ -3,7 +3,6 @@ import * as ReactDOM from 'react-dom';
 import * as Router from 'react-router-dom';
 import * as sudoku from 'sudoku';
 
-
 const standings = new Array<sudoku.StandingEntry>();
 standings.push({
   rank: 1,

@@ -8,7 +8,6 @@ export class LocalStandingsModel implements StandingsModel {
    * @param loadTime - The number of milliseconds used to simulate load time.
    */
   constructor(standings: StandingEntry[], loadTime: number = 0) {
-    //super();
     this.loadTime = loadTime;
     this.isLoaded = false;
     this.standings = standings.slice();

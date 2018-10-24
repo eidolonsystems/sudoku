@@ -1,15 +1,13 @@
 import { GameModel } from '.';
 import { Board } from '../../board';
 
-// implementation of game_model
-
-/** Implements the standings using local memory. */
+// Implements GameModel. */
 export class LocalGameModel implements GameModel {
 
   /** Constructs a local model.
-   * @param username
-   * @param startTime
-   * @param initialBoard
+   * @param username - name of the user
+   * @param startTime - time the game started
+   * @param initialBoard - what the board initally looks like
    */
   constructor(username: string, startTime: number, initBoard: Board) {
     this.username = username;
@@ -37,9 +35,9 @@ export class LocalGameModel implements GameModel {
   public getCurrentBoard(): Board {
     return this.currentBoard;
   }
+
   private username: string;
   private startTime: number;
   private initialBoard: Board;
   private currentBoard: Board;
-
 }

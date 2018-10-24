@@ -41,6 +41,7 @@ export class LandingPage extends React.Component<Properties, State> {
     this.onInputChange = this.onInputChange.bind(this);
   }
 
+  /** Returns the name the player provided. */
   public getName(): string {
     return this.name;
   }
