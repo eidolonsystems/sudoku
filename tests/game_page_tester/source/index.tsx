@@ -6,8 +6,7 @@ ReactDOM.render(
   <div>
     <sudoku.HBoxLayout width = '100%' height = '100%'>
       <sudoku.Padding/>
-      <sudoku.GamePage initialBoard={sudoku.generateIncompleteBoard(28)}
-        username='Lucky'/>
+      <div> There should be a game page here, but there isn't.</div>
       <sudoku.Padding/>
     </sudoku.HBoxLayout>
   </div>,

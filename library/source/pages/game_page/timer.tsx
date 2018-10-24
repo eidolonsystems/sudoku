@@ -1,48 +1,43 @@
 import * as React from 'react';
 
 interface Properties {
+  /** The time the timer started at. */
+  startTime: number;
+
   /** The CSS style to apply. */
   style?: any;
 }
 
-interface State {
-  currentSeconds: number;
-}
-
-/** Implements a cell of a sudoku board. */
-export class Timer extends React.Component<Properties, State> {
+/** Implements a timer. */
+export class Timer extends React.Component<Properties, {}> {
   constructor(props: Properties) {
     super(props);
-    this.state = {
-      currentSeconds: 0
-    };
-    this.updateTime = this.updateTime.bind(this);
+    this.forceUpdate = this.forceUpdate.bind(this);
   }
 
   public render(): JSX.Element {
+    const currentTime = (Date.now() - this.props.startTime) / 1000 ;
     const seconds = (() => {
-      const value = (this.state.currentSeconds % 60);
-      return value.toString().padStart(2, '0');
+      const value = (currentTime % 60);
+      return value.toFixed(0).toString().padStart(2, '0');
     })();
-    const min = (() => {
-      const value = Math.floor(this.state.currentSeconds / 60);
-      return value.toString().padStart(2, '0');
+    const minutes = (() => {
+      const value = Math.floor(currentTime / 60);
+      return value.toFixed(0).toString().padStart(2, '0');
     })();
     return (
       <div style={this.props.style}>
-        {min}:{seconds}
+        {minutes}:{seconds}
       </div>);
   }
 
   public componentDidMount() {
-    setInterval(this.updateTime, 1000);
+    console.log('Timer is mounted?');
+    setInterval(this.forceUpdate, 1000);
   }
 
   public componentWillUnmount() {
+    console.log('Timer is unmounted?');
     clearInterval();
-  }
-
-  private updateTime() {
-    this.setState({currentSeconds: this.state.currentSeconds + 1});
   }
 }

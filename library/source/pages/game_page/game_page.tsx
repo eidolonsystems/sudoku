@@ -1,11 +1,9 @@
 import * as React from 'react';
 import {
-  Board, BoardView, EditButton,
-  EffectButton, NumberBar, SideMenu, DumbTimer
+  Board, BoardView, EditButton, EffectButton,
+  GameModel, NumberBar, SideMenu, Timer
 } from '../..';
 import {Padding, VBoxLayout, HBoxLayout} from '../../layouts';
-import { GameModel } from './game_model';
-import { StatelessTimer } from './statelessTimer';
 
 enum DisplayMode {
 
@@ -17,6 +15,8 @@ enum DisplayMode {
 }
 
 interface Properties {
+
+  /** The game model to use. */
   model: GameModel;
 }
 
@@ -51,7 +51,7 @@ export class GamePage extends React.Component<Properties, State> {
                 isOn={this.state.hasEffects}
                 onClick={this.toggleEffects}/>
               <EditButton/>
-              <StatelessTimer style={GamePage.TIMER_STYLE}
+              <Timer style={GamePage.TIMER_STYLE}
                 startTime = {this.props.model.getStartTime()}/>
             </div>
           </div>);
@@ -59,7 +59,7 @@ export class GamePage extends React.Component<Properties, State> {
         return (
           <div>
             <div style={GamePage.TIMER_BLOCK_STYLE}>
-              <StatelessTimer style={GamePage.TIMER_STYLE}
+              <Timer style={GamePage.TIMER_STYLE}
                 startTime = {this.props.model.getStartTime()}/>
             </div>
             <div style={GamePage.NAME_AND_SETTINGS_BLOCK_STYLE}>
