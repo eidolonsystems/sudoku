@@ -2,7 +2,9 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as Router from 'react-router-dom';
 import * as sudoku from 'sudoku';
+import { GameModel, LocalGameModel } from 'sudoku';
 
+/** 
 const standings = new Array<sudoku.StandingEntry>();
 standings.push({
   rank: 1,
@@ -17,10 +19,13 @@ standings.push({
   name: 'Miso',
   time: 140});
 const model = new sudoku.LocalStandingsModel(standings, 1000);
+*/
 
 /** The main entry point to the React application. */
 class Application extends React.Component {
   public render(): JSX.Element {
+
+    console.log('current time! ' + Date.now());
     return (
       <Router.HashRouter>
         <Router.Switch>
@@ -33,21 +38,26 @@ class Application extends React.Component {
           <Router.Route exact path='/standings'
             render={() => {
               return <sudoku.StandingsPage
-                model={model}
-                exitUrl='/'
-              />;
+                model={null}
+                exitUrl='/'/>;
             }}/>
           <Router.Route exact path='/game'
             render={() => {
               return <sudoku.GamePage
-                initialBoard={sudoku.generateIncompleteBoard(30)}
-                username={this.landingPage.getName()}
+                ref = {(e) => this.gamePage = e}
+                model = { this.gameModel =  new LocalGameModel(
+                          this.landingPage.getName(),
+                          Date.now(), //wrong > : I
+                          sudoku.generateIncompleteBoard(30))}
               />;
             }}/>
         </Router.Switch>
       </Router.HashRouter>);
   }
+
   private landingPage: sudoku.LandingPage;
+  private gamePage: sudoku.GamePage;
+  private gameModel: sudoku.LocalGameModel;
 }
 
 ReactDOM.render(<Application/>, document.getElementById('main'));

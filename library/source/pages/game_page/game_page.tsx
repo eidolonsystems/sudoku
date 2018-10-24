@@ -1,9 +1,11 @@
 import * as React from 'react';
 import {
   Board, BoardView, EditButton,
-  EffectButton, NumberBar, SideMenu, Timer
+  EffectButton, NumberBar, SideMenu, DumbTimer
 } from '../..';
 import {Padding, VBoxLayout, HBoxLayout} from '../../layouts';
+import { GameModel } from './game_model';
+import { StatelessTimer } from './statelessTimer';
 
 enum DisplayMode {
 
@@ -15,16 +17,10 @@ enum DisplayMode {
 }
 
 interface Properties {
-
-  /** The original state of the board. */
-  initialBoard: Board;
-
-  /** The username of the current player. */
-  username: string;
+  model: GameModel;
 }
 
 interface State {
-  board: Board;
   displayMode: DisplayMode;
   hasEffects: boolean;
 }
@@ -34,7 +30,6 @@ export class GamePage extends React.Component<Properties, State> {
   constructor(props: Properties) {
     super(props);
     this.state = {
-      board: this.props.initialBoard.clone(),
       displayMode: DisplayMode.SMALL,
       hasEffects: true
     };
@@ -50,24 +45,26 @@ export class GamePage extends React.Component<Properties, State> {
           <div>
             <div style={GamePage.NAME_AND_SETTINGS_BLOCK_STYLE}>
               <div style={GamePage.USER_NAME_STYLE}>
-                {this.props.username}
+                {this.props.model.getUsername()}
               </div>
               <EffectButton style={GamePage.EFFECT_BUTTON_STYLE}
                 isOn={this.state.hasEffects}
                 onClick={this.toggleEffects}/>
               <EditButton/>
-              <Timer style={GamePage.TIMER_STYLE}/>
+              <StatelessTimer style={GamePage.TIMER_STYLE}
+                startTime = {this.props.model.getStartTime()}/>
             </div>
           </div>);
       } else {
         return (
           <div>
             <div style={GamePage.TIMER_BLOCK_STYLE}>
-              <Timer style={GamePage.TIMER_STYLE}/>
+              <StatelessTimer style={GamePage.TIMER_STYLE}
+                startTime = {this.props.model.getStartTime()}/>
             </div>
             <div style={GamePage.NAME_AND_SETTINGS_BLOCK_STYLE}>
               <div style={GamePage.USER_NAME_STYLE}>
-                {this.props.username}
+                {this.props.model.getUsername()}
               </div>
               <EffectButton style={GamePage.EFFECT_BUTTON_STYLE}
                 isOn={this.state.hasEffects}
@@ -87,8 +84,8 @@ export class GamePage extends React.Component<Properties, State> {
           {infoBars}
           <Padding size='40px'/>
           <BoardView ref={this.myRef}
-            currentBoard={this.state.board}
-            initialBoard={this.props.initialBoard}
+            currentBoard={this.props.model.getCurrentBoard()}
+            initialBoard={this.props.model.getInitalBoard()}
             hasEffects={this.state.hasEffects}
             displayMode={this.state.displayMode}/>
           <Padding size='17px'/>
@@ -126,12 +123,13 @@ export class GamePage extends React.Component<Properties, State> {
     const node = this.myRef.current;
     if(node) {
       const cell = node.getSelectedCell();
-      if(cell && this.props.initialBoard.get(cell[0], cell[1]) === 0) {
-        if(this.state.board.get(cell[0], cell[1]) === value) {
-          this.state.board.set(cell[0], cell[1], 0);
+      if(cell &&
+          this.props.model.getInitalBoard().get(cell[0], cell[1]) === 0) {
+        if(this.props.model.getCurrentBoard().get(cell[0], cell[1]) === value) {
+          this.props.model.getCurrentBoard().set(cell[0], cell[1], 0);
           this.myRef.current.forceUpdate();
         } else {
-          this.state.board.set(cell[0], cell[1], value);
+          this.props.model.getCurrentBoard().set(cell[0], cell[1], value);
           this.myRef.current.forceUpdate();
         }
       }

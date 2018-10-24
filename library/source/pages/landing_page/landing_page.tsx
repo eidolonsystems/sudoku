@@ -137,6 +137,8 @@ export class LandingPage extends React.Component<Properties, State> {
 
   public componentWillUnmount() {
     window.removeEventListener('resize', this.onResize);
+    console.log('name is from state: ' + this.state.nameValue);
+    //console.log('name is from NameInput: ' + this.nameInput.value);
   }
 
   private onInputChange(event: any) {
@@ -147,6 +149,7 @@ export class LandingPage extends React.Component<Properties, State> {
     if(this.nameInput.value === '') {
       this.setState({isNameValid: false});
     } else {
+      console.log('name is from NameInput: ' + this.nameInput.value);
       this.setState({nameValue: this.getName()});
       this.setState({redirect: this.props.gameUrl});
     }
@@ -280,4 +283,5 @@ export class LandingPage extends React.Component<Properties, State> {
     }
   });
   private nameInput: HTMLInputElement;
+  private name: string;
 }
