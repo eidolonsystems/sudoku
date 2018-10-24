@@ -133,7 +133,6 @@ export class LandingPage extends React.Component<Properties, State> {
 
   public componentWillUnmount() {
     window.removeEventListener('resize', this.onResize);
-    console.log('name is from state: ' + this.name);
   }
 
   private onInputChange(event: any) {

@@ -44,7 +44,6 @@ class Application extends React.Component {
                 Date.now(),
                 sudoku.generateIncompleteBoard(30));
               return <sudoku.GamePage
-                ref = {(e) => this.gamePage = e}
                 model = {this.gameModel}/>;
             }}/>
         </Router.Switch>
@@ -52,7 +51,6 @@ class Application extends React.Component {
   }
 
   private landingPage: sudoku.LandingPage;
-  private gamePage: sudoku.GamePage;
   private gameModel: sudoku.LocalGameModel;
 }
 

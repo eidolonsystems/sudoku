@@ -12,8 +12,6 @@ export class LocalGameModel implements GameModel {
    * @param initialBoard
    */
   constructor(username: string, startTime: number, initBoard: Board) {
-    //super();
-    console.log('Making a model! ');
     this.username = username;
     this.startTime = startTime;
     this.initialBoard = initBoard;

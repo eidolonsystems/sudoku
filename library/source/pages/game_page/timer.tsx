@@ -38,12 +38,10 @@ export class Timer extends React.Component<Properties, State> {
   }
 
   public componentDidMount() {
-    console.log('Timer is mounted?');
     setInterval(this.updateTime, 1000);
   }
 
   public componentWillUnmount() {
-    console.log('Timer is unmounted?');
     clearInterval();
   }
 

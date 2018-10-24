@@ -100,12 +100,10 @@ export class GamePage extends React.Component<Properties, State> {
 
   public componentDidMount() {
     window.addEventListener('resize', this.onResize);
-    console.log('Is the model null? ' + this.props.model);
     this.onResize();
   }
 
   public componentWillUnmount() {
-    console.log('Game page unmounted!');
     window.removeEventListener('resize', this.onResize);
   }
 

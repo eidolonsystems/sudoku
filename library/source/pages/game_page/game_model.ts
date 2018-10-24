@@ -1,7 +1,5 @@
 import { Board } from '../..';
 
-// abstract version that the page works with
-
 /** Model used to load game model?. */
 export abstract class GameModel {
 
