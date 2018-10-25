@@ -26,18 +26,23 @@ class Application extends React.Component {
         <Router.Switch>
           <Router.Route exact path='/'
             render={() => {
+              this.previousPath = '/';
               return <sudoku.LandingPage gameUrl='/game'
                 standingsUrl='/standings'
                 ref={(e) => this.landingPage = e}/>;
             }} />
           <Router.Route exact path='/standings'
             render={() => {
+              if(!this.previousPath) {
+                this.previousPath === '/';
+              }
               return <sudoku.StandingsPage
                 model={standingsModel}
-                exitUrl='/'/>;
+                exitUrl={this.previousPath}/>;
             }}/>
           <Router.Route exact path='/game'
             render={() => {
+              this.previousPath = '/game';
               if(this.landingPage) {
               this.gameModel  =  new sudoku.LocalGameModel(
                 this.landingPage.getName(),
@@ -55,6 +60,7 @@ class Application extends React.Component {
 
   private landingPage: sudoku.LandingPage;
   private gameModel: sudoku.LocalGameModel;
+  private previousPath: string;
 }
 
 ReactDOM.render(<Application/>, document.getElementById('main'));

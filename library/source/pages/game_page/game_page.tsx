@@ -153,7 +153,7 @@ export class GamePage extends React.Component<Properties, State> {
     this.setState({hasEffects: !this.state.hasEffects});
   }
 
-  private onSideMenuClick(item: SideMenu.Item) {
+  private onSideMenuClick(item: any) {
     switch(item) {
       case SideMenu.Item.EXIT:
         this.setState({redirect: this.props.exitUrl});
