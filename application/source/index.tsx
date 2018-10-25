@@ -26,6 +26,7 @@ class Application extends React.Component {
         <Router.Switch>
           <Router.Route exact path='/'
             render={() => {
+              this.previousPath = '/';
               return <sudoku.LandingPage gameUrl='/game'
                 standingsUrl='/standings'
                 ref={(e) => this.landingPage = e}/>;
@@ -34,16 +35,21 @@ class Application extends React.Component {
             render={() => {
               return <sudoku.StandingsPage
                 model={standingsModel}
-                exitUrl='/'/>;
+                exitUrl={this.previousPath || '/'}/>;
             }}/>
           <Router.Route exact path='/game'
             render={() => {
-              this.gameModel  =  new sudoku.LocalGameModel(
-                this.landingPage.getName(),
-                Date.now(),
-                sudoku.generateIncompleteBoard(30));
+              this.previousPath = '/game';
+              if(this.landingPage) {
+                this.gameModel  =  new sudoku.LocalGameModel(
+                  this.landingPage.getName(),
+                  Date.now(),
+                  sudoku.generateIncompleteBoard(30));
+              }
               return <sudoku.GamePage
-                model = {this.gameModel}/>;
+                model={this.gameModel}
+                exitUrl='/'
+                standingsUrl='/standings'/>;
             }}/>
         </Router.Switch>
       </Router.HashRouter>);
@@ -51,6 +57,7 @@ class Application extends React.Component {
 
   private landingPage: sudoku.LandingPage;
   private gameModel: sudoku.LocalGameModel;
+  private previousPath: string;
 }
 
 ReactDOM.render(<Application/>, document.getElementById('main'));
