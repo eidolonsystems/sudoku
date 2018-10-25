@@ -7,7 +7,7 @@ enum SideMenuItem {
   /** Create a new game. */
   NEW_GAME,
 
-  /** Display the standings page.        */
+  /** Display the standings page. */
   STANDINGS,
 
   /** Display the about page. */
@@ -19,7 +19,7 @@ enum SideMenuItem {
 
 interface Properties {
 
-  /** The on-click handler. */
+  /** The on-click handler for the burger button. */
   onClick(item: SideMenuItem): void;
 }
 

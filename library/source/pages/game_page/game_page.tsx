@@ -1,6 +1,7 @@
 import * as React from 'react';
+import * as Router from 'react-router-dom';
 import {
-  Board, BoardView, EditButton, EffectButton,
+  BoardView, EditButton, EffectButton,
   GameModel, NumberBar, SideMenu, Timer
 } from '../..';
 import {Padding, VBoxLayout, HBoxLayout} from '../../layouts';
@@ -18,11 +19,18 @@ interface Properties {
 
   /** The game model to use. */
   model: GameModel;
+
+  /** The URL to exit the game. */
+  exitUrl: string;
+
+  /** The URL to see the standigs. */
+  standingsUrl: string;
 }
 
 interface State {
   displayMode: DisplayMode;
   hasEffects: boolean;
+  redirect: string;
 }
 
 /** Implements a component that displays a sudoku board. */
@@ -31,14 +39,19 @@ export class GamePage extends React.Component<Properties, State> {
     super(props);
     this.state = {
       displayMode: DisplayMode.SMALL,
-      hasEffects: true
+      hasEffects: true,
+      redirect: ''
     };
     this.onResize = this.onResize.bind(this);
     this.changeCellValue = this.changeCellValue.bind(this);
     this.toggleEffects = this.toggleEffects.bind(this);
+    this.onSideMenuClick = this.onSideMenuClick.bind(this);
   }
 
   public render(): JSX.Element {
+    if(this.state.redirect) {
+      return <Router.Redirect push to={this.state.redirect}/>;
+    }
     const infoBars = (() => {
       if(this.state.displayMode === DisplayMode.LARGE) {
         return (
@@ -79,7 +92,7 @@ export class GamePage extends React.Component<Properties, State> {
       <Padding/>
         <VBoxLayout>
           <Padding size='20px'/>
-          <SideMenu onClick={null}/>
+          <SideMenu onClick={this.onSideMenuClick}/>
           <Padding size='20px'/>
           {infoBars}
           <Padding size='40px'/>
@@ -138,6 +151,15 @@ export class GamePage extends React.Component<Properties, State> {
 
   private toggleEffects() {
     this.setState({hasEffects: !this.state.hasEffects});
+  }
+
+  private onSideMenuClick(item: SideMenu.Item) {
+    switch(item) {
+      case SideMenu.Item.EXIT:
+        this.setState({redirect: this.props.exitUrl});
+      case SideMenu.Item.STANDINGS:
+        this.setState({redirect: this.props.standingsUrl});
+    }
   }
 
   private static readonly PAGE_STYLE = {

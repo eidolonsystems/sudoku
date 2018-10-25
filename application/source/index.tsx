@@ -38,12 +38,16 @@ class Application extends React.Component {
             }}/>
           <Router.Route exact path='/game'
             render={() => {
+              if(this.landingPage) {
               this.gameModel  =  new sudoku.LocalGameModel(
                 this.landingPage.getName(),
                 Date.now(),
                 sudoku.generateIncompleteBoard(30));
+              }
               return <sudoku.GamePage
-                model = {this.gameModel}/>;
+                model = {this.gameModel}
+                standingsUrl='/standings'
+                exitUrl= '/'/>;
             }}/>
         </Router.Switch>
       </Router.HashRouter>);
