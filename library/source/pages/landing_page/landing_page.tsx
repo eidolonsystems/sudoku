@@ -34,6 +34,7 @@ export class LandingPage extends React.Component<Properties, State> {
       breakPoint: Breakpoint.LARGE,
       isNameValid: true
     };
+    this.name = '';
     this.onPlayNow = this.onPlayNow.bind(this);
     this.onSeeStandings = this.onSeeStandings.bind(this);
     this.onResize = this.onResize.bind(this);

@@ -33,12 +33,9 @@ class Application extends React.Component {
             }} />
           <Router.Route exact path='/standings'
             render={() => {
-              if(!this.previousPath) {
-                this.previousPath === '/';
-              }
               return <sudoku.StandingsPage
                 model={standingsModel}
-                exitUrl={this.previousPath}/>;
+                exitUrl={this.previousPath ? this.previousPath : '/'}/>;
             }}/>
           <Router.Route exact path='/game'
             render={() => {
@@ -50,9 +47,10 @@ class Application extends React.Component {
                 sudoku.generateIncompleteBoard(30));
               }
               return <sudoku.GamePage
-                model = {this.gameModel}
-                standingsUrl='/standings'
-                exitUrl= '/'/>;
+                model={this.gameModel}
+                exitUrl={'/'}
+                standingsUrl={'/standings'}
+                />;
             }}/>
         </Router.Switch>
       </Router.HashRouter>);

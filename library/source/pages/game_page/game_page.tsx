@@ -157,8 +157,10 @@ export class GamePage extends React.Component<Properties, State> {
     switch(item) {
       case SideMenu.Item.EXIT:
         this.setState({redirect: this.props.exitUrl});
+        break;
       case SideMenu.Item.STANDINGS:
         this.setState({redirect: this.props.standingsUrl});
+        break;
     }
   }
 
