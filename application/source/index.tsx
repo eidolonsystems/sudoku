@@ -35,22 +35,21 @@ class Application extends React.Component {
             render={() => {
               return <sudoku.StandingsPage
                 model={standingsModel}
-                exitUrl={this.previousPath ? this.previousPath : '/'}/>;
+                exitUrl={this.previousPath || '/'}/>;
             }}/>
           <Router.Route exact path='/game'
             render={() => {
               this.previousPath = '/game';
               if(this.landingPage) {
-              this.gameModel  =  new sudoku.LocalGameModel(
-                this.landingPage.getName(),
-                Date.now(),
-                sudoku.generateIncompleteBoard(30));
+                this.gameModel  =  new sudoku.LocalGameModel(
+                  this.landingPage.getName(),
+                  Date.now(),
+                  sudoku.generateIncompleteBoard(30));
               }
               return <sudoku.GamePage
                 model={this.gameModel}
-                exitUrl={'/'}
-                standingsUrl={'/standings'}
-                />;
+                exitUrl='/'
+                standingsUrl='/standings'/>;
             }}/>
         </Router.Switch>
       </Router.HashRouter>);
